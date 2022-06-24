@@ -10,6 +10,6 @@ function Task({ item, deleteTask, changeStatus }) {
       </li>
     </div>
   );
-}
+  }
 
 export default Task;
