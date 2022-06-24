@@ -1,23 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState, useEffect } from 'react';
+import TasksList from './components/TasksList';
+import InputTask from './components/InputTask';
 
-function App() {
+
+const App = () => {
+  const [value, setValue] = useState('');
+  const [items, setItems] = useState([]);
+
+  const addTask = () => {
+    if(value) {
+      setItems([...items, {
+        id: Date.now(),
+        value: value,
+        completed: false
+      }]);
+      setValue("");
+    }
+  }
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <InputTask handleChange={handleChange} addTask={addTask} value={value}/>
+      <TasksList items={items}/>
     </div>
   );
 }
