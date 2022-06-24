@@ -1,6 +1,6 @@
-const Task = ({value, id}) => {
+const Task = ({value}) => {
     return (<div>
-        <li key={id} className='list-item'>
+        <li className='list-item'>
             <input type='checkbox'></input>
             <span>{value}</span>
             <button>x</button>
