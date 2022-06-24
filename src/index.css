@@ -21,3 +21,7 @@ code {
   display: flex;
   gap: 1.5rem;
 }
+
+.done {
+  text-decoration: line-through;
+}
