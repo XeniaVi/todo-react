@@ -5,6 +5,7 @@ function InputTask({ addTask, handleChange, value }) {
         type="text"
         placeholder="Add task"
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         value={value}
       />
       <button onClick={addTask}>Add</button>

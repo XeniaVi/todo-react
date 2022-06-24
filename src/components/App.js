@@ -43,9 +43,15 @@ const App = () => {
     setValue(e.target.value);
   };
 
+  const handleKeyDown = (e) => {
+    if(e.code === 'Enter') {
+      addTask();
+    }
+  }
+
   return (
     <div>
-      <InputTask handleChange={handleChange} addTask={addTask} value={value} />
+      <InputTask handleChange={handleChange} handleKeyDown={handleKeyDown} addTask={addTask} value={value}/>
       <TasksList items={items} deleteTask={deleteTask} changeStatus={changeStatus}/>
     </div>
   );
