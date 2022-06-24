@@ -25,6 +25,20 @@ const App = () => {
     setItems(res);
   };
 
+  const changeStatus = (id) => {
+    let res = items.map(item => {
+      if(item.id === id) {
+        return {
+          ...item,
+          completed: !item.completed
+        }
+      }
+
+      return item;
+    });
+    setItems(res);
+  }
+
   const handleChange = (e) => {
     setValue(e.target.value);
   };
@@ -32,7 +46,7 @@ const App = () => {
   return (
     <div>
       <InputTask handleChange={handleChange} addTask={addTask} value={value} />
-      <TasksList items={items} deleteTask={deleteTask} />
+      <TasksList items={items} deleteTask={deleteTask} changeStatus={changeStatus}/>
     </div>
   );
 };
