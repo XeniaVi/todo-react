@@ -40,6 +40,22 @@ const App = () => {
     );
   };
 
+  const filterTasks = (e) => {
+    const value = e.target.textContent.toLowerCase();
+    console.log(value)
+
+    switch(value) {
+      case 'active': 
+          res = items.filter(item => item.completed);
+          break;
+      case 'completed': 
+          res = items.filter(item => !item.completed);
+          break;
+      default:
+          res = items;
+    } 
+  }
+
   const handleChange = (e) => {
     setValue(e.target.value);
   };
@@ -63,6 +79,11 @@ const App = () => {
         deleteTask={deleteTask}
         changeStatus={changeStatus}
       />
+      <div onClick={filterTasks}>
+        <button>All</button>
+        <button>Active</button>
+        <button>Completed</button>
+      </div>
     </div>
   );
 };
