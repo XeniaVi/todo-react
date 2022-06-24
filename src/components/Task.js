@@ -1,13 +1,13 @@
-function Task({ value }) {
+const Task = ({ item, deleteTask }) => {
   return (
     <div>
       <li className="list-item">
         <input type="checkbox"></input>
-        <span>{value}</span>
-        <button>x</button>
+        <span>{item.value}</span>
+        <button onClick={() => deleteTask(item.id)}>x</button>
       </li>
     </div>
   );
-}
+};
 
 export default Task;

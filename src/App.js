@@ -21,6 +21,11 @@ const App = () => {
     }
   };
 
+  const deleteTask = (id) => {
+    let res = items.filter((item) => item.id !== id);
+    setItems(res);
+  };
+
   const handleChange = (e) => {
     setValue(e.target.value);
   };
@@ -28,7 +33,7 @@ const App = () => {
   return (
     <div>
       <InputTask handleChange={handleChange} addTask={addTask} value={value} />
-      <TasksList items={items} />
+      <TasksList items={items} deleteTask={deleteTask} />
     </div>
   );
 };
