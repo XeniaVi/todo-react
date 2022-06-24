@@ -1,6 +1,6 @@
 import Task from "./Task";
 
-const TasksList = ({ items, deleteTask }) => {
+function TasksList({ items, deleteTask }) {
   return (
     <div>
       <ul className="list">

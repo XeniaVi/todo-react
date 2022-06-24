@@ -1,4 +1,4 @@
-const Task = ({ item, deleteTask }) => {
+function Task({ item, deleteTask }) {
   return (
     <div>
       <li className="list-item">
