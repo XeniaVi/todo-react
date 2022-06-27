@@ -60,6 +60,15 @@ const App = () => {
     }
   };
 
+  const deleteCompletedTasks = () => {
+    setItems((prevState) =>
+      prevState.filter((item) => {
+        if (!item.completed) return item;
+      })
+    );
+    setSelectFilter("all");
+  };
+
   const handleChange = (e) => {
     setValue(e.target.value);
   };
@@ -88,10 +97,15 @@ const App = () => {
         changeStatus={changeStatus}
       />
       <div onClick={filterTasks}>
-        <button className={selectFilter === 'all' ? 'select' : ''}>All</button>
-        <button className={selectFilter === 'active' ? 'select' : ''}>Active</button>
-        <button className={selectFilter === 'completed' ? 'select' : ''}>Completed</button>
+        <button className={selectFilter === "all" ? "select" : ""}>All</button>
+        <button className={selectFilter === "active" ? "select" : ""}>
+          Active
+        </button>
+        <button className={selectFilter === "completed" ? "select" : ""}>
+          Completed
+        </button>
       </div>
+      <button onClick={deleteCompletedTasks}>Clear completed</button>
     </div>
   );
 };
