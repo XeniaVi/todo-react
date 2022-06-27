@@ -7,7 +7,7 @@ function TasksList({
   handleChange,
   value,
   editTask,
-  handleChangeItem
+  handleChangeItem,
 }) {
   return (
     <div>
