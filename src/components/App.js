@@ -80,12 +80,12 @@ const App = () => {
             ...item,
             isEdit: !item.isEdit,
           };
-        } else {
-          return {
-            ...item,
-            isEdit: false,
-          };
         }
+        
+        return {
+          ...item,
+          isEdit: false,
+        };
       })
     );
   };
