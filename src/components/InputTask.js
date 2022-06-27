@@ -1,4 +1,4 @@
-function InputTask({ addTask, handleChange, value }) {
+function InputTask({ addTask, handleChange, handleKeyDown, value }) {
   return (
     <div>
       <input

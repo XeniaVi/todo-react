@@ -26,7 +26,7 @@ const App = () => {
   };
 
   const changeStatus = (id) => {
-    let res = items.map(item => {
+    const res = items.map(item => {
       if(item.id === id) {
         return {
           ...item,
