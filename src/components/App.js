@@ -24,6 +24,7 @@ const App = () => {
           isEditing: false,
         },
       ]);
+      
       setValue("");
       setCompletedAll(false);
       setCount((prevCount) => prevCount + 1);

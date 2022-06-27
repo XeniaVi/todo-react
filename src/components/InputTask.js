@@ -1,3 +1,11 @@
+import {
+  InputWrapper,
+  Input,
+  Button,
+  Checkbox,
+  Label,
+} from "../styles/components";
+
 function InputTask({
   addTask,
   handleChange,
@@ -6,20 +14,31 @@ function InputTask({
   isShowCheckbox,
   toggleAllStatus,
   completedAll,
-  handleChangeInputCheckbox 
+  handleChangeInputCheckbox,
 }) {
   return (
-    <div>
-      {isShowCheckbox ? <input type="checkbox" onClick={toggleAllStatus} onChange={handleChangeInputCheckbox} checked={completedAll} /> : ""}
-      <input
+    <InputWrapper>
+      {isShowCheckbox ? (
+        <Checkbox>
+          <input
+            type="checkbox"
+            onClick={toggleAllStatus}
+            onChange={handleChangeInputCheckbox}
+            checked={completedAll}
+          />
+        </Checkbox>
+      ) : (
+        ""
+      )}
+      <Input
         type="text"
         placeholder="Add task"
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         value={value}
       />
-      <button onClick={addTask}>Add</button>
-    </div>
+      <Button onClick={addTask}>Add</Button>
+    </InputWrapper>
   );
 }
 

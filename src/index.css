@@ -12,15 +12,6 @@ code {
     monospace;
 }
 
-.list {
-  padding-left: 0;
-  list-style: none;
-}
-
-.list-item {
-  display: flex;
-  gap: 1.5rem;
-}
 
 .done {
   text-decoration: line-through;
