@@ -1,6 +1,14 @@
 import Task from "./Task";
 
-function TasksList({ items, deleteTask, changeStatus }) {
+function TasksList({
+  items,
+  deleteTask,
+  changeStatus,
+  switchEditing,
+  handleChange,
+  value,
+  editTask,
+}) {
   return (
     <div>
       <ul className="list">
@@ -10,6 +18,10 @@ function TasksList({ items, deleteTask, changeStatus }) {
             key={item.id}
             deleteTask={deleteTask}
             changeStatus={changeStatus}
+            switchEditing={switchEditing}
+            handleChange={handleChange}
+            editTask={editTask}
+            value={value}
           />
         ))}
       </ul>
