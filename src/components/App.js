@@ -7,6 +7,7 @@ const App = () => {
   const [items, setItems] = useState([]);
   const [filterItems, setFilterItems] = useState([]);
   const [selectFilter, setSelectFilter] = useState("all");
+  const [valueEditItem, setValueEditItem] = useState("");
 
   const addTask = () => {
     if (value) {
@@ -16,6 +17,7 @@ const App = () => {
           id: Date.now(),
           value: value,
           completed: false,
+          canEdit: false,
         },
       ]);
       setValue("");
@@ -69,6 +71,42 @@ const App = () => {
     setSelectFilter("all");
   };
 
+  const canEditTask = (id) => {
+    setItems((prevState) =>
+      prevState.map((item) => {
+        if (item.id === id) {
+          setValueEditItem(item.value);
+          return {
+            ...item,
+            canEdit: !item.canEdit,
+          };
+        } else {
+          return {
+            ...item,
+            canEdit: false,
+          };
+        }
+      })
+    );
+  };
+
+  const editTask = (id) => {
+    setItems((prevState) =>
+      prevState.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            value: valueEditItem,
+            canEdit: !item.canEdit,
+          };
+        }
+
+        return item;
+      })
+    );
+    setValueEditItem("");
+  };
+
   const handleChange = (e) => {
     setValue(e.target.value);
   };
@@ -77,6 +115,10 @@ const App = () => {
     if (e.code === "Enter") {
       addTask();
     }
+  };
+
+  const handleChangeEditItem = (e) => {
+    setValueEditItem(e.target.value);
   };
 
   useEffect(() => {
@@ -95,6 +137,10 @@ const App = () => {
         items={filterItems}
         deleteTask={deleteTask}
         changeStatus={changeStatus}
+        canEditTask={canEditTask}
+        handleChange={handleChangeEditItem}
+        editTask={editTask}
+        value={valueEditItem}
       />
       <div onClick={filterTasks}>
         <button className={selectFilter === "all" ? "select" : ""}>All</button>
