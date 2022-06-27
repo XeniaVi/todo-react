@@ -88,9 +88,9 @@ const App = () => {
         changeStatus={changeStatus}
       />
       <div onClick={filterTasks}>
-        <button>All</button>
-        <button>Active</button>
-        <button>Completed</button>
+        <button className={selectFilter === 'all' ? 'select' : ''}>All</button>
+        <button className={selectFilter === 'active' ? 'select' : ''}>Active</button>
+        <button className={selectFilter === 'completed' ? 'select' : ''}>Completed</button>
       </div>
     </div>
   );
