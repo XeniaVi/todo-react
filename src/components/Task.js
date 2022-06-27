@@ -1,7 +1,6 @@
 function Task({
   item,
   deleteTask,
-  changeStatus,
   switchEditing,
   handleChange,
   value,

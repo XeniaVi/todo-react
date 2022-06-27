@@ -181,7 +181,6 @@ const App = () => {
       <TasksList
         items={filterItems}
         deleteTask={deleteTask}
-        changeStatus={changeStatus}
         switchEditing={switchEditing}
         handleChange={handleChangeEditItem}
         editTask={editTask}
