@@ -4,7 +4,7 @@ function TasksList({
   items,
   deleteTask,
   changeStatus,
-  canEditTask,
+  switchEditing,
   handleChange,
   value,
   editTask,
@@ -18,7 +18,7 @@ function TasksList({
             key={item.id}
             deleteTask={deleteTask}
             changeStatus={changeStatus}
-            canEditTask={canEditTask}
+            switchEditing={switchEditing}
             handleChange={handleChange}
             editTask={editTask}
             value={value}

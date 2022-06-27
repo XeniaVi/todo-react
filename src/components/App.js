@@ -17,7 +17,7 @@ const App = () => {
           id: Date.now(),
           value: value,
           completed: false,
-          canEdit: false,
+          isEditing: false,
         },
       ]);
       setValue("");
@@ -71,19 +71,19 @@ const App = () => {
     setSelectFilter("all");
   };
 
-  const canEditTask = (id) => {
+  const switchEditing = (id) => {
     setItems((prevState) =>
       prevState.map((item) => {
         if (item.id === id) {
           setValueEditItem(item.value);
           return {
             ...item,
-            canEdit: !item.canEdit,
+            isEdit: !item.isEdit,
           };
         } else {
           return {
             ...item,
-            canEdit: false,
+            isEdit: false,
           };
         }
       })
@@ -97,7 +97,7 @@ const App = () => {
           return {
             ...item,
             value: valueEditItem,
-            canEdit: !item.canEdit,
+            isEdit: !item.isEdit,
           };
         }
 
@@ -137,7 +137,7 @@ const App = () => {
         items={filterItems}
         deleteTask={deleteTask}
         changeStatus={changeStatus}
-        canEditTask={canEditTask}
+        switchEditing={switchEditing}
         handleChange={handleChangeEditItem}
         editTask={editTask}
         value={valueEditItem}

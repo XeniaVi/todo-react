@@ -2,7 +2,7 @@ function Task({
   item,
   deleteTask,
   changeStatus,
-  canEditTask,
+  switchEditing,
   handleChange,
   value,
   editTask,
@@ -15,9 +15,9 @@ function Task({
           onClick={() => changeStatus(item.id)}
           defaultChecked={item.completed}
         />
-        {!item.canEdit ? (
+        {!item.isEdit ? (
           <span
-            onDoubleClick={() => canEditTask(item.id)}
+            onDoubleClick={() => switchEditing(item.id)}
             className={`${item.completed ? "done" : ""}`}
           >
             {item.value}
