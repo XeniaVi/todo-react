@@ -8,6 +8,8 @@ const App = () => {
   const [filterItems, setFilterItems] = useState([]);
   const [selectFilter, setSelectFilter] = useState("all");
   const [valueEditItem, setValueEditItem] = useState("");
+  const [isShowCheckbox, setShowCheckbox] = useState(false);
+  const [completedAll, setCompletedAll] = useState(false);
 
   const addTask = () => {
     if (value) {
@@ -21,6 +23,7 @@ const App = () => {
         },
       ]);
       setValue("");
+      setCompletedAll(false);
     }
   };
 
@@ -42,6 +45,7 @@ const App = () => {
         return item;
       })
     );
+    setCompletedAll(false);
   };
 
   const filterTasks = (e) => {
@@ -107,6 +111,34 @@ const App = () => {
     setValueEditItem("");
   };
 
+  const toggleAllStatus = () => {
+    if (completedAll) {
+      setItems((prevState) =>
+        prevState.map((item) => {
+          if (item.completed) {
+            return {
+              ...item,
+              completed: !item.completed,
+            };
+          }
+          return item;
+        })
+      );
+    } else {
+      setItems((prevState) =>
+        prevState.map((item) => {
+          if (!item.completed) {
+            return {
+              ...item,
+              completed: !item.completed,
+            };
+          }
+          return item;
+        })
+      );
+    }
+  };
+
   const handleChange = (e) => {
     setValue(e.target.value);
   };
@@ -121,8 +153,17 @@ const App = () => {
     setValueEditItem(e.target.value);
   };
 
+  const handleChangeInputCheckbox = () => { 
+    setCompletedAll(!completedAll)
+  }; 
+
+  const handleChangeItem = (id) => {
+    changeStatus(id)
+  }
+
   useEffect(() => {
     filterTasks();
+    items.length ? setShowCheckbox(true) : setShowCheckbox(false);
   }, [items]);
 
   return (
@@ -132,6 +173,10 @@ const App = () => {
         handleKeyDown={handleKeyDown}
         addTask={addTask}
         value={value}
+        isShowCheckbox={isShowCheckbox}
+        toggleAllStatus={toggleAllStatus}
+        completedAll={completedAll}
+        handleChangeInputCheckbox={handleChangeInputCheckbox }
       />
       <TasksList
         items={filterItems}
@@ -141,6 +186,7 @@ const App = () => {
         handleChange={handleChangeEditItem}
         editTask={editTask}
         value={valueEditItem}
+        handleChangeItem={handleChangeItem}
       />
       <div onClick={filterTasks}>
         <button className={selectFilter === "all" ? "select" : ""}>All</button>

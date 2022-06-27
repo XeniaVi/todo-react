@@ -6,14 +6,15 @@ function Task({
   handleChange,
   value,
   editTask,
+  handleChangeItem,
 }) {
   return (
     <div>
       <li className="list-item">
         <input
           type="checkbox"
-          onClick={() => changeStatus(item.id)}
-          defaultChecked={item.completed}
+          checked={item.completed ? true : false}
+          onChange={() => handleChangeItem(item.id)}
         />
         {!item.isEdit ? (
           <span

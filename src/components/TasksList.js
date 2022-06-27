@@ -8,6 +8,7 @@ function TasksList({
   handleChange,
   value,
   editTask,
+  handleChangeItem
 }) {
   return (
     <div>
@@ -22,6 +23,7 @@ function TasksList({
             handleChange={handleChange}
             editTask={editTask}
             value={value}
+            handleChangeItem={handleChangeItem}
           />
         ))}
       </ul>
