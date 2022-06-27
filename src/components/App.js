@@ -43,17 +43,20 @@ const App = () => {
   };
 
   const filterTasks = (e) => {
-    const value = e.target.textContent.toLowerCase();
+    const value = e ? e.target.textContent.toLowerCase() : selectFilter;
 
     switch (value) {
       case "completed":
         setFilterItems(items.filter((item) => item.completed));
+        setSelectFilter("completed");
         break;
       case "active":
         setFilterItems(items.filter((item) => !item.completed));
+        setSelectFilter("active");
         break;
       default:
         setFilterItems(items);
+        setSelectFilter("all");
     }
   };
 
@@ -68,7 +71,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    setFilterItems(items);
+    filterTasks();
   }, [items]);
 
   return (
