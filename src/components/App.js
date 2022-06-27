@@ -35,14 +35,12 @@ const App = () => {
   const changeStatus = (id) => {
     setItems((prevState) =>
       prevState.map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            completed: !item.completed,
-          };
-        }
-
-        return item;
+        return item.id === id
+          ? {
+              ...item,
+              completed: !item.completed,
+            }
+          : item;
       })
     );
     setCompletedAll(false);
@@ -74,18 +72,16 @@ const App = () => {
   const switchEditing = (id) => {
     setItems((prevState) =>
       prevState.map((item) => {
-        if (item.id === id) {
-          setValueEditItem(item.value);
-          return {
-            ...item,
-            isEdit: !item.isEdit,
-          };
-        }
-
-        return {
-          ...item,
-          isEdit: false,
-        };
+        if (item.id === id) setValueEditItem(item.value);
+        return item.id === id
+          ? {
+              ...item,
+              isEdit: !item.isEdit,
+            }
+          : {
+              ...item,
+              isEdit: false,
+            };
       })
     );
   };
@@ -100,15 +96,6 @@ const App = () => {
               isEdit: !item.isEdit,
             }
           : item;
-        // if (item.id === id) {
-        //   return {
-        //     ...item,
-        //     value: valueEditItem,
-        //     isEdit: !item.isEdit,
-        //   };
-        // }
-
-        // return item;
       })
     );
     setValueEditItem("");
