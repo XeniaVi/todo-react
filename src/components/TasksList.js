@@ -10,6 +10,6 @@ function TasksList({ items, deleteTask }) {
       </ul>
     </div>
   );
-};
+}
 
 export default TasksList;
