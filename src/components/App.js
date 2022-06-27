@@ -19,7 +19,7 @@ const App = () => {
           id: Date.now(),
           value: value,
           completed: false,
-          isEditing: false,
+          isEditinging: false,
         },
       ]);
       setValue("");
@@ -76,11 +76,11 @@ const App = () => {
         return item.id === id
           ? {
               ...item,
-              isEdit: !item.isEdit,
+              isEditing: !item.isEditing,
             }
           : {
               ...item,
-              isEdit: false,
+              isEditing: false,
             };
       })
     );
@@ -93,7 +93,7 @@ const App = () => {
           ? {
               ...item,
               value: valueEditItem,
-              isEdit: !item.isEdit,
+              isEditing: !item.isEditing,
             }
           : item;
       })
@@ -102,29 +102,29 @@ const App = () => {
   };
 
   const toggleAllStatus = () => {
-    completedAll
-      ? setItems((prevState) =>
-          prevState.map((item) => {
-            if (item.completed) {
-              return {
+    if (completedAll) {
+      setItems((prevState) =>
+        prevState.map((item) => {
+          return item.completed
+            ? {
                 ...item,
                 completed: !item.completed,
-              };
-            }
-            return item;
-          })
-        )
-      : setItems((prevState) =>
-          prevState.map((item) => {
-            if (!item.completed) {
-              return {
+              }
+            : item;
+        })
+      );
+    } else {
+      setItems((prevState) =>
+        prevState.map((item) => {
+          return !item.completed
+            ? {
                 ...item,
                 completed: !item.completed,
-              };
-            }
-            return item;
-          })
-        );
+              }
+            : item;
+        })
+      );
+    }
   };
 
   const handleChange = (e) => {

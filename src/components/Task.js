@@ -15,7 +15,7 @@ function Task({
           checked={item.completed}
           onChange={() => handleChangeItem(item.id)}
         />
-        {!item.isEdit ? (
+        {!item.isEditing ? (
           <span
             onDoubleClick={() => switchEditing(item.id)}
             className={`${item.completed ? "done" : ""}`}
