@@ -19,7 +19,7 @@ const App = () => {
           id: Date.now(),
           value: value,
           completed: false,
-          isEditinging: false,
+          isEditing: false,
         },
       ]);
       setValue("");
@@ -34,14 +34,14 @@ const App = () => {
 
   const changeStatus = (id) => {
     setItems((prevState) =>
-      prevState.map((item) => {
-        return item.id === id
+      prevState.map((item) =>
+        item.id === id
           ? {
               ...item,
               completed: !item.completed,
             }
-          : item;
-      })
+          : item
+      )
     );
     setCompletedAll(false);
   };
@@ -72,31 +72,33 @@ const App = () => {
   const switchEditing = (id) => {
     setItems((prevState) =>
       prevState.map((item) => {
-        if (item.id === id) setValueEditItem(item.value);
-        return item.id === id
-          ? {
-              ...item,
-              isEditing: !item.isEditing,
-            }
-          : {
-              ...item,
-              isEditing: false,
-            };
+        if (item.id === id) {
+          setValueEditItem(item.value);
+          return {
+            ...item,
+            isEdit: !item.isEdit,
+          };
+        }
+
+        return {
+          ...item,
+          isEdit: false,
+        };
       })
     );
   };
 
   const editTask = (id) => {
     setItems((prevState) =>
-      prevState.map((item) => {
-        return item.id === id
+      prevState.map((item) =>
+        item.id === id
           ? {
               ...item,
               value: valueEditItem,
               isEditing: !item.isEditing,
             }
-          : item;
-      })
+          : item
+      )
     );
     setValueEditItem("");
   };
@@ -104,25 +106,25 @@ const App = () => {
   const toggleAllStatus = () => {
     if (completedAll) {
       setItems((prevState) =>
-        prevState.map((item) => {
-          return item.completed
+        prevState.map((item) =>
+          item.completed
             ? {
                 ...item,
                 completed: !item.completed,
               }
-            : item;
-        })
+            : item
+        )
       );
     } else {
       setItems((prevState) =>
-        prevState.map((item) => {
-          return !item.completed
+        prevState.map((item) =>
+          !item.completed
             ? {
                 ...item,
                 completed: !item.completed,
               }
-            : item;
-        })
+            : item
+        )
       );
     }
   };
