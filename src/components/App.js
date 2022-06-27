@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import TasksList from "./TasksList";
 import InputTask from "./InputTask";
+import { Container, Wrapper, Title } from "../styles/components";
 
 const App = () => {
   const [value, setValue] = useState("");
@@ -170,36 +171,43 @@ const App = () => {
 
   return (
     <div>
-      <InputTask
-        handleChange={handleChange}
-        handleKeyDown={handleKeyDown}
-        addTask={addTask}
-        value={value}
-        isShowCheckbox={isShowCheckbox}
-        toggleAllStatus={toggleAllStatus}
-        completedAll={completedAll}
-        handleChangeInputCheckbox={handleChangeInputCheckbox}
-      />
-      <TasksList
-        items={filterItems}
-        deleteTask={deleteTask}
-        switchEditing={switchEditing}
-        handleChange={handleChangeEditItem}
-        editTask={editTask}
-        value={valueEditItem}
-        handleChangeItem={handleChangeItem}
-      />
-      <div>{count} items left</div>
-      <div onClick={filterTasks}>
-        <button className={selectFilter === "all" ? "select" : ""}>All</button>
-        <button className={selectFilter === "active" ? "select" : ""}>
-          Active
-        </button>
-        <button className={selectFilter === "completed" ? "select" : ""}>
-          Completed
-        </button>
-      </div>
-      <button onClick={deleteCompletedTasks}>Clear completed</button>
+      <Container>
+        <Wrapper>
+          <Title>todos</Title>
+          <InputTask
+            handleChange={handleChange}
+            handleKeyDown={handleKeyDown}
+            addTask={addTask}
+            value={value}
+            isShowCheckbox={isShowCheckbox}
+            toggleAllStatus={toggleAllStatus}
+            completedAll={completedAll}
+            handleChangeInputCheckbox={handleChangeInputCheckbox}
+          />
+          <TasksList
+            items={filterItems}
+            deleteTask={deleteTask}
+            switchEditing={switchEditing}
+            handleChange={handleChangeEditItem}
+            editTask={editTask}
+            value={valueEditItem}
+            handleChangeItem={handleChangeItem}
+          />
+          <div>{count} items left</div>
+          <div onClick={filterTasks}>
+            <button className={selectFilter === "all" ? "select" : ""}>
+              All
+            </button>
+            <button className={selectFilter === "active" ? "select" : ""}>
+              Active
+            </button>
+            <button className={selectFilter === "completed" ? "select" : ""}>
+              Completed
+            </button>
+          </div>
+          <button onClick={deleteCompletedTasks}>Clear completed</button>
+        </Wrapper>
+      </Container>
     </div>
   );
 };
