@@ -25,3 +25,7 @@ code {
 .done {
   text-decoration: line-through;
 }
+
+.select {
+  background-color: bisque;
+}

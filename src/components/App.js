@@ -5,6 +5,8 @@ import InputTask from "./InputTask";
 const App = () => {
   const [value, setValue] = useState("");
   const [items, setItems] = useState([]);
+  const [filterItems, setFilterItems] = useState([]);
+  const [selectFilter, setSelectFilter] = useState("all");
 
   const addTask = () => {
     if (value) {
@@ -40,6 +42,24 @@ const App = () => {
     );
   };
 
+  const filterTasks = (e) => {
+    const value = e ? e.target.textContent.toLowerCase() : selectFilter;
+
+    switch (value) {
+      case "completed":
+        setFilterItems(items.filter((item) => item.completed));
+        setSelectFilter("completed");
+        break;
+      case "active":
+        setFilterItems(items.filter((item) => !item.completed));
+        setSelectFilter("active");
+        break;
+      default:
+        setFilterItems(items);
+        setSelectFilter("all");
+    }
+  };
+
   const handleChange = (e) => {
     setValue(e.target.value);
   };
@@ -50,6 +70,10 @@ const App = () => {
     }
   };
 
+  useEffect(() => {
+    filterTasks();
+  }, [items]);
+
   return (
     <div>
       <InputTask
@@ -59,10 +83,15 @@ const App = () => {
         value={value}
       />
       <TasksList
-        items={items}
+        items={filterItems}
         deleteTask={deleteTask}
         changeStatus={changeStatus}
       />
+      <div onClick={filterTasks}>
+        <button className={selectFilter === 'all' ? 'select' : ''}>All</button>
+        <button className={selectFilter === 'active' ? 'select' : ''}>Active</button>
+        <button className={selectFilter === 'completed' ? 'select' : ''}>Completed</button>
+      </div>
     </div>
   );
 };
