@@ -1,7 +1,6 @@
-import "./App.css";
 import { useState, useEffect } from "react";
-import TasksList from "./components/TasksList";
-import InputTask from "./components/InputTask";
+import TasksList from "./TasksList";
+import InputTask from "./InputTask";
 
 const App = () => {
   const [value, setValue] = useState("");
@@ -21,6 +20,11 @@ const App = () => {
     }
   };
 
+  const deleteTask = (id) => {
+    const res = items.filter((item) => item.id !== id);
+    setItems(res);
+  };
+
   const handleChange = (e) => {
     setValue(e.target.value);
   };
@@ -28,7 +32,7 @@ const App = () => {
   return (
     <div>
       <InputTask handleChange={handleChange} addTask={addTask} value={value} />
-      <TasksList items={items} />
+      <TasksList items={items} deleteTask={deleteTask} />
     </div>
   );
 };
