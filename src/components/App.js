@@ -26,33 +26,43 @@ const App = () => {
   };
 
   const changeStatus = (id) => {
-    const res = items.map(item => {
-      if(item.id === id) {
-        return {
-          ...item,
-          completed: !item.completed
+    setItems((prevState) =>
+      prevState.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            completed: !item.completed,
+          };
         }
-      }
 
-      return item;
-    });
-    setItems(res);
-  }
+        return item;
+      })
+    );
+  };
 
   const handleChange = (e) => {
     setValue(e.target.value);
   };
 
   const handleKeyDown = (e) => {
-    if(e.code === 'Enter') {
+    if (e.code === "Enter") {
       addTask();
     }
-  }
+  };
 
   return (
     <div>
-      <InputTask handleChange={handleChange} handleKeyDown={handleKeyDown} addTask={addTask} value={value}/>
-      <TasksList items={items} deleteTask={deleteTask} changeStatus={changeStatus}/>
+      <InputTask
+        handleChange={handleChange}
+        handleKeyDown={handleKeyDown}
+        addTask={addTask}
+        value={value}
+      />
+      <TasksList
+        items={items}
+        deleteTask={deleteTask}
+        changeStatus={changeStatus}
+      />
     </div>
   );
 };
