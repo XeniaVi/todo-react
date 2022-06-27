@@ -67,11 +67,7 @@ const App = () => {
   };
 
   const deleteCompletedTasks = () => {
-    setItems((prevState) =>
-      prevState.filter((item) => {
-        if (!item.completed) return item;
-      })
-    );
+    setItems((prevState) => prevState.filter((item) => !item.completed));
     setSelectFilter("all");
   };
 
@@ -85,7 +81,7 @@ const App = () => {
             isEdit: !item.isEdit,
           };
         }
-        
+
         return {
           ...item,
           isEdit: false,
@@ -97,46 +93,51 @@ const App = () => {
   const editTask = (id) => {
     setItems((prevState) =>
       prevState.map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            value: valueEditItem,
-            isEdit: !item.isEdit,
-          };
-        }
+        return item.id === id
+          ? {
+              ...item,
+              value: valueEditItem,
+              isEdit: !item.isEdit,
+            }
+          : item;
+        // if (item.id === id) {
+        //   return {
+        //     ...item,
+        //     value: valueEditItem,
+        //     isEdit: !item.isEdit,
+        //   };
+        // }
 
-        return item;
+        // return item;
       })
     );
     setValueEditItem("");
   };
 
   const toggleAllStatus = () => {
-    if (completedAll) {
-      setItems((prevState) =>
-        prevState.map((item) => {
-          if (item.completed) {
-            return {
-              ...item,
-              completed: !item.completed,
-            };
-          }
-          return item;
-        })
-      );
-    } else {
-      setItems((prevState) =>
-        prevState.map((item) => {
-          if (!item.completed) {
-            return {
-              ...item,
-              completed: !item.completed,
-            };
-          }
-          return item;
-        })
-      );
-    }
+    completedAll
+      ? setItems((prevState) =>
+          prevState.map((item) => {
+            if (item.completed) {
+              return {
+                ...item,
+                completed: !item.completed,
+              };
+            }
+            return item;
+          })
+        )
+      : setItems((prevState) =>
+          prevState.map((item) => {
+            if (!item.completed) {
+              return {
+                ...item,
+                completed: !item.completed,
+              };
+            }
+            return item;
+          })
+        );
   };
 
   const handleChange = (e) => {
@@ -153,17 +154,17 @@ const App = () => {
     setValueEditItem(e.target.value);
   };
 
-  const handleChangeInputCheckbox = () => { 
-    setCompletedAll(!completedAll)
-  }; 
+  const handleChangeInputCheckbox = () => {
+    setCompletedAll(!completedAll);
+  };
 
   const handleChangeItem = (id) => {
-    changeStatus(id)
-  }
+    changeStatus(id);
+  };
 
   useEffect(() => {
     filterTasks();
-    items.length ? setShowCheckbox(true) : setShowCheckbox(false);
+    setShowCheckbox(Boolean(items.length));
   }, [items]);
 
   return (
@@ -176,7 +177,7 @@ const App = () => {
         isShowCheckbox={isShowCheckbox}
         toggleAllStatus={toggleAllStatus}
         completedAll={completedAll}
-        handleChangeInputCheckbox={handleChangeInputCheckbox }
+        handleChangeInputCheckbox={handleChangeInputCheckbox}
       />
       <TasksList
         items={filterItems}

@@ -12,7 +12,7 @@ function Task({
       <li className="list-item">
         <input
           type="checkbox"
-          checked={item.completed ? true : false}
+          checked={item.completed}
           onChange={() => handleChangeItem(item.id)}
         />
         {!item.isEdit ? (
