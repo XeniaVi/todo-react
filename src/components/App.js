@@ -79,19 +79,20 @@ const App = () => {
   };
 
   const switchEditing = (id) => {
+    console.log(id);
     setItems((prevState) =>
       prevState.map((item) => {
         if (item.id === id) {
           setValueEditItem(item.value);
           return {
             ...item,
-            isEdit: !item.isEdit,
+            isEditing: !item.isEditing,
           };
         }
 
         return {
           ...item,
-          isEdit: false,
+          isEditing: false,
         };
       })
     );
@@ -104,7 +105,7 @@ const App = () => {
           ? {
               ...item,
               value: valueEditItem,
-              isEditing: !item.isEditing,
+              isEditinging: !item.isEditinging,
             }
           : item
       )
