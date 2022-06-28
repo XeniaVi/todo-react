@@ -5,6 +5,7 @@ import InputTask from "./InputTask";
 const App = () => {
   const [value, setValue] = useState("");
   const [items, setItems] = useState([]);
+  const [count, setCount] = useState(0);
   const [filterItems, setFilterItems] = useState([]);
   const [selectFilter, setSelectFilter] = useState("all");
   const [valueEditItem, setValueEditItem] = useState("");
@@ -24,24 +25,34 @@ const App = () => {
       ]);
       setValue("");
       setCompletedAll(false);
+      setCount((prevCount) => prevCount + 1);
     }
   };
 
   const deleteTask = (id) => {
-    const res = items.filter((item) => item.id !== id);
+    const res = items.filter((item) => {
+      if (!item.completed && item.id === id) setCount((prevCount) => prevCount - 1);
+      return item.id !== id;
+    });
     setItems(res);
   };
 
   const changeStatus = (id) => {
     setItems((prevState) =>
-      prevState.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              completed: !item.completed,
-            }
-          : item
-      )
+      prevState.map((item) => {
+        if (item.id === id) {
+          item.completed
+            ? setCount((prevCount) => prevCount + 1)
+            : setCount((prevCount) => prevCount - 1);
+
+          return {
+            ...item,
+            completed: !item.completed,
+          };
+        }
+
+        return item;
+      })
     );
     setCompletedAll(false);
   };
@@ -115,6 +126,7 @@ const App = () => {
             : item
         )
       );
+      setCount(items.length);
     } else {
       setItems((prevState) =>
         prevState.map((item) =>
@@ -126,6 +138,7 @@ const App = () => {
             : item
         )
       );
+      setCount(0);
     }
   };
 
@@ -177,6 +190,7 @@ const App = () => {
         value={valueEditItem}
         handleChangeItem={handleChangeItem}
       />
+      <div>{count} items left</div>
       <div onClick={filterTasks}>
         <button className={selectFilter === "all" ? "select" : ""}>All</button>
         <button className={selectFilter === "active" ? "select" : ""}>
