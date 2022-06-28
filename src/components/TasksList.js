@@ -3,11 +3,11 @@ import Task from "./Task";
 function TasksList({
   items,
   deleteTask,
-  changeStatus,
   switchEditing,
   handleChange,
   value,
   editTask,
+  handleChangeItem
 }) {
   return (
     <div>
@@ -17,11 +17,11 @@ function TasksList({
             item={item}
             key={item.id}
             deleteTask={deleteTask}
-            changeStatus={changeStatus}
             switchEditing={switchEditing}
             handleChange={handleChange}
             editTask={editTask}
             value={value}
+            handleChangeItem={handleChangeItem}
           />
         ))}
       </ul>

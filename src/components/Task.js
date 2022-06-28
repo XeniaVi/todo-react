@@ -1,21 +1,21 @@
 function Task({
   item,
   deleteTask,
-  changeStatus,
   switchEditing,
   handleChange,
   value,
   editTask,
+  handleChangeItem,
 }) {
   return (
     <div>
       <li className="list-item">
         <input
           type="checkbox"
-          onClick={() => changeStatus(item.id)}
-          defaultChecked={item.completed}
+          checked={item.completed}
+          onChange={() => handleChangeItem(item.id)}
         />
-        {!item.isEdit ? (
+        {!item.isEditing ? (
           <span
             onDoubleClick={() => switchEditing(item.id)}
             className={`${item.completed ? "done" : ""}`}
