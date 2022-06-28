@@ -86,7 +86,6 @@ const App = () => {
   };
 
   const switchEditing = (id) => {
-    console.log(id);
     setItems((prevState) =>
       prevState.map((item) => {
         if (item.id === id) {
@@ -193,34 +192,42 @@ const App = () => {
             completedAll={completedAll}
             handleChangeInputCheckbox={handleChangeInputCheckbox}
           />
-          <TasksList
-            items={filterItems}
-            deleteTask={deleteTask}
-            switchEditing={switchEditing}
-            handleChange={handleChangeEditItem}
-            editTask={editTask}
-            value={valueEditItem}
-            handleChangeItem={handleChangeItem}
-          />
-          <Footer>
-            <div>{count} items left</div>
-            <FilterWrapper onClick={filterTasks}>
-              <ButtonFooter $mode={selectFilter === "all" ? "select" : ""}>
-                All
-              </ButtonFooter>
-              <ButtonFooter $mode={selectFilter === "active" ? "select" : ""}>
-                Active
-              </ButtonFooter>
-              <ButtonFooter
-                $mode={selectFilter === "completed" ? "select" : ""}
-              >
-                Completed
-              </ButtonFooter>
-            </FilterWrapper>
-            <ButtonFooter onClick={deleteCompletedTasks}>
-              Clear completed
-            </ButtonFooter>
-          </Footer>
+          {items.length ? (
+            <div>
+              <TasksList
+                items={filterItems}
+                deleteTask={deleteTask}
+                switchEditing={switchEditing}
+                handleChange={handleChangeEditItem}
+                editTask={editTask}
+                value={valueEditItem}
+                handleChangeItem={handleChangeItem}
+              />
+              <Footer>
+                <div>{count} items left</div>
+                <FilterWrapper onClick={filterTasks}>
+                  <ButtonFooter $mode={selectFilter === "all" ? "select" : ""}>
+                    All
+                  </ButtonFooter>
+                  <ButtonFooter
+                    $mode={selectFilter === "active" ? "select" : ""}
+                  >
+                    Active
+                  </ButtonFooter>
+                  <ButtonFooter
+                    $mode={selectFilter === "completed" ? "select" : ""}
+                  >
+                    Completed
+                  </ButtonFooter>
+                </FilterWrapper>
+                <ButtonFooter onClick={deleteCompletedTasks}>
+                  Clear completed
+                </ButtonFooter>
+              </Footer>
+            </div>
+          ) : (
+            ""
+          )}
         </Wrapper>
       </Container>
     </div>
