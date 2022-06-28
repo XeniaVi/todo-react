@@ -1,4 +1,9 @@
-import { CheckboxList, TaskInner, TaskItem } from "../styles/components";
+import {
+  ButtonDelete,
+  CheckboxList,
+  TaskInner,
+  TaskItem,
+} from "../styles/components";
 
 function Task({
   item,
@@ -22,12 +27,12 @@ function Task({
             u
           </CheckboxList>
           {!item.isEditing ? (
-            <span
+            <div
               onDoubleClick={() => switchEditing(item.id)}
               className={`${item.completed ? "done" : ""}`}
             >
               {item.value}
-            </span>
+            </div>
           ) : (
             <div>
               <input type="text" value={value} onChange={handleChange} />
@@ -35,7 +40,7 @@ function Task({
             </div>
           )}
         </TaskInner>
-        <button onClick={() => deleteTask(item.id)}>x</button>
+        <ButtonDelete onClick={() => deleteTask(item.id)}>x</ButtonDelete>
       </TaskItem>
     </div>
   );

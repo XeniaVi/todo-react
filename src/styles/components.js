@@ -2,9 +2,12 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
   min-height: 100vh;
+  background: #e3e2df;
 `;
 
 export const Wrapper = styled.div`
@@ -12,8 +15,9 @@ export const Wrapper = styled.div`
   max-width: 40rem;
   margin: 0 auto;
   padding: 1rem;
-  background: #e3e2df;
-  border-radius: 0.5rem;
+  background: field;
+  border-radius: 0.1rem;
+  box-shadow: 0 0.5rem 1rem 0.1rem #999;
 `;
 
 export const Title = styled.h1`
@@ -58,7 +62,7 @@ export const Checkbox = styled.div`
       top: 0;
       left: 0;
       font-size: 16px;
-      background-color: #e3e2df;
+      background: field;
       border-radius: 50%;
       z-index: 50;
     }
@@ -102,6 +106,10 @@ export const Input = styled.input`
   flex: 1;
   padding: 0.5rem;
   border: none;
+  background: #e3e2df;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
 
   &:focus-visible {
     outline: 1px solid #5d001e;
@@ -134,6 +142,7 @@ export const Button = styled.button`
 
 export const CheckboxList = styled(Checkbox)`
   border-radius: 0;
+  min-width: 1rem;
 
   > input {
     &:before {
@@ -143,6 +152,7 @@ export const CheckboxList = styled(Checkbox)`
     &:after {
       color: #ee4c7c;
       border-radius: 0;
+      background: field;
     }
   }
 `;
@@ -168,4 +178,18 @@ export const TaskInner = styled.div`
   display: flex;
   align-items: center;
   gap: 1.5rem;
+`;
+
+export const ButtonDelete = styled(Button)`
+  color: #5d001e;
+  background: transparent;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  text-align: center;
+
+  &:hover {
+    color: field;
+    background: #5d001e;
+  }
 `;

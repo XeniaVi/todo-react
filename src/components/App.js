@@ -24,7 +24,7 @@ const App = () => {
           isEditing: false,
         },
       ]);
-      
+
       setValue("");
       setCompletedAll(false);
       setCount((prevCount) => prevCount + 1);
@@ -173,8 +173,8 @@ const App = () => {
   return (
     <div>
       <Container>
+        <Title>todos</Title>
         <Wrapper>
-          <Title>todos</Title>
           <InputTask
             handleChange={handleChange}
             handleKeyDown={handleKeyDown}

@@ -1,10 +1,4 @@
-import {
-  InputWrapper,
-  Input,
-  Button,
-  Checkbox,
-  Label,
-} from "../styles/components";
+import { InputWrapper, Input, Button, Checkbox } from "../styles/components";
 
 function InputTask({
   addTask,
