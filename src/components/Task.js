@@ -6,6 +6,7 @@ import {
   TaskInner,
   TaskItem,
   EditInput,
+  TaskText,
 } from "../styles/components";
 
 function Task({
@@ -27,15 +28,14 @@ function Task({
               checked={item.completed ? true : false}
               onChange={() => handleChangeItem(item.id)}
             />
-            u
           </CheckboxList>
           {!item.isEditing ? (
-            <div
+            <TaskText
               onDoubleClick={() => switchEditing(item.id)}
-              className={`${item.completed ? "done" : ""}`}
+              $mode={item.completed ? "done" : ""}
             >
               {item.value}
-            </div>
+            </TaskText>
           ) : (
             <EditInput>
               <Input type="text" value={value} onChange={handleChange} />

@@ -185,6 +185,23 @@ export const TaskInner = styled.div`
   gap: 1.5rem;
 `;
 
+export const TaskText = styled.div`
+  ${(props) => {
+    switch (props.$mode) {
+      case "done":
+        return css`
+          flex: 1;
+          color: #5d001e;
+          text-decoration: line-through;
+        `;
+      default:
+        return css`
+          flex: 1;
+        `;
+    }
+  }}
+`;
+
 export const EditInput = styled(TaskInner)``;
 
 export const Button = styled.button`
