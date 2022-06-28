@@ -116,7 +116,6 @@ const App = () => {
             : item
         )
       );
-      setCount(items.length);
     } else {
       setItems((prevState) =>
         prevState.map((item) =>
@@ -128,7 +127,6 @@ const App = () => {
             : item
         )
       );
-      setCount(0);
     }
   };
 
