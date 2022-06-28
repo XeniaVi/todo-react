@@ -43,7 +43,7 @@ function Task({
             </EditInput>
           )}
         </TaskInner>
-        <ButtonDelete onClick={() => deleteTask(item.id)}>x</ButtonDelete>
+        <ButtonDelete onClick={() => deleteTask(item.id)}></ButtonDelete>
       </TaskItem>
     </div>
   );

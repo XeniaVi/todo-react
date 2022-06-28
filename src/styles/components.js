@@ -1,4 +1,7 @@
 import styled, { css } from "styled-components";
+import cross from "../images/icons/cross.svg";
+import check from "../images/icons/check.svg";
+import down from "../images/icons/down.svg";
 
 export const Container = styled.div`
   display: flex;
@@ -52,7 +55,7 @@ export const Checkbox = styled.div`
 
     &:before {
       position: absolute;
-      content: "✔";
+      content: "";
       width: 1rem;
       height: 1rem;
       top: 0;
@@ -60,13 +63,17 @@ export const Checkbox = styled.div`
       font-size: 1rem;
       text-align: center;
       color: field;
-      background: #e3e2df;
+      background-color: #e3e2df;
+      background-image: url(${down});
+      background-repeat: no-repeat;
+      background-size: 0.7rem 0.7rem;
+      background-position: center;
       z-index: 50;
     }
 
     &:after {
       position: absolute;
-      content: "✔";
+      content: "";
       width: 1rem;
       height: 1rem;
       top: 0;
@@ -74,11 +81,15 @@ export const Checkbox = styled.div`
       font-size: 1rem;
       text-align: center;
       color: #5d001e;
+      background-image: url(${check});
+      background-repeat: no-repeat;
+      background-size: 0.7rem 0.7rem;
+      background-position: center;
       transition: all 0.5s ease-in;
       z-index: 100;
 
       &:hover {
-        color: #ee4c7c;
+        background-color: #ee4c7c;
         transition: all 0.5s ease-in;
       }
     }
@@ -92,6 +103,10 @@ export const Checkbox = styled.div`
   }
 
   > input:checked {
+    &:before {
+      background-image: none;
+    }
+
     &:after {
       opacity: 1;
       transform: scale(1);
@@ -109,19 +124,20 @@ export const CheckboxAbsolute = styled(Checkbox)`
 `;
 
 export const CheckboxList = styled(CheckboxAbsolute)`
-  border-radius: 0;
   min-width: 1rem;
   position: relative;
 
   > input {
     &:before {
-      border-radius: 0;
+      background-image: none;
     }
 
     &:after {
-      color: #ee4c7c;
-      border-radius: 0;
       background: field;
+      background-image: url(${check});
+      background-repeat: no-repeat;
+      background-size: 0.7rem 0.7rem;
+      background-position: center;
     }
   }
 
@@ -229,7 +245,11 @@ export const ButtonDelete = styled(Button)`
   height: 2rem;
   color: #5d001e;
   text-align: center;
-  background: transparent;
+  background-color: transparent;
+  background-image: url(${cross});
+  background-repeat: no-repeat;
+  background-size: 0.7rem 0.7rem;
+  background-position: center;
   border-radius: 50%;
 
   &:hover {
