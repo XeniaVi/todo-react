@@ -34,7 +34,6 @@ const App = () => {
 
       setValue("");
       setCompletedAll(false);
-      setCount((prevCount) => prevCount + 1);
     }
   };
 
