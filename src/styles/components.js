@@ -1,5 +1,4 @@
-import styled from "styled-components";
-import { css } from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Container = styled.div`
   display: flex;
@@ -32,19 +31,6 @@ export const Title = styled.h1`
   text-align: center;
 `;
 
-export const InputWrapper = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-
-  @media (max-width: 425px) {
-    flex-direction: column;
-    align-items: stretch;
-  }
-`;
-
 export const Checkbox = styled.div`
   width: 1rem;
   height: 1rem;
@@ -58,15 +44,15 @@ export const Checkbox = styled.div`
   }
 
   > input {
-    margin: 0;
     position: relative;
     display: block;
+    margin: 0;
     cursor: pointer;
     z-index: 0;
 
     &:before {
-      content: "✔";
       position: absolute;
+      content: "✔";
       width: 1rem;
       height: 1rem;
       top: 0;
@@ -79,8 +65,8 @@ export const Checkbox = styled.div`
     }
 
     &:after {
-      content: "✔";
       position: absolute;
+      content: "✔";
       width: 1rem;
       height: 1rem;
       top: 0;
@@ -122,44 +108,6 @@ export const CheckboxAbsolute = styled(Checkbox)`
   }
 `;
 
-export const Input = styled.input`
-  flex: 1;
-  padding: 0.5rem 2rem 0.5rem;
-  border: none;
-  background: #e3e2df;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-
-  &:focus-visible {
-    outline: 1px solid #5d001e;
-  }
-
-  ${Checkbox}:checked + && {
-    color: blue;
-  }
-`;
-
-export const Button = styled.button`
-  padding: 0.5rem;
-  color: #e3e2df;
-  text-transform: uppercase;
-  font-weight: 700;
-  background: #5d001e;
-  cursor: pointer;
-  border: none;
-  transition: all 1s ease-in;
-
-  &:hover {
-    background: #ee4c7c;
-    transition: all 1s ease-in;
-  }
-
-  &:focus-visible {
-    outline: 1px solid #ee4c7c;
-  }
-`;
-
 export const CheckboxList = styled(CheckboxAbsolute)`
   border-radius: 0;
   min-width: 1rem;
@@ -182,9 +130,40 @@ export const CheckboxList = styled(CheckboxAbsolute)`
   }
 `;
 
+export const Input = styled.input`
+  flex: 1;
+  padding: 0.5rem 2rem 0.5rem;
+  border: none;
+  background: #e3e2df;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+
+  &:focus-visible {
+    outline: 1px solid #5d001e;
+  }
+
+  ${Checkbox}:checked + && {
+    color: blue;
+  }
+`;
+
+export const InputWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  @media (max-width: 425px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+`;
+
 export const Tasks = styled.ul`
-  list-style: none;
   padding-left: 0;
+  list-style: none;
   background-color: field;
 `;
 
@@ -198,6 +177,7 @@ export const TaskItem = styled.li`
   border-bottom: 0.1px solid rgba(93, 0, 30, 0.1);
   box-sizing: border-box;
 `;
+
 export const TaskInner = styled.div`
   flex: 1;
   display: flex;
@@ -205,13 +185,35 @@ export const TaskInner = styled.div`
   gap: 1.5rem;
 `;
 
+export const EditInput = styled(TaskInner)``;
+
+export const Button = styled.button`
+  padding: 0.5rem;
+  color: #e3e2df;
+  text-transform: uppercase;
+  font-weight: 700;
+  background: #5d001e;
+  cursor: pointer;
+  border: none;
+  transition: all 1s ease-in;
+
+  &:hover {
+    background: #ee4c7c;
+    transition: all 1s ease-in;
+  }
+
+  &:focus-visible {
+    outline: 1px solid #ee4c7c;
+  }
+`;
+
 export const ButtonDelete = styled(Button)`
-  color: #5d001e;
-  background: transparent;
-  border-radius: 50%;
   width: 2rem;
   height: 2rem;
+  color: #5d001e;
   text-align: center;
+  background: transparent;
+  border-radius: 50%;
 
   &:hover {
     color: field;
@@ -230,7 +232,23 @@ export const ButtonSave = styled(Button)`
   }
 `;
 
-export const EditInput = styled(TaskInner)``;
+export const ButtonFooter = styled(Button)`
+  ${(props) => {
+    switch (props.$mode) {
+      case "select":
+        return css`
+          color: white;
+          background-color: #5d001e;
+        `;
+      default:
+        return css`
+          color: black;
+          background-color: white;
+          border: 1px solid #5d001e;
+        `;
+    }
+  }}
+`;
 
 export const Footer = styled.footer`
   display: flex;
@@ -249,23 +267,4 @@ export const FilterWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-`;
-
-export const ButtonFooter = styled(Button)`
-  ${(props) => {
-    switch (props.$mode) {
-      case "select":
-        return css`
-          background-color: #5d001e;
-          color: white;
-          }
-        `;
-      default:
-        return css`
-          background-color: white;
-          color: black;
-          border: 1px solid #5d001e;
-        `;
-    }
-  }}
 `;
