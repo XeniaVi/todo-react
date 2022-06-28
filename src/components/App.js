@@ -39,12 +39,7 @@ const App = () => {
   };
 
   const deleteTask = (id) => {
-    const res = items.filter((item) => {
-      if (id === item.id && !item.completed) setCount(count - 1);
-
-      return item.id !== id;
-    });
-    setItems(res);
+    setItems(items.filter((item) => item.id !== id));
   };
 
   const changeStatus = (id) => {
@@ -111,7 +106,7 @@ const App = () => {
           ? {
               ...item,
               value: valueEditItem,
-              isEditinging: !item.isEditinging,
+              isEditing: !item.isEditing,
             }
           : item
       )
@@ -131,8 +126,6 @@ const App = () => {
             : item
         )
       );
-
-      setCount(items.length);
     } else {
       setItems((prevState) =>
         prevState.map((item) =>
@@ -144,8 +137,6 @@ const App = () => {
             : item
         )
       );
-
-      setCount(0);
     }
   };
 
