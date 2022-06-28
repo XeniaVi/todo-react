@@ -5,6 +5,7 @@ import InputTask from "./InputTask";
 const App = () => {
   const [value, setValue] = useState("");
   const [items, setItems] = useState([]);
+  const [count, setCount] = useState(0);
   const [filterItems, setFilterItems] = useState([]);
   const [selectFilter, setSelectFilter] = useState("all");
   const [valueEditItem, setValueEditItem] = useState("");
@@ -154,6 +155,7 @@ const App = () => {
   useEffect(() => {
     filterTasks();
     setShowCheckbox(Boolean(items.length));
+    setCount(items.filter((item) => !item.completed).length);
   }, [items]);
 
   return (
@@ -177,6 +179,7 @@ const App = () => {
         value={valueEditItem}
         handleChangeItem={handleChangeItem}
       />
+      <div>{count} items left</div>
       <div onClick={filterTasks}>
         <button className={selectFilter === "all" ? "select" : ""}>All</button>
         <button className={selectFilter === "active" ? "select" : ""}>
