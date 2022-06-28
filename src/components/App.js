@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import TasksList from "./TasksList";
 import InputTask from "./InputTask";
+import {
+  Container,
+  Wrapper,
+  Title,
+  Footer,
+  ButtonFooter,
+  FilterWrapper,
+} from "../styles/components";
 
 const App = () => {
   const [value, setValue] = useState("");
@@ -23,14 +31,14 @@ const App = () => {
           isEditing: false,
         },
       ]);
+
       setValue("");
       setCompletedAll(false);
     }
   };
 
   const deleteTask = (id) => {
-    const res = items.filter((item) => item.id !== id);
-    setItems(res);
+    setItems(items.filter((item) => item.id !== id));
   };
 
   const changeStatus = (id) => {
@@ -44,6 +52,7 @@ const App = () => {
           : item
       )
     );
+
     setCompletedAll(false);
   };
 
@@ -77,13 +86,13 @@ const App = () => {
           setValueEditItem(item.value);
           return {
             ...item,
-            isEdit: !item.isEdit,
+            isEditing: !item.isEditing,
           };
         }
 
         return {
           ...item,
-          isEdit: false,
+          isEditing: false,
         };
       })
     );
@@ -160,36 +169,57 @@ const App = () => {
 
   return (
     <div>
-      <InputTask
-        handleChange={handleChange}
-        handleKeyDown={handleKeyDown}
-        addTask={addTask}
-        value={value}
-        isShowCheckbox={isShowCheckbox}
-        toggleAllStatus={toggleAllStatus}
-        completedAll={completedAll}
-        handleChangeInputCheckbox={handleChangeInputCheckbox}
-      />
-      <TasksList
-        items={filterItems}
-        deleteTask={deleteTask}
-        switchEditing={switchEditing}
-        handleChange={handleChangeEditItem}
-        editTask={editTask}
-        value={valueEditItem}
-        handleChangeItem={handleChangeItem}
-      />
-      <div>{count} items left</div>
-      <div onClick={filterTasks}>
-        <button className={selectFilter === "all" ? "select" : ""}>All</button>
-        <button className={selectFilter === "active" ? "select" : ""}>
-          Active
-        </button>
-        <button className={selectFilter === "completed" ? "select" : ""}>
-          Completed
-        </button>
-      </div>
-      <button onClick={deleteCompletedTasks}>Clear completed</button>
+      <Container>
+        <Title>todos</Title>
+        <Wrapper>
+          <InputTask
+            handleChange={handleChange}
+            handleKeyDown={handleKeyDown}
+            addTask={addTask}
+            value={value}
+            isShowCheckbox={isShowCheckbox}
+            toggleAllStatus={toggleAllStatus}
+            completedAll={completedAll}
+            handleChangeInputCheckbox={handleChangeInputCheckbox}
+          />
+          {items.length ? (
+            <div>
+              <TasksList
+                items={filterItems}
+                deleteTask={deleteTask}
+                switchEditing={switchEditing}
+                handleChange={handleChangeEditItem}
+                editTask={editTask}
+                value={valueEditItem}
+                handleChangeItem={handleChangeItem}
+              />
+              <Footer>
+                <div>{count} items left</div>
+                <FilterWrapper onClick={filterTasks}>
+                  <ButtonFooter $mode={selectFilter === "all" ? "select" : ""}>
+                    All
+                  </ButtonFooter>
+                  <ButtonFooter
+                    $mode={selectFilter === "active" ? "select" : ""}
+                  >
+                    Active
+                  </ButtonFooter>
+                  <ButtonFooter
+                    $mode={selectFilter === "completed" ? "select" : ""}
+                  >
+                    Completed
+                  </ButtonFooter>
+                </FilterWrapper>
+                <ButtonFooter onClick={deleteCompletedTasks}>
+                  Clear completed
+                </ButtonFooter>
+              </Footer>
+            </div>
+          ) : (
+            ""
+          )}
+        </Wrapper>
+      </Container>
     </div>
   );
 };

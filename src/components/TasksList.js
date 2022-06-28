@@ -1,4 +1,5 @@
 import Task from "./Task";
+import { Tasks } from "../styles/components";
 
 function TasksList({
   items,
@@ -7,11 +8,11 @@ function TasksList({
   handleChange,
   value,
   editTask,
-  handleChangeItem
+  handleChangeItem,
 }) {
   return (
     <div>
-      <ul className="list">
+      <Tasks>
         {items.map((item) => (
           <Task
             item={item}
@@ -24,7 +25,7 @@ function TasksList({
             handleChangeItem={handleChangeItem}
           />
         ))}
-      </ul>
+      </Tasks>
     </div>
   );
 }

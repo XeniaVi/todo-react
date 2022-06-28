@@ -1,3 +1,14 @@
+import {
+  ButtonDelete,
+  ButtonSave,
+  CheckboxList,
+  Input,
+  TaskInner,
+  TaskItem,
+  EditInput,
+  TaskText,
+} from "../styles/components";
+
 function Task({
   item,
   deleteTask,
@@ -9,27 +20,31 @@ function Task({
 }) {
   return (
     <div>
-      <li className="list-item">
-        <input
-          type="checkbox"
-          checked={item.completed}
-          onChange={() => handleChangeItem(item.id)}
-        />
-        {!item.isEditing ? (
-          <span
-            onDoubleClick={() => switchEditing(item.id)}
-            className={`${item.completed ? "done" : ""}`}
-          >
-            {item.value}
-          </span>
-        ) : (
-          <div>
-            <input type="text" value={value} onChange={handleChange} />
-            <button onClick={() => editTask(item.id)}>Save</button>
-          </div>
-        )}
-        <button onClick={() => deleteTask(item.id)}>x</button>
-      </li>
+      <TaskItem>
+        <TaskInner>
+          <CheckboxList>
+            <input
+              type="checkbox"
+              checked={item.completed ? true : false}
+              onChange={() => handleChangeItem(item.id)}
+            />
+          </CheckboxList>
+          {!item.isEditing ? (
+            <TaskText
+              onDoubleClick={() => switchEditing(item.id)}
+              $mode={item.completed ? "done" : ""}
+            >
+              {item.value}
+            </TaskText>
+          ) : (
+            <EditInput>
+              <Input type="text" value={value} onChange={handleChange} />
+              <ButtonSave onClick={() => editTask(item.id)}>Save</ButtonSave>
+            </EditInput>
+          )}
+        </TaskInner>
+        <ButtonDelete onClick={() => deleteTask(item.id)}></ButtonDelete>
+      </TaskItem>
     </div>
   );
 }
