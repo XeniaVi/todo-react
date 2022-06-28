@@ -25,34 +25,24 @@ const App = () => {
       ]);
       setValue("");
       setCompletedAll(false);
-      setCount((prevCount) => prevCount + 1);
     }
   };
 
   const deleteTask = (id) => {
-    const res = items.filter((item) => {
-      if (!item.completed && item.id === id) setCount((prevCount) => prevCount - 1);
-      return item.id !== id;
-    });
+    const res = items.filter((item) => item.id !== id);
     setItems(res);
   };
 
   const changeStatus = (id) => {
     setItems((prevState) =>
-      prevState.map((item) => {
-        if (item.id === id) {
-          item.completed
-            ? setCount((prevCount) => prevCount + 1)
-            : setCount((prevCount) => prevCount - 1);
-
-          return {
-            ...item,
-            completed: !item.completed,
-          };
-        }
-
-        return item;
-      })
+      prevState.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              completed: !item.completed,
+            }
+          : item
+      )
     );
     setCompletedAll(false);
   };
@@ -167,6 +157,7 @@ const App = () => {
   useEffect(() => {
     filterTasks();
     setShowCheckbox(Boolean(items.length));
+    setCount(items.filter((item) => !item.completed).length);
   }, [items]);
 
   return (
