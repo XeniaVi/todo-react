@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
-import cross from "../images/icons/cross.svg";
-import check from "../images/icons/check.svg";
-import down from "../images/icons/down.svg";
+import cross from "../assets/icons/cross.svg";
+import check from "../assets/icons/check.svg";
+import down from "../assets/icons/down.svg";
 
 export const Container = styled.div`
   display: flex;
