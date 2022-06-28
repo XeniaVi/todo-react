@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { css } from "styled-components";
 
 export const Container = styled.div`
   display: flex;
@@ -14,7 +15,7 @@ export const Wrapper = styled.div`
   width: 100%;
   max-width: 40rem;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 1.5rem 1rem;
   background: field;
   border-radius: 0.1rem;
   box-shadow: 0 0.5rem 1rem 0.1rem #999;
@@ -158,15 +159,15 @@ export const CheckboxList = styled(Checkbox)`
 `;
 
 export const Tasks = styled.ul`
-  padding: 1rem 0;
   list-style: none;
+  padding-left: 0;
   background-color: field;
 `;
 
 export const TaskItem = styled.li`
   display: flex;
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 0;
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
@@ -192,4 +193,49 @@ export const ButtonDelete = styled(Button)`
     color: field;
     background: #5d001e;
   }
+`;
+
+export const ButtonSave = styled(Button)`
+  color: #5d001e;
+  background: transparent;
+  text-align: center;
+
+  &:hover {
+    color: #5d001e;
+    background: #e3e2df;
+  }
+`;
+
+export const EditInput = styled(TaskInner)``;
+
+export const Footer = styled.footer`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+`;
+
+export const FilterWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+`;
+
+export const ButtonFooter = styled(Button)`
+  ${(props) => {
+    switch (props.$mode) {
+      case "select":
+        return css`
+          background-color: #5d001e;
+          color: white;
+          }
+        `;
+      default:
+        return css`
+          background-color: white;
+          color: black;
+        `;
+    }
+  }}
 `;

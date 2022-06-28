@@ -1,8 +1,11 @@
 import {
   ButtonDelete,
+  ButtonSave,
   CheckboxList,
+  Input,
   TaskInner,
   TaskItem,
+  EditInput,
 } from "../styles/components";
 
 function Task({
@@ -34,10 +37,10 @@ function Task({
               {item.value}
             </div>
           ) : (
-            <div>
-              <input type="text" value={value} onChange={handleChange} />
-              <button onClick={() => editTask(item.id)}>Save</button>
-            </div>
+            <EditInput>
+              <Input type="text" value={value} onChange={handleChange} />
+              <ButtonSave onClick={() => editTask(item.id)}>Save</ButtonSave>
+            </EditInput>
           )}
         </TaskInner>
         <ButtonDelete onClick={() => deleteTask(item.id)}>x</ButtonDelete>

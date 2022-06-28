@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 import TasksList from "./TasksList";
 import InputTask from "./InputTask";
-import { Container, Wrapper, Title } from "../styles/components";
+import {
+  Container,
+  Wrapper,
+  Title,
+  Footer,
+  ButtonFooter,
+  FilterWrapper,
+} from "../styles/components";
 
 const App = () => {
   const [value, setValue] = useState("");
@@ -195,19 +202,25 @@ const App = () => {
             value={valueEditItem}
             handleChangeItem={handleChangeItem}
           />
-          <div>{count} items left</div>
-          <div onClick={filterTasks}>
-            <button className={selectFilter === "all" ? "select" : ""}>
-              All
-            </button>
-            <button className={selectFilter === "active" ? "select" : ""}>
-              Active
-            </button>
-            <button className={selectFilter === "completed" ? "select" : ""}>
-              Completed
-            </button>
-          </div>
-          <button onClick={deleteCompletedTasks}>Clear completed</button>
+          <Footer>
+            <div>{count} items left</div>
+            <FilterWrapper onClick={filterTasks}>
+              <ButtonFooter $mode={selectFilter === "all" ? "select" : ""}>
+                All
+              </ButtonFooter>
+              <ButtonFooter $mode={selectFilter === "active" ? "select" : ""}>
+                Active
+              </ButtonFooter>
+              <ButtonFooter
+                $mode={selectFilter === "completed" ? "select" : ""}
+              >
+                Completed
+              </ButtonFooter>
+            </FilterWrapper>
+            <ButtonFooter onClick={deleteCompletedTasks}>
+              Clear completed
+            </ButtonFooter>
+          </Footer>
         </Wrapper>
       </Container>
     </div>
