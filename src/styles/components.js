@@ -5,14 +5,19 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 1rem;
-  min-height: 100vh;
+  min-height: calc(100vh - 2rem);
+  padding: 2rem;
   background: #e3e2df;
+
+  @media (max-width: 425px) {
+    min-height: calc(100vh - 1rem);
+    padding: 0.5rem;
+  }
 `;
 
 export const Wrapper = styled.div`
-  width: 100%;
+  width: calc(100% - 2rem);
   max-width: 40rem;
   margin: 0 auto;
   padding: 1.5rem 1rem;
@@ -28,18 +33,22 @@ export const Title = styled.h1`
 `;
 
 export const InputWrapper = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+
+  @media (max-width: 425px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
 `;
 
 export const Checkbox = styled.div`
   width: 1rem;
   height: 1rem;
   margin: 0;
-  border: 1px solid #5d001e;
-  border-radius: 50%;
   transition: all 1s ease-in-out;
   overflow: hidden;
 
@@ -56,27 +65,28 @@ export const Checkbox = styled.div`
     z-index: 0;
 
     &:before {
-      content: "";
+      content: "✔";
       position: absolute;
       width: 1rem;
       height: 1rem;
       top: 0;
       left: 0;
-      font-size: 16px;
-      background: field;
-      border-radius: 50%;
+      font-size: 1rem;
+      text-align: center;
+      color: field;
+      background: #e3e2df;
       z-index: 50;
     }
 
     &:after {
       content: "✔";
       position: absolute;
-      border-radius: 50%;
       width: 1rem;
       height: 1rem;
-      top: -2px;
-      left: 2px;
+      top: 0;
+      left: 0;
       font-size: 1rem;
+      text-align: center;
       color: #5d001e;
       transition: all 0.5s ease-in;
       z-index: 100;
@@ -103,9 +113,18 @@ export const Checkbox = styled.div`
   }
 `;
 
+export const CheckboxAbsolute = styled(Checkbox)`
+  position: absolute;
+  left: 2px;
+
+  @media (max-width: 425px) {
+    transform: translate(2px, 50%);
+  }
+`;
+
 export const Input = styled.input`
   flex: 1;
-  padding: 0.5rem;
+  padding: 0.5rem 2rem 0.5rem;
   border: none;
   background: #e3e2df;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -141,9 +160,10 @@ export const Button = styled.button`
   }
 `;
 
-export const CheckboxList = styled(Checkbox)`
+export const CheckboxList = styled(CheckboxAbsolute)`
   border-radius: 0;
   min-width: 1rem;
+  position: relative;
 
   > input {
     &:before {
@@ -155,6 +175,10 @@ export const CheckboxList = styled(Checkbox)`
       border-radius: 0;
       background: field;
     }
+  }
+
+  @media (max-width: 425px) {
+    transform: translate(0);
   }
 `;
 
@@ -213,6 +237,11 @@ export const Footer = styled.footer`
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  flex-wrap: wrap;
+
+  @media (max-width: 425px) {
+    flex-direction: column;
+  }
 `;
 
 export const FilterWrapper = styled.div`
@@ -235,6 +264,7 @@ export const ButtonFooter = styled(Button)`
         return css`
           background-color: white;
           color: black;
+          border: 1px solid #5d001e;
         `;
     }
   }}

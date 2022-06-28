@@ -1,4 +1,9 @@
-import { InputWrapper, Input, Button, Checkbox } from "../styles/components";
+import {
+  InputWrapper,
+  Input,
+  Button,
+  CheckboxAbsolute,
+} from "../styles/components";
 
 function InputTask({
   addTask,
@@ -13,14 +18,14 @@ function InputTask({
   return (
     <InputWrapper>
       {isShowCheckbox ? (
-        <Checkbox>
+        <CheckboxAbsolute>
           <input
             type="checkbox"
             onClick={toggleAllStatus}
             onChange={handleChangeInputCheckbox}
             checked={completedAll}
           />
-        </Checkbox>
+        </CheckboxAbsolute>
       ) : (
         ""
       )}
