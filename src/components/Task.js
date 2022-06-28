@@ -23,7 +23,7 @@ function Task({
           </CheckboxList>
           {!item.isEditing ? (
             <span
-              onDoubleClick={() => canEditTask(item.id)}
+              onDoubleClick={() => switchEditing(item.id)}
               className={`${item.completed ? "done" : ""}`}
             >
               {item.value}
