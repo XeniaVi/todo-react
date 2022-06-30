@@ -1,15 +1,7 @@
 import Task from "./Task";
 import { Tasks } from "../styles/components";
 
-function TasksList({
-  items,
-  deleteTask,
-  switchEditing,
-  handleChange,
-  value,
-  editTask,
-  handleChangeItem,
-}) {
+function TasksList({ items, deleteTask, handleChangeItem, editTask }) {
   return (
     <div>
       <Tasks>
@@ -18,11 +10,8 @@ function TasksList({
             item={item}
             key={item.id}
             deleteTask={deleteTask}
-            switchEditing={switchEditing}
-            handleChange={handleChange}
-            editTask={editTask}
-            value={value}
             handleChangeItem={handleChangeItem}
+            editTask={editTask}
           />
         ))}
       </Tasks>

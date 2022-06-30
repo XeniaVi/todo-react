@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   ButtonDelete,
   ButtonSave,
@@ -9,15 +10,25 @@ import {
   TaskText,
 } from "../styles/components";
 
-function Task({
-  item,
-  deleteTask,
-  switchEditing,
-  handleChange,
-  value,
-  editTask,
-  handleChangeItem,
-}) {
+function Task({ item, deleteTask, editTask, handleChangeItem }) {
+  const [isEditing, setEditing] = useState(false);
+  const [value, setValue] = useState("");
+
+  const startEdit = () => {
+    setEditing(true);
+    setValue(item.value);
+  };
+
+  const saveItem = (id) => {
+    editTask(id, value);
+    setEditing(false);
+    setValue("");
+  };
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
+  };
+
   return (
     <div>
       <TaskItem>
@@ -29,9 +40,9 @@ function Task({
               onChange={() => handleChangeItem(item.id)}
             />
           </CheckboxList>
-          {!item.isEditing ? (
+          {!isEditing ? (
             <TaskText
-              onDoubleClick={() => switchEditing(item.id)}
+              onDoubleClick={() => startEdit()}
               $mode={item.completed ? "done" : ""}
             >
               {item.value}
@@ -39,7 +50,7 @@ function Task({
           ) : (
             <EditInput>
               <Input type="text" value={value} onChange={handleChange} />
-              <ButtonSave onClick={() => editTask(item.id)}>Save</ButtonSave>
+              <ButtonSave onClick={() => saveItem(item.id)}>Save</ButtonSave>
             </EditInput>
           )}
         </TaskInner>
