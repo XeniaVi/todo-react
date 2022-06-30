@@ -42,7 +42,7 @@ function Task({ item, deleteTask, editTask, handleChangeItem }) {
           </CheckboxList>
           {!isEditing ? (
             <TaskText
-              onDoubleClick={() => startEdit()}
+              onDoubleClick={startEdit}
               $mode={item.completed ? "done" : ""}
             >
               {item.value}
