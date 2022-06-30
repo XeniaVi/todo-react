@@ -9,6 +9,7 @@ import {
   ButtonFooter,
   FilterWrapper,
 } from "../styles/components";
+import { getTodos } from "../api/todoApi.js";
 
 const App = () => {
   const [value, setValue] = useState("");
@@ -139,6 +140,11 @@ const App = () => {
     }
   };
 
+  const fetchTodos = async () => {
+    const res = await getTodos();
+    setItems(res);
+  };
+
   const handleChange = (e) => {
     setValue(e.target.value);
   };
@@ -160,6 +166,10 @@ const App = () => {
   const handleChangeItem = (id) => {
     changeStatus(id);
   };
+
+  useEffect(() => {
+    fetchTodos();
+  }, []);
 
   useEffect(() => {
     filterTasks();
