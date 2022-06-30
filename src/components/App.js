@@ -9,6 +9,7 @@ import {
   ButtonFooter,
   FilterWrapper,
 } from "../styles/components";
+import { getTodos } from "../api/todoApi.js";
 
 const App = () => {
   const [value, setValue] = useState("");
@@ -25,7 +26,7 @@ const App = () => {
       setItems([
         ...items,
         {
-          id: Date.now(),
+          _id: Date.now(),
           value: value,
           completed: false,
           isEditing: false,
@@ -38,13 +39,13 @@ const App = () => {
   };
 
   const deleteTask = (id) => {
-    setItems(items.filter((item) => item.id !== id));
+    setItems(items.filter((item) => item._id !== id));
   };
 
   const changeStatus = (id) => {
     setItems((prevState) =>
       prevState.map((item) =>
-        item.id === id
+        item._id === id
           ? {
               ...item,
               completed: !item.completed,
@@ -82,7 +83,7 @@ const App = () => {
   const switchEditing = (id) => {
     setItems((prevState) =>
       prevState.map((item) => {
-        if (item.id === id) {
+        if (item._id === id) {
           setValueEditItem(item.value);
           return {
             ...item,
@@ -101,7 +102,7 @@ const App = () => {
   const editTask = (id) => {
     setItems((prevState) =>
       prevState.map((item) =>
-        item.id === id
+        item._id === id
           ? {
               ...item,
               value: valueEditItem,
@@ -160,6 +161,14 @@ const App = () => {
   const handleChangeItem = (id) => {
     changeStatus(id);
   };
+
+  useEffect(() => {
+    const fetchTodos = async () => {
+      const res = await getTodos();
+      setItems(res);
+    };
+    fetchTodos();
+  }, []);
 
   useEffect(() => {
     filterTasks();

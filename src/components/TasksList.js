@@ -16,7 +16,7 @@ function TasksList({
         {items.map((item) => (
           <Task
             item={item}
-            key={item.id}
+            key={item._id}
             deleteTask={deleteTask}
             switchEditing={switchEditing}
             handleChange={handleChange}
