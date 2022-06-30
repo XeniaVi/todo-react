@@ -26,12 +26,12 @@ function Task({
             <input
               type="checkbox"
               checked={item.completed ? true : false}
-              onChange={() => handleChangeItem(item._id)}
+              onChange={() => handleChangeItem(item.id)}
             />
           </CheckboxList>
           {!item.isEditing ? (
             <TaskText
-              onDoubleClick={() => switchEditing(item._id)}
+              onDoubleClick={() => switchEditing(item.id)}
               $mode={item.completed ? "done" : ""}
             >
               {item.value}
@@ -39,11 +39,11 @@ function Task({
           ) : (
             <EditInput>
               <Input type="text" value={value} onChange={handleChange} />
-              <ButtonSave onClick={() => editTask(item._id)}>Save</ButtonSave>
+              <ButtonSave onClick={() => editTask(item.id)}>Save</ButtonSave>
             </EditInput>
           )}
         </TaskInner>
-        <ButtonDelete onClick={() => deleteTask(item._id)}></ButtonDelete>
+        <ButtonDelete onClick={() => deleteTask(item.id)}></ButtonDelete>
       </TaskItem>
     </div>
   );

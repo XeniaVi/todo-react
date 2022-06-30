@@ -26,7 +26,7 @@ const App = () => {
       setItems([
         ...items,
         {
-          _id: Date.now(),
+          id: Date.now(),
           value: value,
           completed: false,
           isEditing: false,
@@ -39,13 +39,13 @@ const App = () => {
   };
 
   const deleteTask = (id) => {
-    setItems(items.filter((item) => item._id !== id));
+    setItems(items.filter((item) => item.id !== id));
   };
 
   const changeStatus = (id) => {
     setItems((prevState) =>
       prevState.map((item) =>
-        item._id === id
+        item.id === id
           ? {
               ...item,
               completed: !item.completed,
@@ -83,7 +83,7 @@ const App = () => {
   const switchEditing = (id) => {
     setItems((prevState) =>
       prevState.map((item) => {
-        if (item._id === id) {
+        if (item.id === id) {
           setValueEditItem(item.value);
           return {
             ...item,
@@ -102,7 +102,7 @@ const App = () => {
   const editTask = (id) => {
     setItems((prevState) =>
       prevState.map((item) =>
-        item._id === id
+        item.id === id
           ? {
               ...item,
               value: valueEditItem,
