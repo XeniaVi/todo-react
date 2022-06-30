@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   ButtonDelete,
   ButtonSave,
+  ButtonCancel,
   CheckboxList,
   Input,
   TaskInner,
@@ -51,7 +52,9 @@ function Task({ item, deleteTask, editTask, handleChangeItem }) {
             <EditInput>
               <Input type="text" value={value} onChange={handleChange} />
               <ButtonSave onClick={() => saveItem(item.id)}>Save</ButtonSave>
-              <ButtonSave onClick={() => setEditing(false)}>Cancel</ButtonSave>
+              <ButtonCancel onClick={() => setEditing(false)}>
+                Cancel
+              </ButtonCancel>
             </EditInput>
           )}
         </TaskInner>
