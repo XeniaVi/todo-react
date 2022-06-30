@@ -267,6 +267,8 @@ export const ButtonSave = styled(Button)`
   }
 `;
 
+export const ButtonCancel = styled(ButtonSave)``;
+
 export const ButtonFooter = styled(Button)`
   ${(props) => {
     switch (props.$mode) {
