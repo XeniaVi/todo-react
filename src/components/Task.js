@@ -51,6 +51,7 @@ function Task({ item, deleteTask, editTask, handleChangeItem }) {
             <EditInput>
               <Input type="text" value={value} onChange={handleChange} />
               <ButtonSave onClick={() => saveItem(item.id)}>Save</ButtonSave>
+              <ButtonSave onClick={() => setEditing(false)}>Cancel</ButtonSave>
             </EditInput>
           )}
         </TaskInner>
