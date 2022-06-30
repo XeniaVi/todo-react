@@ -17,7 +17,6 @@ const App = () => {
   const [count, setCount] = useState(0);
   const [filterItems, setFilterItems] = useState([]);
   const [selectFilter, setSelectFilter] = useState("all");
-  const [valueEditItem, setValueEditItem] = useState("");
   const [isShowCheckbox, setShowCheckbox] = useState(false);
   const [completedAll, setCompletedAll] = useState(false);
 
@@ -29,7 +28,6 @@ const App = () => {
           id: Date.now(),
           value: value,
           completed: false,
-          isEditing: false,
         },
       ]);
 
@@ -80,38 +78,17 @@ const App = () => {
     setSelectFilter("all");
   };
 
-  const switchEditing = (id) => {
-    setItems((prevState) =>
-      prevState.map((item) => {
-        if (item.id === id) {
-          setValueEditItem(item.value);
-          return {
-            ...item,
-            isEditing: !item.isEditing,
-          };
-        }
-
-        return {
-          ...item,
-          isEditing: false,
-        };
-      })
-    );
-  };
-
-  const editTask = (id) => {
+  const editTask = (id, value) => {
     setItems((prevState) =>
       prevState.map((item) =>
         item.id === id
           ? {
               ...item,
-              value: valueEditItem,
-              isEditing: !item.isEditing,
+              value: value,
             }
           : item
       )
     );
-    setValueEditItem("");
   };
 
   const toggleAllStatus = () => {
@@ -155,10 +132,6 @@ const App = () => {
     }
   };
 
-  const handleChangeEditItem = (e) => {
-    setValueEditItem(e.target.value);
-  };
-
   const handleChangeInputCheckbox = () => {
     setCompletedAll(!completedAll);
   };
@@ -197,10 +170,7 @@ const App = () => {
               <TasksList
                 items={filterItems}
                 deleteTask={deleteTask}
-                switchEditing={switchEditing}
-                handleChange={handleChangeEditItem}
                 editTask={editTask}
-                value={valueEditItem}
                 handleChangeItem={handleChangeItem}
               />
               <Footer>
