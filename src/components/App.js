@@ -140,6 +140,11 @@ const App = () => {
     }
   };
 
+  const fetchTodos = async () => {
+    const res = await getTodos();
+    setItems(res);
+  };
+
   const handleChange = (e) => {
     setValue(e.target.value);
   };
@@ -163,10 +168,6 @@ const App = () => {
   };
 
   useEffect(() => {
-    const fetchTodos = async () => {
-      const res = await getTodos();
-      setItems(res);
-    };
     fetchTodos();
   }, []);
 

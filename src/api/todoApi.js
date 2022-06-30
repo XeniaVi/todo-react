@@ -1,11 +1,11 @@
 import axios from "axios";
-const URL = "http://localhost:8080/api/todos";
+import { config } from "../config/config.js";
 
 export const getTodos = async () => {
   try {
-    let todos = await axios.get(URL);
-    todos = todos.data;
-    return todos;
+    let response = await axios.get(config.API_URL);
+    response = response.data;
+    return response;
   } catch (e) {
     console.log(e);
   }
