@@ -15,7 +15,6 @@ function InputTask({
   toggleAllStatus,
   completedAll,
   handleChangeInputCheckbox,
-  message,
 }) {
   return (
     <div>
@@ -41,7 +40,6 @@ function InputTask({
         />
         <Button onClick={addTask}>Add</Button>
       </InputWrapper>
-      {message ? <ErrorMessage>{message}</ErrorMessage> : ""}
     </div>
   );
 }
