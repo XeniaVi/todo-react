@@ -9,6 +9,7 @@ import {
   ButtonFooter,
   FilterWrapper,
   ErrorMessage,
+  CloseButton,
 } from "../styles/components";
 import { getTodos, addTodoToDB, deleteTodoFromDB } from "../api/todoApi.js";
 
@@ -167,7 +168,14 @@ const App = () => {
     <div>
       <Container>
         <Title>todos</Title>
-        {errorMessage ? <ErrorMessage>{errorMessage}</ErrorMessage> : ""}
+        {errorMessage ? (
+          <ErrorMessage>
+            {errorMessage}{" "}
+            <CloseButton onClick={() => setError("")}></CloseButton>
+          </ErrorMessage>
+        ) : (
+          ""
+        )}
         <Wrapper>
           <InputTask
             handleChange={handleChange}
