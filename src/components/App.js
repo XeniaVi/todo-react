@@ -19,17 +19,28 @@ const App = () => {
   const [selectFilter, setSelectFilter] = useState("all");
   const [isShowCheckbox, setShowCheckbox] = useState(false);
   const [completedAll, setCompletedAll] = useState(false);
+  const [messageError, setMessageError] = useState("");
 
   const addTask = async () => {
     if (value) {
-      const response = await addTodoToDB({
-        value: value,
-        completed: false,
-      });
+      try {
+        const response = await addTodoToDB({
+          value: value,
+          completed: false,
+        });
 
-      setItems([...items, response]);
-      setValue("");
-      setCompletedAll(false);
+        if (response === undefined)
+          throw new Error(
+            "Something troubled with adding... Let's try later  "
+          );
+
+        setItems([...items, response]);
+        setValue("");
+        setCompletedAll(false);
+        setMessageError("");
+      } catch (error) {
+        setMessageError(error.message);
+      }
     }
   };
 
@@ -153,6 +164,7 @@ const App = () => {
         <Title>todos</Title>
         <Wrapper>
           <InputTask
+            message={messageError}
             handleChange={handleChange}
             handleKeyDown={handleKeyDown}
             addTask={addTask}

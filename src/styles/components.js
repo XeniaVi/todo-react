@@ -115,6 +115,7 @@ export const Checkbox = styled.div`
 export const CheckboxAbsolute = styled(Checkbox)`
   position: absolute;
   left: 2px;
+  top: calc(50% - 0.5rem);
 
   @media (max-width: 425px) {
     transform: translate(2px, 50%);
@@ -144,6 +145,22 @@ export const CheckboxList = styled(CheckboxAbsolute)`
   }
 `;
 
+export const Label = styled.label`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+`;
+
+export const ErrorMessage = styled.div`
+  flex: 1;
+  padding: 0.5rem 2rem 0.5rem;
+  font-size: 0.7rem;
+  color: #5d001e;
+  background-color: rgba(93, 0, 30, 0.1);
+`;
+
 export const Input = styled.input`
   flex: 1;
   padding: 0.5rem 2rem 0.5rem;
@@ -165,7 +182,7 @@ export const Input = styled.input`
 export const InputWrapper = styled.div`
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
   gap: 1rem;
 

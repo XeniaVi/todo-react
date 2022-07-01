@@ -3,6 +3,8 @@ import {
   Input,
   Button,
   CheckboxAbsolute,
+  Label,
+  ErrorMessage,
 } from "../styles/components";
 
 function InputTask({
@@ -14,30 +16,34 @@ function InputTask({
   toggleAllStatus,
   completedAll,
   handleChangeInputCheckbox,
+  message,
 }) {
   return (
-    <InputWrapper>
-      {isShowCheckbox ? (
-        <CheckboxAbsolute>
-          <input
-            type="checkbox"
-            onClick={toggleAllStatus}
-            onChange={handleChangeInputCheckbox}
-            checked={completedAll}
-          />
-        </CheckboxAbsolute>
-      ) : (
-        ""
-      )}
-      <Input
-        type="text"
-        placeholder="Add task"
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        value={value}
-      />
-      <Button onClick={addTask}>Add</Button>
-    </InputWrapper>
+    <div>
+      <InputWrapper>
+        {isShowCheckbox ? (
+          <CheckboxAbsolute>
+            <input
+              type="checkbox"
+              onClick={toggleAllStatus}
+              onChange={handleChangeInputCheckbox}
+              checked={completedAll}
+            />
+          </CheckboxAbsolute>
+        ) : (
+          ""
+        )}
+        <Input
+          type="text"
+          placeholder="Add task"
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          value={value}
+        />
+        <Button onClick={addTask}>Add</Button>
+      </InputWrapper>
+      {message ? <ErrorMessage>{message}</ErrorMessage> : ""}
+    </div>
   );
 }
 
