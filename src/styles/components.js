@@ -146,7 +146,7 @@ export const CheckboxList = styled(CheckboxAbsolute)`
 `;
 
 export const ErrorMessage = styled.div`
-  padding: 0.5rem 2rem 0.5rem;
+  padding: 0.5rem 2rem;
   font-size: 0.7rem;
   color: #5d001e;
   background-color: rgba(93, 0, 30, 0.1);
@@ -154,7 +154,7 @@ export const ErrorMessage = styled.div`
 
 export const Input = styled.input`
   flex: 1;
-  padding: 0.5rem 2rem 0.5rem;
+  padding: 0.5rem 2rem;
   border: none;
   background: #e3e2df;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
