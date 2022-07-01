@@ -115,6 +115,7 @@ export const Checkbox = styled.div`
 export const CheckboxAbsolute = styled(Checkbox)`
   position: absolute;
   left: 2px;
+  top: calc(50% - 0.5rem);
 
   @media (max-width: 425px) {
     transform: translate(2px, 50%);
@@ -142,6 +143,13 @@ export const CheckboxList = styled(CheckboxAbsolute)`
   @media (max-width: 425px) {
     transform: translate(0);
   }
+`;
+
+export const ErrorMessage = styled.div`
+  padding: 0.5rem 2rem 0.5rem;
+  font-size: 0.7rem;
+  color: #5d001e;
+  background-color: rgba(93, 0, 30, 0.1);
 `;
 
 export const Input = styled.input`

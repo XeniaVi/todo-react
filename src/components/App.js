@@ -8,8 +8,9 @@ import {
   Footer,
   ButtonFooter,
   FilterWrapper,
+  ErrorMessage,
 } from "../styles/components";
-import { getTodos } from "../api/todoApi.js";
+import { getTodos, addTodoToDB } from "../api/todoApi.js";
 
 const App = () => {
   const [value, setValue] = useState("");
@@ -19,20 +20,23 @@ const App = () => {
   const [selectFilter, setSelectFilter] = useState("all");
   const [isShowCheckbox, setShowCheckbox] = useState(false);
   const [completedAll, setCompletedAll] = useState(false);
+  const [errorMessage, setError] = useState("");
 
-  const addTask = () => {
+  const addTask = async () => {
     if (value) {
-      setItems([
-        ...items,
-        {
-          id: Date.now(),
+      try {
+        const response = await addTodoToDB({
           value: value,
           completed: false,
-        },
-      ]);
+        });
 
-      setValue("");
-      setCompletedAll(false);
+        setItems([...items, response]);
+        setValue("");
+        setCompletedAll(false);
+        setError("");
+      } catch (e) {
+        setError("Something troubled with adding... Let's try later");
+      }
     }
   };
 
@@ -118,8 +122,12 @@ const App = () => {
   };
 
   const fetchTodos = async () => {
-    const res = await getTodos();
-    setItems(res);
+    try {
+      const res = await getTodos();
+      setItems(res);
+    } catch (e) {
+      setError("Something troubled... Let's update the page!");
+    }
   };
 
   const handleChange = (e) => {
@@ -154,6 +162,7 @@ const App = () => {
     <div>
       <Container>
         <Title>todos</Title>
+        {errorMessage ? <ErrorMessage>{errorMessage}</ErrorMessage> : ""}
         <Wrapper>
           <InputTask
             handleChange={handleChange}
