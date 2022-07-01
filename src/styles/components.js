@@ -173,7 +173,7 @@ export const Input = styled.input`
 export const InputWrapper = styled.div`
   position: relative;
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: space-between;
   gap: 1rem;
 
