@@ -10,3 +10,7 @@ export const addTodoToDB = async (item) => {
   const response = await axios.post(config.API_URL, item);
   return response.data;
 };
+
+export const deleteTodoFromDB = (id) => {
+  axios.delete(`${config.API_URL}/${id}`, id);
+};

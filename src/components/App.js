@@ -9,8 +9,9 @@ import {
   ButtonFooter,
   FilterWrapper,
   ErrorMessage,
+  CloseButton,
 } from "../styles/components";
-import { getTodos, addTodoToDB } from "../api/todoApi.js";
+import { getTodos, addTodoToDB, deleteTodoFromDB } from "../api/todoApi.js";
 
 const App = () => {
   const [value, setValue] = useState("");
@@ -33,15 +34,19 @@ const App = () => {
         setItems([...items, response]);
         setValue("");
         setCompletedAll(false);
-        setError("");
       } catch (e) {
         setError("Something troubled with adding... Let's try later");
       }
     }
   };
 
-  const deleteTask = (id) => {
-    setItems(items.filter((item) => item.id !== id));
+  const deleteTask = async (id) => {
+    try {
+      await deleteTodoFromDB(id);
+      setItems(items.filter((item) => item.id !== id));
+    } catch (e) {
+      setError("Something troubled with removing... Let's try later");
+    }
   };
 
   const changeStatus = (id) => {
@@ -154,6 +159,7 @@ const App = () => {
 
   useEffect(() => {
     filterTasks();
+    setError("");
     setShowCheckbox(Boolean(items.length));
     setCount(items.filter((item) => !item.completed).length);
   }, [items]);
@@ -162,7 +168,14 @@ const App = () => {
     <div>
       <Container>
         <Title>todos</Title>
-        {errorMessage ? <ErrorMessage>{errorMessage}</ErrorMessage> : ""}
+        {errorMessage ? (
+          <ErrorMessage>
+            {errorMessage}{" "}
+            <CloseButton onClick={() => setError("")}></CloseButton>
+          </ErrorMessage>
+        ) : (
+          ""
+        )}
         <Wrapper>
           <InputTask
             handleChange={handleChange}

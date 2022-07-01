@@ -145,16 +145,9 @@ export const CheckboxList = styled(CheckboxAbsolute)`
   }
 `;
 
-export const ErrorMessage = styled.div`
-  padding: 0.5rem 2rem 0.5rem;
-  font-size: 0.7rem;
-  color: #5d001e;
-  background-color: rgba(93, 0, 30, 0.1);
-`;
-
 export const Input = styled.input`
   flex: 1;
-  padding: 0.5rem 2rem 0.5rem;
+  padding: 0.5rem 2rem;
   border: none;
   background: #e3e2df;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -231,7 +224,7 @@ export const Button = styled.button`
   color: #e3e2df;
   text-transform: uppercase;
   font-weight: 700;
-  background: #5d001e;
+  background-color: #5d001e;
   cursor: pointer;
   border: none;
   transition: all 1s ease-in;
@@ -249,7 +242,6 @@ export const Button = styled.button`
 export const ButtonDelete = styled(Button)`
   width: 2rem;
   height: 2rem;
-  color: #5d001e;
   text-align: center;
   background-color: transparent;
   background-image: url(${cross});
@@ -259,8 +251,11 @@ export const ButtonDelete = styled(Button)`
   border-radius: 50%;
 
   &:hover {
-    color: field;
-    background: #5d001e;
+    background-color: #ee4c7c;
+    background-image: url(${cross});
+    background-repeat: no-repeat;
+    background-size: 0.7rem 0.7rem;
+    background-position: center;
   }
 `;
 
@@ -312,4 +307,27 @@ export const FilterWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+`;
+
+export const ErrorMessage = styled.div`
+  position: relative;
+  padding: 0.5rem 2rem;
+  font-size: 0.7rem;
+  color: #5d001e;
+  background-color: rgba(93, 0, 30, 0.1);
+`;
+
+export const CloseButton = styled(ButtonDelete)`
+  position: absolute;
+  width: 1.5rem;
+  height: 100%;
+  top: 0;
+  right: 0;
+  background-size: 0.5rem 0.5rem;
+  border-radius: 0;
+
+  &:hover {
+    background-color: rgba(93, 0, 30, 0.5);
+    background-size: 0.5rem 0.5rem;
+  }
 `;
