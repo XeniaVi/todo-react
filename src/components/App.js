@@ -11,7 +11,12 @@ import {
   ErrorMessage,
   CloseButton,
 } from "../styles/components";
-import { getTodos, addTodoToDB, deleteTodoFromDB } from "../api/todoApi.js";
+import {
+  getTodos,
+  addTodoToDB,
+  deleteTodoFromDB,
+  updateTodoInDB,
+} from "../api/todoApi.js";
 
 const App = () => {
   const [value, setValue] = useState("");
@@ -49,19 +54,25 @@ const App = () => {
     }
   };
 
-  const changeStatus = (id) => {
-    setItems((prevState) =>
-      prevState.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              completed: !item.completed,
-            }
-          : item
-      )
-    );
+  const changeStatus = async (id, completed) => {
+    try {
+      await updateTodoInDB(id, { completed: !completed });
 
-    setCompletedAll(false);
+      setItems((prevState) =>
+        prevState.map((item) =>
+          item.id === id
+            ? {
+                ...item,
+                completed: !item.completed,
+              }
+            : item
+        )
+      );
+
+      setCompletedAll(false);
+    } catch (e) {
+      setError("Something troubled with updating... Let's try later");
+    }
   };
 
   const filterTasks = (e) => {
@@ -87,17 +98,23 @@ const App = () => {
     setSelectFilter("all");
   };
 
-  const editTask = (id, value) => {
-    setItems((prevState) =>
-      prevState.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              value: value,
-            }
-          : item
-      )
-    );
+  const editTask = async (id, value) => {
+    try {
+      await updateTodoInDB(id, { value });
+
+      setItems((prevState) =>
+        prevState.map((item) =>
+          item.id === id
+            ? {
+                ...item,
+                value: value,
+              }
+            : item
+        )
+      );
+    } catch (e) {
+      setError("Something troubled with updating... Let's try later");
+    }
   };
 
   const toggleAllStatus = () => {
@@ -149,8 +166,8 @@ const App = () => {
     setCompletedAll(!completedAll);
   };
 
-  const handleChangeItem = (id) => {
-    changeStatus(id);
+  const handleChangeItem = (id, completed) => {
+    changeStatus(id, completed);
   };
 
   useEffect(() => {
