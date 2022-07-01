@@ -8,6 +8,7 @@ import {
   Footer,
   ButtonFooter,
   FilterWrapper,
+  ErrorMessage,
 } from "../styles/components";
 import { getTodos, addTodoToDB } from "../api/todoApi.js";
 
@@ -19,7 +20,8 @@ const App = () => {
   const [selectFilter, setSelectFilter] = useState("all");
   const [isShowCheckbox, setShowCheckbox] = useState(false);
   const [completedAll, setCompletedAll] = useState(false);
-  const [addError, setAddError] = useState("");
+  const [gettingError, setGettingError] = useState("");
+  const [addingError, setAddingError] = useState("");
 
   const addTask = async () => {
     if (value) {
@@ -32,9 +34,9 @@ const App = () => {
         setItems([...items, response]);
         setValue("");
         setCompletedAll(false);
-        setAddError("");
+        setAddingError("");
       } catch (e) {
-        setAddError("Something troubled with adding... Let's try later");
+        setAddingError("Something troubled with adding... Let's try later");
       }
     }
   };
@@ -121,8 +123,12 @@ const App = () => {
   };
 
   const fetchTodos = async () => {
-    const res = await getTodos();
-    setItems(res);
+    try {
+      const res = await getTodos();
+      setItems(res);
+    } catch (e) {
+      setGettingError("Something troubled... Let's update the page!");
+    }
   };
 
   const handleChange = (e) => {
@@ -157,52 +163,58 @@ const App = () => {
     <div>
       <Container>
         <Title>todos</Title>
-        <Wrapper>
-          <InputTask
-            message={addError}
-            handleChange={handleChange}
-            handleKeyDown={handleKeyDown}
-            addTask={addTask}
-            value={value}
-            isShowCheckbox={isShowCheckbox}
-            toggleAllStatus={toggleAllStatus}
-            completedAll={completedAll}
-            handleChangeInputCheckbox={handleChangeInputCheckbox}
-          />
-          {items.length ? (
-            <div>
-              <TasksList
-                items={filterItems}
-                deleteTask={deleteTask}
-                editTask={editTask}
-                handleChangeItem={handleChangeItem}
-              />
-              <Footer>
-                <div>{count} items left</div>
-                <FilterWrapper onClick={filterTasks}>
-                  <ButtonFooter $mode={selectFilter === "all" ? "select" : ""}>
-                    All
+        {gettingError ? (
+          <ErrorMessage>{gettingError}</ErrorMessage>
+        ) : (
+          <Wrapper>
+            <InputTask
+              message={addingError}
+              handleChange={handleChange}
+              handleKeyDown={handleKeyDown}
+              addTask={addTask}
+              value={value}
+              isShowCheckbox={isShowCheckbox}
+              toggleAllStatus={toggleAllStatus}
+              completedAll={completedAll}
+              handleChangeInputCheckbox={handleChangeInputCheckbox}
+            />
+            {items.length ? (
+              <div>
+                <TasksList
+                  items={filterItems}
+                  deleteTask={deleteTask}
+                  editTask={editTask}
+                  handleChangeItem={handleChangeItem}
+                />
+                <Footer>
+                  <div>{count} items left</div>
+                  <FilterWrapper onClick={filterTasks}>
+                    <ButtonFooter
+                      $mode={selectFilter === "all" ? "select" : ""}
+                    >
+                      All
+                    </ButtonFooter>
+                    <ButtonFooter
+                      $mode={selectFilter === "active" ? "select" : ""}
+                    >
+                      Active
+                    </ButtonFooter>
+                    <ButtonFooter
+                      $mode={selectFilter === "completed" ? "select" : ""}
+                    >
+                      Completed
+                    </ButtonFooter>
+                  </FilterWrapper>
+                  <ButtonFooter onClick={deleteCompletedTasks}>
+                    Clear completed
                   </ButtonFooter>
-                  <ButtonFooter
-                    $mode={selectFilter === "active" ? "select" : ""}
-                  >
-                    Active
-                  </ButtonFooter>
-                  <ButtonFooter
-                    $mode={selectFilter === "completed" ? "select" : ""}
-                  >
-                    Completed
-                  </ButtonFooter>
-                </FilterWrapper>
-                <ButtonFooter onClick={deleteCompletedTasks}>
-                  Clear completed
-                </ButtonFooter>
-              </Footer>
-            </div>
-          ) : (
-            ""
-          )}
-        </Wrapper>
+                </Footer>
+              </div>
+            ) : (
+              ""
+            )}
+          </Wrapper>
+        )}
       </Container>
     </div>
   );

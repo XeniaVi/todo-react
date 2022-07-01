@@ -3,7 +3,6 @@ import {
   Input,
   Button,
   CheckboxAbsolute,
-  Label,
   ErrorMessage,
 } from "../styles/components";
 

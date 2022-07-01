@@ -145,16 +145,7 @@ export const CheckboxList = styled(CheckboxAbsolute)`
   }
 `;
 
-export const Label = styled.label`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 0.5rem;
-`;
-
 export const ErrorMessage = styled.div`
-  flex: 1;
   padding: 0.5rem 2rem 0.5rem;
   font-size: 0.7rem;
   color: #5d001e;
