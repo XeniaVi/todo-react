@@ -19,7 +19,7 @@ const App = () => {
   const [selectFilter, setSelectFilter] = useState("all");
   const [isShowCheckbox, setShowCheckbox] = useState(false);
   const [completedAll, setCompletedAll] = useState(false);
-  const [messageError, setMessageError] = useState("");
+  const [addError, setAddError] = useState("");
 
   const addTask = async () => {
     if (value) {
@@ -29,17 +29,12 @@ const App = () => {
           completed: false,
         });
 
-        if (response === undefined)
-          throw new Error(
-            "Something troubled with adding... Let's try later  "
-          );
-
         setItems([...items, response]);
         setValue("");
         setCompletedAll(false);
-        setMessageError("");
-      } catch (error) {
-        setMessageError(error.message);
+        setAddError("");
+      } catch (e) {
+        setAddError("Something troubled with adding... Let's try later");
       }
     }
   };
@@ -164,7 +159,7 @@ const App = () => {
         <Title>todos</Title>
         <Wrapper>
           <InputTask
-            message={messageError}
+            message={addError}
             handleChange={handleChange}
             handleKeyDown={handleKeyDown}
             addTask={addTask}
