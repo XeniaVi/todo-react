@@ -44,6 +44,7 @@ const App = () => {
     try {
       const response = await deleteTodoFromDB(id);
       setItems(items.filter((item) => item.id !== response.id));
+      setError("");
     } catch (e) {
       setError("Something troubled with removing... Let's try later");
     }
