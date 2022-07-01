@@ -7,6 +7,6 @@ export const getTodos = async () => {
 };
 
 export const addTodoToDB = async (item) => {
-  const response = await axios.post(config.API_URL + "4", item);
+  const response = await axios.post(config.API_URL, item);
   return response.data;
 };
