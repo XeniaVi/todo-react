@@ -33,7 +33,6 @@ const App = () => {
         setItems([...items, response]);
         setValue("");
         setCompletedAll(false);
-        setError("");
       } catch (e) {
         setError("Something troubled with adding... Let's try later");
       }
@@ -42,9 +41,8 @@ const App = () => {
 
   const deleteTask = async (id) => {
     try {
-      const response = await deleteTodoFromDB(id);
-      setItems(items.filter((item) => item.id !== response.id));
-      setError("");
+      await deleteTodoFromDB(id);
+      setItems(items.filter((item) => item.id !== id));
     } catch (e) {
       setError("Something troubled with removing... Let's try later");
     }
@@ -160,6 +158,7 @@ const App = () => {
 
   useEffect(() => {
     filterTasks();
+    setError("");
     setShowCheckbox(Boolean(items.length));
     setCount(items.filter((item) => !item.completed).length);
   }, [items]);
