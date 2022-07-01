@@ -11,10 +11,6 @@ export const getTodos = async () => {
 };
 
 export const addTodoToDB = async (item) => {
-  try {
-    const response = await axios.post(config.API_URL, item);
-    return response.data;
-  } catch (e) {
-    console.log(e);
-  }
+  const response = await axios.post(config.API_URL, item);
+  return response.data;
 };
