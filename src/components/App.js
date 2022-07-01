@@ -42,8 +42,8 @@ const App = () => {
 
   const deleteTask = async (id) => {
     try {
-      await deleteTodoFromDB(id);
-      setItems(items.filter((item) => item.id !== id));
+      const response = await deleteTodoFromDB(id);
+      setItems(items.filter((item) => item.id !== response.id));
     } catch (e) {
       setError("Something troubled with removing... Let's try later");
     }
