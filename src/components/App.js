@@ -9,7 +9,7 @@ import {
   ButtonFooter,
   FilterWrapper,
 } from "../styles/components";
-import { getTodos } from "../api/todoApi.js";
+import { getTodos, addTodoToDB } from "../api/todoApi.js";
 
 const App = () => {
   const [value, setValue] = useState("");
@@ -20,17 +20,14 @@ const App = () => {
   const [isShowCheckbox, setShowCheckbox] = useState(false);
   const [completedAll, setCompletedAll] = useState(false);
 
-  const addTask = () => {
+  const addTask = async () => {
     if (value) {
-      setItems([
-        ...items,
-        {
-          id: Date.now(),
-          value: value,
-          completed: false,
-        },
-      ]);
+      const response = await addTodoToDB({
+        value: value,
+        completed: false,
+      });
 
+      setItems([...items, response]);
       setValue("");
       setCompletedAll(false);
     }
