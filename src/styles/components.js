@@ -231,7 +231,7 @@ export const Button = styled.button`
   color: #e3e2df;
   text-transform: uppercase;
   font-weight: 700;
-  background: #5d001e;
+  background-color: #5d001e;
   cursor: pointer;
   border: none;
   transition: all 1s ease-in;
@@ -260,7 +260,11 @@ export const ButtonDelete = styled(Button)`
 
   &:hover {
     color: field;
-    background: #5d001e;
+    background-color: #ee4c7c;
+    background-image: url(${cross});
+    background-repeat: no-repeat;
+    background-size: 0.7rem 0.7rem;
+    background-position: center;
   }
 `;
 
