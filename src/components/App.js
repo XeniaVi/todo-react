@@ -10,7 +10,7 @@ import {
   FilterWrapper,
   ErrorMessage,
 } from "../styles/components";
-import { getTodos, addTodoToDB } from "../api/todoApi.js";
+import { getTodos, addTodoToDB, deleteTodoFromDB } from "../api/todoApi.js";
 
 const App = () => {
   const [value, setValue] = useState("");
@@ -40,8 +40,13 @@ const App = () => {
     }
   };
 
-  const deleteTask = (id) => {
-    setItems(items.filter((item) => item.id !== id));
+  const deleteTask = async (id) => {
+    try {
+      await deleteTodoFromDB(id);
+      setItems(items.filter((item) => item.id !== id));
+    } catch (e) {
+      setError("Something troubled with removing... Let's try later");
+    }
   };
 
   const changeStatus = (id) => {
