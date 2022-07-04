@@ -23,3 +23,8 @@ export const updateTodoInDB = async (id, post) => {
 export const deleteCompleted = async (ids) => {
   return axios.delete(config.API_URL, { data: { ids } });
 };
+
+export const updateCompleted = async (ids, completed) => {
+  const response = await axios.put(config.API_URL, { ids, completed });
+  return response.data;
+};

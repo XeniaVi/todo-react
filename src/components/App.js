@@ -17,6 +17,7 @@ import {
   deleteTodoFromDB,
   updateTodoInDB,
   deleteCompleted,
+  updateCompleted,
 } from "../api/todoApi.js";
 
 const App = () => {
@@ -133,29 +134,49 @@ const App = () => {
     }
   };
 
-  const toggleAllStatus = () => {
-    if (completedAll) {
-      setItems((prevState) =>
-        prevState.map((item) =>
-          item.completed
-            ? {
-                ...item,
-                completed: !item.completed,
-              }
-            : item
-        )
-      );
-    } else {
-      setItems((prevState) =>
-        prevState.map((item) =>
-          !item.completed
-            ? {
-                ...item,
-                completed: !item.completed,
-              }
-            : item
-        )
-      );
+  const toggleAllStatus = async () => {
+    try {
+      if (completedAll) {
+        const ids = items
+          .filter((item) => item.completed)
+          .map((item) => {
+            return item.id;
+          });
+
+        await updateCompleted(ids, false);
+
+        setItems((prevState) =>
+          prevState.map((item) =>
+            item.completed
+              ? {
+                  ...item,
+                  completed: !item.completed,
+                }
+              : item
+          )
+        );
+      } else {
+        const ids = items
+          .filter((item) => !item.completed)
+          .map((item) => {
+            return item.id;
+          });
+
+        await updateCompleted(ids, true);
+
+        setItems((prevState) =>
+          prevState.map((item) =>
+            !item.completed
+              ? {
+                  ...item,
+                  completed: !item.completed,
+                }
+              : item
+          )
+        );
+      }
+    } catch (error) {
+      setError("Something troubled with updating... Let's try later");
     }
   };
 
