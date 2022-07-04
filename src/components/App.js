@@ -54,9 +54,9 @@ const App = () => {
     }
   };
 
-  const changeStatus = async (id, completed) => {
+  const changeStatus = async (id, value) => {
     try {
-      await updateTodoInDB(id, { completed: !completed });
+      await updateTodoInDB(id, !value);
 
       setItems((prevState) =>
         prevState.map((item) =>
@@ -100,7 +100,7 @@ const App = () => {
 
   const editTask = async (id, value) => {
     try {
-      await updateTodoInDB(id, { value });
+      await updateTodoInDB(id, value);
 
       setItems((prevState) =>
         prevState.map((item) =>
