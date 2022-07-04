@@ -98,9 +98,11 @@ const App = () => {
 
   const deleteCompletedTasks = async () => {
     try {
-      const ids = items.map((item) => {
-        if (item.completed) return item.id;
-      });
+      const ids = items
+        .filter((item) => item.completed)
+        .map((item) => {
+          return item.id;
+        });
 
       await deleteCompleted(ids);
 
