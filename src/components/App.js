@@ -54,9 +54,11 @@ const App = () => {
     }
   };
 
-  const changeStatus = async (id, value) => {
+  const changeStatus = async (id, value, completed) => {
     try {
-      await updateTodoInDB(id, !value);
+      const post = { value, completed };
+
+      await updateTodoInDB(id, post);
 
       setItems((prevState) =>
         prevState.map((item) =>
@@ -98,9 +100,10 @@ const App = () => {
     setSelectFilter("all");
   };
 
-  const editTask = async (id, value) => {
+  const editTask = async (id, value, completed) => {
     try {
-      await updateTodoInDB(id, value);
+      const post = { value, completed };
+      await updateTodoInDB(id, post);
 
       setItems((prevState) =>
         prevState.map((item) =>
@@ -166,8 +169,8 @@ const App = () => {
     setCompletedAll(!completedAll);
   };
 
-  const handleChangeItem = (id, completed) => {
-    changeStatus(id, completed);
+  const handleChangeItem = (id, value, completed) => {
+    changeStatus(id, value, completed);
   };
 
   useEffect(() => {

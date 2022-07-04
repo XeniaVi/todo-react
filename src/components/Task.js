@@ -20,8 +20,8 @@ function Task({ item, deleteTask, editTask, handleChangeItem }) {
     setValue(item.value);
   };
 
-  const saveItem = (id) => {
-    editTask(id, value);
+  const saveItem = (id, completed) => {
+    editTask(id, value, completed);
     setEditing(false);
     setValue("");
   };
@@ -38,7 +38,9 @@ function Task({ item, deleteTask, editTask, handleChangeItem }) {
             <input
               type="checkbox"
               checked={item.completed ? true : false}
-              onChange={() => handleChangeItem(item.id, item.completed)}
+              onChange={() =>
+                handleChangeItem(item.id, item.value, !item.completed)
+              }
             />
           </CheckboxList>
           {!isEditing ? (
@@ -51,7 +53,9 @@ function Task({ item, deleteTask, editTask, handleChangeItem }) {
           ) : (
             <EditInput>
               <Input type="text" value={value} onChange={handleChange} />
-              <ButtonSave onClick={() => saveItem(item.id)}>Save</ButtonSave>
+              <ButtonSave onClick={() => saveItem(item.id, item.completed)}>
+                Save
+              </ButtonSave>
               <ButtonCancel onClick={() => setEditing(false)}>
                 Cancel
               </ButtonCancel>
