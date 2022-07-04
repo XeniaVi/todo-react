@@ -10,6 +10,8 @@ import {
   FilterWrapper,
   ErrorMessage,
   CloseButton,
+  Pagination,
+  ButtonPagination,
 } from "../styles/components";
 import {
   getTodos,
@@ -239,6 +241,10 @@ const App = () => {
             completedAll={completedAll}
             handleChangeInputCheckbox={handleChangeInputCheckbox}
           />
+          <Pagination>
+            <ButtonPagination></ButtonPagination>
+            <ButtonPagination></ButtonPagination>
+          </Pagination>
           {items.length ? (
             <div>
               <TasksList

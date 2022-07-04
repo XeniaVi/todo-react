@@ -331,3 +331,17 @@ export const CloseButton = styled(ButtonDelete)`
     background-size: 0.5rem 0.5rem;
   }
 `;
+
+export const Pagination = styled.div`
+  padding: 1rem 0 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+export const ButtonPagination = styled(Button)`
+  color: black;
+  background-color: white;
+  border: 1px solid #5d001e;
+`;
