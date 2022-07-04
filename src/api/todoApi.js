@@ -20,6 +20,6 @@ export const updateTodoInDB = async (id, post) => {
   return response.data;
 };
 
-export const deleteCompletedTasksInDB = (ids) => {
+export const deleteCompleted = (ids) => {
   axios.delete(config.API_URL, { data: { ids } });
 };
