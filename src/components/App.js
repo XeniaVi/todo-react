@@ -29,6 +29,8 @@ const App = () => {
   const [isShowCheckbox, setShowCheckbox] = useState(false);
   const [completedAll, setCompletedAll] = useState(false);
   const [errorMessage, setError] = useState("");
+  const limit = 5;
+  const [offset, setOffset] = useState(0);
 
   const addTask = async () => {
     if (value) {
@@ -178,7 +180,7 @@ const App = () => {
 
   const fetchTodos = async () => {
     try {
-      const res = await getTodos();
+      const res = await getTodos(limit, offset);
       setItems(res);
     } catch (e) {
       setError("Something troubled... Let's update the page!");

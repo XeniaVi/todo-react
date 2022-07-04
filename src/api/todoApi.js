@@ -1,8 +1,10 @@
 import axios from "axios";
 import { config } from "../config/config.js";
 
-export const getTodos = async () => {
-  const response = await axios.get(config.API_URL);
+export const getTodos = async (limit, offset) => {
+  const response = await axios.get(
+    `${config.API_URL}?offset=${offset}&limit=${limit}`
+  );
   return response.data;
 };
 
