@@ -16,6 +16,7 @@ import {
   addTodoToDB,
   deleteTodoFromDB,
   updateTodoInDB,
+  deleteCompletedTasksInDB,
 } from "../api/todoApi.js";
 
 const App = () => {
@@ -95,9 +96,20 @@ const App = () => {
     }
   };
 
-  const deleteCompletedTasks = () => {
-    setItems((prevState) => prevState.filter((item) => !item.completed));
-    setSelectFilter("all");
+  const deleteCompletedTasks = async () => {
+    try {
+      const ids = [];
+      items.forEach((item) => {
+        if (item.completed) ids.push(item.id);
+      });
+
+      await deleteCompletedTasksInDB(ids);
+
+      setItems((prevState) => prevState.filter((item) => !item.completed));
+      setSelectFilter("all");
+    } catch (error) {
+      setError("Something troubled with removing... Let's try later");
+    }
   };
 
   const editTask = async (id, value) => {
