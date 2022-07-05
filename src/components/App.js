@@ -41,9 +41,11 @@ const App = () => {
         const response = await addTodoToDB({
           value: value,
           completed: false,
+          timestamp: Date.now(),
         });
 
-        setItems([...items, response]);
+        const todos = items.length >= limit ? items.slice(0, limit - 1) : items;
+        setItems([response, ...todos]);
         setValue("");
         setCompletedAll(false);
       } catch (e) {
