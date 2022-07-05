@@ -139,9 +139,7 @@ const App = () => {
       if (completedAll) {
         const ids = items
           .filter((item) => item.completed)
-          .map((item) => {
-            return item.id;
-          });
+          .map((item) => item.id);
 
         await updateCompleted(ids, false);
 
@@ -158,9 +156,7 @@ const App = () => {
       } else {
         const ids = items
           .filter((item) => !item.completed)
-          .map((item) => {
-            return item.id;
-          });
+          .map((item) => item.id);
 
         await updateCompleted(ids, true);
 
