@@ -1,9 +1,10 @@
 import axios from "axios";
 import { config } from "../config/config.js";
 
-export const getTodos = async (limit, offset) => {
+export const getTodos = async (limit, offset, completed) => {
+  const extra = typeof completed === "boolean" ? `&completed=${completed}` : "";
   const response = await axios.get(
-    `${config.API_URL}?offset=${offset}&limit=${limit}`
+    `${config.API_URL}?offset=${offset}&limit=${limit}${extra}`
   );
   return response.data;
 };

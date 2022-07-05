@@ -25,7 +25,6 @@ const App = () => {
   const [value, setValue] = useState("");
   const [items, setItems] = useState([]);
   const [count, setCount] = useState(0);
-  const [filterItems, setFilterItems] = useState([]);
   const [selectFilter, setSelectFilter] = useState("all");
   const [isShowCheckbox, setShowCheckbox] = useState(false);
   const [completedAll, setCompletedAll] = useState(false);
@@ -86,20 +85,22 @@ const App = () => {
 
   const filterTasks = (e) => {
     const value = e ? e.target.textContent.toLowerCase() : selectFilter;
+    let completed;
 
     switch (value) {
       case "completed":
-        setFilterItems(items.filter((item) => item.completed));
+        completed = true;
         setSelectFilter("completed");
         break;
       case "active":
-        setFilterItems(items.filter((item) => !item.completed));
+        completed = false;
         setSelectFilter("active");
         break;
       default:
-        setFilterItems(items);
         setSelectFilter("all");
     }
+
+    fetchTodos(limit, offset, completed);
   };
 
   const deleteCompletedTasks = async () => {
@@ -181,15 +182,14 @@ const App = () => {
     }
   };
 
-  const fetchTodos = async () => {
+  const fetchTodos = async (limit, offset, completed) => {
     try {
-      const res = await getTodos(limit, offset);
+      const res = await getTodos(limit, offset, completed);
       setItems(res.todos);
       setCountAll(res.count);
       const list = [];
       const length =
         Math.ceil(res.count / limit) >= 3 ? 3 : Math.ceil(res.count / limit);
-      console.log(length);
       for (let i = 1; i <= length; i++) list.push(i);
       setPages(list);
     } catch (e) {
@@ -216,11 +216,10 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetchTodos();
+    fetchTodos(limit, offset);
   }, []);
 
   useEffect(() => {
-    filterTasks();
     setError("");
     setShowCheckbox(Boolean(items.length));
     setCount(items.filter((item) => !item.completed).length);
@@ -253,7 +252,7 @@ const App = () => {
           {items.length ? (
             <div>
               <TasksList
-                items={filterItems}
+                items={items}
                 deleteTask={deleteTask}
                 editTask={editTask}
                 handleChangeItem={handleChangeItem}
