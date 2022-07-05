@@ -33,6 +33,8 @@ const App = () => {
   const [errorMessage, setError] = useState("");
   const limit = 5;
   const [offset, setOffset] = useState(0);
+  const [countAll, setCountAll] = useState(0);
+  const [pages, setPages] = useState(0);
 
   const addTask = async () => {
     if (value) {
@@ -183,7 +185,9 @@ const App = () => {
   const fetchTodos = async () => {
     try {
       const res = await getTodos(limit, offset);
-      setItems(res);
+      setItems(res.todos);
+      setCountAll(res.count);
+      setPages(Math.ceil(res.count / limit));
     } catch (e) {
       setError("Something troubled... Let's update the page!");
     }
@@ -242,8 +246,7 @@ const App = () => {
             handleChangeInputCheckbox={handleChangeInputCheckbox}
           />
           <Pagination>
-            <ButtonPagination></ButtonPagination>
-            <ButtonPagination></ButtonPagination>
+            <ButtonPagination>{pages}</ButtonPagination>
           </Pagination>
           {items.length ? (
             <div>
