@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import TasksList from "./TasksList";
 import InputTask from "./InputTask";
+import Pagination from "./Pagination";
 import {
   Container,
   Wrapper,
@@ -10,12 +11,6 @@ import {
   FilterWrapper,
   ErrorMessage,
   CloseButton,
-  Pagination,
-  ButtonPagination,
-  ButtonPaginationStart,
-  ButtonPaginationEnd,
-  ButtonPaginationLeft,
-  ButtonPaginationRight,
 } from "../styles/components";
 import {
   getTodos,
@@ -254,15 +249,7 @@ const App = () => {
             completedAll={completedAll}
             handleChangeInputCheckbox={handleChangeInputCheckbox}
           />
-          <Pagination>
-            <ButtonPaginationStart $mode={"disabled"}></ButtonPaginationStart>
-            <ButtonPaginationLeft $mode={"disabled"}></ButtonPaginationLeft>
-            {pages.map((item) => (
-              <ButtonPagination $mode={"select"}>{item}</ButtonPagination>
-            ))}
-            <ButtonPaginationRight></ButtonPaginationRight>
-            <ButtonPaginationEnd></ButtonPaginationEnd>
-          </Pagination>
+          <Pagination pages={pages} />
           {items.length ? (
             <div>
               <TasksList

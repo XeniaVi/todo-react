@@ -332,7 +332,7 @@ export const CloseButton = styled(ButtonDelete)`
   }
 `;
 
-export const Pagination = styled.div`
+export const PaginationWrapper = styled.div`
   padding: 1rem 0 0.5rem;
   display: flex;
   justify-content: center;
