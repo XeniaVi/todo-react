@@ -22,18 +22,37 @@ import {
 } from "../api/todoApi.js";
 
 const App = () => {
+  const limit = 5;
   const [value, setValue] = useState("");
   const [items, setItems] = useState([]);
   const [count, setCount] = useState(0);
   const [selectFilter, setSelectFilter] = useState("all");
+  const [completed, setCompleted] = useState(null);
   const [isShowCheckbox, setShowCheckbox] = useState(false);
   const [completedAll, setCompletedAll] = useState(false);
   const [errorMessage, setError] = useState("");
-  const limit = 5;
   const [offset, setOffset] = useState(0);
-  const [countAll, setCountAll] = useState(0); // для пересчета страниц при добавлении дел, лучше отдельной функцией
+  const [countAll, setCountAll] = useState(0);
   const [pages, setPages] = useState([]);
   const [page, setPage] = useState(1);
+  const [countPagesDB, setCountPagesDB] = useState(0);
+
+  const countPages = (count) => {
+    const list = [];
+    setCountPagesDB(Math.ceil(count / limit));
+    const length = Math.ceil(count / limit) >= 3 ? 3 : Math.ceil(count / limit);
+
+    if (page === 1) {
+      for (let i = 1; i <= length; i++) list.push(i);
+      setPages(list);
+    } else if (page < Math.ceil(count / limit)) {
+      for (let i = page - 1; i <= page + 1; i++) if (i > 0) list.push(i);
+      setPages(list);
+    } else {
+      for (let i = page - 2; i <= page; i++) if (i > 0) list.push(i);
+      setPages(list);
+    }
+  };
 
   const addTask = async () => {
     if (value) {
@@ -86,24 +105,28 @@ const App = () => {
     }
   };
 
-  const filterTasks = async (e) => {
+  const filterTasks = (e) => {
     const value = e ? e.target.textContent.toLowerCase() : selectFilter;
-    let completed;
 
     switch (value) {
       case "completed":
-        completed = true;
         setSelectFilter("completed");
+        setCompleted(true);
+        setCompletedAll(true);
         break;
       case "active":
-        completed = false;
         setSelectFilter("active");
+        setCompleted(false);
+        setCompletedAll(false);
         break;
       default:
         setSelectFilter("all");
+        setCompleted(null);
+        setCompletedAll(false);
     }
 
-    await fetchTodos(limit, offset, completed);
+    setOffset(0);
+    setPage(1);
   };
 
   const deleteCompletedTasks = async () => {
@@ -188,13 +211,10 @@ const App = () => {
   const fetchTodos = async (limit, offset, completed) => {
     try {
       const res = await getTodos(limit, offset, completed);
+
       setItems(res.todos);
       setCountAll(res.count);
-      const list = [];
-      const length =
-        Math.ceil(res.count / limit) >= 3 ? 3 : Math.ceil(res.count / limit);
-      for (let i = 1; i <= length; i++) list.push(i);
-      setPages(list);
+      countPages(res.count);
     } catch (e) {
       setError("Something troubled... Let's update the page!");
     }
@@ -202,7 +222,8 @@ const App = () => {
 
   const switchPages = async (value) => {
     setPage(value);
-    setOffset(value * limit);
+    setOffset((value - 1) * limit);
+    countPages(countAll);
   };
 
   const handleChange = (e) => {
@@ -234,8 +255,8 @@ const App = () => {
   }, [items]);
 
   useEffect(() => {
-    fetchTodos(limit, offset, selectFilter);
-  }, [page]);
+    fetchTodos(limit, offset, completed);
+  }, [page, completed]);
 
   return (
     <div>
@@ -260,7 +281,12 @@ const App = () => {
             completedAll={completedAll}
             handleChangeInputCheckbox={handleChangeInputCheckbox}
           />
-          <Pagination pages={pages} page={page} switchPages={switchPages} />
+          <Pagination
+            pages={pages}
+            page={page}
+            switchPages={switchPages}
+            count={countPagesDB}
+          />
           {items.length ? (
             <div>
               <TasksList

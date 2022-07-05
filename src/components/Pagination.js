@@ -7,7 +7,7 @@ import {
   ButtonPaginationRight,
 } from "../styles/components";
 
-function Pagination({ pages, page, switchPages }) {
+function Pagination({ pages, page, switchPages, count }) {
   return (
     <PaginationWrapper>
       <ButtonPaginationStart
@@ -31,13 +31,13 @@ function Pagination({ pages, page, switchPages }) {
       ))}
       <ButtonPaginationRight
         onClick={() => switchPages(page + 1)}
-        $mode={page === pages.length ? "disabled" : 0}
-        disabled={page === pages.length ? true : false}
+        $mode={page === count ? "disabled" : 0}
+        disabled={page === count ? true : false}
       ></ButtonPaginationRight>
       <ButtonPaginationEnd
-        onClick={() => switchPages(pages.length)}
-        $mode={page === pages.length ? "disabled" : 0}
-        disabled={page === pages.length ? true : false}
+        onClick={() => switchPages(count)}
+        $mode={page === count ? "disabled" : 0}
+        disabled={page === count ? true : false}
       ></ButtonPaginationEnd>
     </PaginationWrapper>
   );
