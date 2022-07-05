@@ -67,6 +67,8 @@ const App = () => {
         setItems([response, ...todos]);
         setValue("");
         setCompletedAll(false);
+        setCompleted(null);
+        setCountAll((prevState) => prevState + 1);
       } catch (e) {
         setError("Something troubled with adding... Let's try later");
       }
@@ -80,6 +82,8 @@ const App = () => {
     } catch (e) {
       setError("Something troubled with removing... Let's try later");
     }
+
+    fetchTodos(limit, offset, completed);
   };
 
   const changeStatus = async (id, completed) => {
@@ -140,10 +144,12 @@ const App = () => {
       await deleteCompleted(ids);
 
       setItems((prevState) => prevState.filter((item) => !item.completed));
-      setSelectFilter("all");
     } catch (error) {
       setError("Something troubled with removing... Let's try later");
     }
+
+    fetchTodos(limit, offset, completed);
+    setShowCheckbox(false);
   };
 
   const editTask = async (id, value) => {
@@ -257,6 +263,10 @@ const App = () => {
   useEffect(() => {
     fetchTodos(limit, offset, completed);
   }, [page, completed]);
+
+  useEffect(() => {
+    countPages(countAll);
+  }, [countAll]);
 
   return (
     <div>
