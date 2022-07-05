@@ -12,6 +12,10 @@ import {
   CloseButton,
   Pagination,
   ButtonPagination,
+  ButtonPaginationStart,
+  ButtonPaginationEnd,
+  ButtonPaginationLeft,
+  ButtonPaginationRight,
 } from "../styles/components";
 import {
   getTodos,
@@ -34,7 +38,7 @@ const App = () => {
   const limit = 5;
   const [offset, setOffset] = useState(0);
   const [countAll, setCountAll] = useState(0);
-  const [pages, setPages] = useState(0);
+  const [pages, setPages] = useState([]);
 
   const addTask = async () => {
     if (value) {
@@ -187,7 +191,12 @@ const App = () => {
       const res = await getTodos(limit, offset);
       setItems(res.todos);
       setCountAll(res.count);
-      setPages(Math.ceil(res.count / limit));
+      const list = [];
+      const length =
+        Math.ceil(res.count / limit) >= 3 ? 3 : Math.ceil(res.count / limit);
+      console.log(length);
+      for (let i = 1; i <= length; i++) list.push(i);
+      setPages(list);
     } catch (e) {
       setError("Something troubled... Let's update the page!");
     }
@@ -246,7 +255,13 @@ const App = () => {
             handleChangeInputCheckbox={handleChangeInputCheckbox}
           />
           <Pagination>
-            <ButtonPagination>{pages}</ButtonPagination>
+            <ButtonPaginationStart $mode={"disabled"}></ButtonPaginationStart>
+            <ButtonPaginationLeft $mode={"disabled"}></ButtonPaginationLeft>
+            {pages.map((item) => (
+              <ButtonPagination $mode={"select"}>{item}</ButtonPagination>
+            ))}
+            <ButtonPaginationRight></ButtonPaginationRight>
+            <ButtonPaginationEnd></ButtonPaginationEnd>
           </Pagination>
           {items.length ? (
             <div>
