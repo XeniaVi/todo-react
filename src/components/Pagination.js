@@ -7,18 +7,30 @@ import {
   ButtonPaginationRight,
 } from "../styles/components";
 
-function Pagination({ pages }) {
+function Pagination({ pages, page, switchPages }) {
   return (
     <PaginationWrapper>
-      <ButtonPaginationStart $mode={"disabled"}></ButtonPaginationStart>
-      <ButtonPaginationLeft $mode={"disabled"}></ButtonPaginationLeft>
+      <ButtonPaginationStart
+        $mode={page === 1 ? "disabled" : 0}
+      ></ButtonPaginationStart>
+      <ButtonPaginationLeft
+        $mode={page === 1 ? "disabled" : 0}
+      ></ButtonPaginationLeft>
       {pages.map((item) => (
-        <ButtonPagination $mode={"select"} key={item}>
+        <ButtonPagination
+          $mode={item === page ? "select" : ""}
+          onClick={switchPages}
+          key={item}
+        >
           {item}
         </ButtonPagination>
       ))}
-      <ButtonPaginationRight></ButtonPaginationRight>
-      <ButtonPaginationEnd></ButtonPaginationEnd>
+      <ButtonPaginationRight
+        $mode={page === pages.length ? "disabled" : 0}
+      ></ButtonPaginationRight>
+      <ButtonPaginationEnd
+        $mode={page === pages.length ? "disabled" : 0}
+      ></ButtonPaginationEnd>
     </PaginationWrapper>
   );
 }
