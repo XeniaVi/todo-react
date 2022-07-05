@@ -33,7 +33,7 @@ const App = () => {
   const [offset, setOffset] = useState(0);
   const [countAll, setCountAll] = useState(0); // для пересчета страниц при добавлении дел, лучше отдельной функцией
   const [pages, setPages] = useState([]);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
 
   const addTask = async () => {
     if (value) {
@@ -195,16 +195,14 @@ const App = () => {
         Math.ceil(res.count / limit) >= 3 ? 3 : Math.ceil(res.count / limit);
       for (let i = 1; i <= length; i++) list.push(i);
       setPages(list);
-      setPage(1);
     } catch (e) {
       setError("Something troubled... Let's update the page!");
     }
   };
 
-  const switchPages = async (e) => {
-    const value = e.target.textContent.toLowerCase();
-    await fetchTodos(limit, (page - 1) * limit, {});
-    console.log(value);
+  const switchPages = async (value) => {
+    setPage(value);
+    setOffset(value * limit);
   };
 
   const handleChange = (e) => {
@@ -234,6 +232,10 @@ const App = () => {
     setShowCheckbox(Boolean(items.length));
     setCount(items.filter((item) => !item.completed).length);
   }, [items]);
+
+  useEffect(() => {
+    fetchTodos(limit, offset, selectFilter);
+  }, [page]);
 
   return (
     <div>
