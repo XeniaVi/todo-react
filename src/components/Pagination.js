@@ -37,12 +37,12 @@ function Pagination({ page, switchPages, totalCount, limit }) {
       <ButtonPaginationStart
         onClick={() => switchPages(1)}
         $mode={page === 1 ? "disabled" : 0}
-        disabled={page === 1 ? true : false}
+        disabled={page === 1}
       ></ButtonPaginationStart>
       <ButtonPaginationLeft
         onClick={() => switchPages(page - 1)}
         $mode={page === 1 ? "disabled" : 0}
-        disabled={page === 1 ? true : false}
+        disabled={page === 1}
       ></ButtonPaginationLeft>
       {getPageList().map((item) => (
         <ButtonPagination
@@ -56,12 +56,12 @@ function Pagination({ page, switchPages, totalCount, limit }) {
       <ButtonPaginationRight
         onClick={() => switchPages(page + 1)}
         $mode={page === pagesCount ? "disabled" : 0}
-        disabled={page === pagesCount ? true : false}
+        disabled={page === pagesCount}
       ></ButtonPaginationRight>
       <ButtonPaginationEnd
         onClick={() => switchPages(pagesCount)}
         $mode={page === pagesCount ? "disabled" : 0}
-        disabled={page === pagesCount ? true : false}
+        disabled={page === pagesCount}
       ></ButtonPaginationEnd>
     </PaginationWrapper>
   );

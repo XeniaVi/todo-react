@@ -37,7 +37,7 @@ function Task({ item, deleteTask, editTask, handleChangeItem }) {
           <CheckboxList>
             <input
               type="checkbox"
-              checked={item.completed ? true : false}
+              checked={item.completed}
               onChange={() => handleChangeItem(item.id, !item.completed)}
             />
           </CheckboxList>
