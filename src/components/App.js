@@ -28,31 +28,11 @@ const App = () => {
   const [count, setCount] = useState(0);
   const [selectFilter, setSelectFilter] = useState("all");
   const [completed, setCompleted] = useState(null);
-  const [isShowCheckbox, setShowCheckbox] = useState(false);
   const [completedAll, setCompletedAll] = useState(false);
   const [errorMessage, setError] = useState("");
   const [offset, setOffset] = useState(0);
-  const [countAll, setCountAll] = useState(0);
-  const [pages, setPages] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(1);
-  const [countPagesDB, setCountPagesDB] = useState(0);
-
-  const countPages = (count) => {
-    const list = [];
-    setCountPagesDB(Math.ceil(count / limit));
-    const length = Math.ceil(count / limit) >= 3 ? 3 : Math.ceil(count / limit);
-
-    if (page === 1) {
-      for (let i = 1; i <= length; i++) list.push(i);
-      setPages(list);
-    } else if (page < Math.ceil(count / limit)) {
-      for (let i = page - 1; i <= page + 1; i++) if (i > 0) list.push(i);
-      setPages(list);
-    } else {
-      for (let i = page - 2; i <= page; i++) if (i > 0) list.push(i);
-      setPages(list);
-    }
-  };
 
   const addTask = async () => {
     if (value) {
@@ -68,7 +48,7 @@ const App = () => {
         setValue("");
         setCompletedAll(false);
         setCompleted(null);
-        setCountAll((prevState) => prevState + 1);
+        setTotalCount((prevState) => prevState + 1);
       } catch (e) {
         setError("Something troubled with adding... Let's try later");
       }
@@ -149,7 +129,6 @@ const App = () => {
     }
 
     fetchTodos(limit, offset, completed);
-    setShowCheckbox(false);
   };
 
   const editTask = async (id, value) => {
@@ -175,9 +154,7 @@ const App = () => {
   const toggleAllStatus = async () => {
     try {
       if (completedAll) {
-        const ids = items
-          .filter((item) => item.completed)
-          .map((item) => item.id);
+        const ids = items.map((item) => item.id);
 
         await updateCompleted(ids, false);
 
@@ -216,11 +193,10 @@ const App = () => {
 
   const fetchTodos = async (limit, offset, completed) => {
     try {
-      const res = await getTodos(limit, offset, completed);
+      const { todos, count } = await getTodos(limit, offset, completed);
 
-      setItems(res.todos);
-      setCountAll(res.count);
-      countPages(res.count);
+      setItems(todos);
+      setTotalCount(count);
     } catch (e) {
       setError("Something troubled... Let's update the page!");
     }
@@ -229,7 +205,6 @@ const App = () => {
   const switchPages = async (value) => {
     setPage(value);
     setOffset((value - 1) * limit);
-    countPages(countAll);
   };
 
   const handleChange = (e) => {
@@ -256,17 +231,12 @@ const App = () => {
 
   useEffect(() => {
     setError("");
-    setShowCheckbox(Boolean(items.length));
     setCount(items.filter((item) => !item.completed).length);
   }, [items]);
 
   useEffect(() => {
     fetchTodos(limit, offset, completed);
   }, [page, completed]);
-
-  useEffect(() => {
-    countPages(countAll);
-  }, [countAll]);
 
   return (
     <div>
@@ -286,16 +256,16 @@ const App = () => {
             handleKeyDown={handleKeyDown}
             addTask={addTask}
             value={value}
-            isShowCheckbox={isShowCheckbox}
+            length={items.length}
             toggleAllStatus={toggleAllStatus}
             completedAll={completedAll}
             handleChangeInputCheckbox={handleChangeInputCheckbox}
           />
           <Pagination
-            pages={pages}
             page={page}
             switchPages={switchPages}
-            count={countPagesDB}
+            totalCount={totalCount}
+            limit={limit}
           />
           {items.length ? (
             <div>

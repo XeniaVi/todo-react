@@ -36,12 +36,12 @@ export const Checkbox = styled.div`
   width: 1rem;
   height: 1rem;
   margin: 0;
-  transition: all 1s ease-in-out;
+  transition: all 0.5s ease-in-out;
   overflow: hidden;
 
   &:hover {
     border-color: #ee4c7c;
-    transition: all 1s ease-in;
+    transition: all 0.5s ease-in;
   }
 
   > input {
@@ -227,11 +227,11 @@ export const Button = styled.button`
   background-color: #5d001e;
   cursor: pointer;
   border: none;
-  transition: all 1s ease-in;
+  transition: all 0.5s ease-in;
 
   &:hover {
     background: #ee4c7c;
-    transition: all 1s ease-in;
+    transition: all 0.5s ease-in;
   }
 
   &:focus-visible {
