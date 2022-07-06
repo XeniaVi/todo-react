@@ -23,7 +23,7 @@ import {
 
 const App = () => {
   const limit = 5;
-  const [value, setValue] = useState("");
+  // const [value, setValue] = useState("");
   const [items, setItems] = useState([]);
   const [count, setCount] = useState(0);
   const [selectFilter, setSelectFilter] = useState("all");
@@ -34,26 +34,26 @@ const App = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(1);
 
-  const addTask = async () => {
-    if (value) {
-      try {
-        const response = await addTodoToDB({
-          value: value,
-          completed: false,
-          timestamp: Date.now(),
-        });
+  // const addTask = async () => {
+  //   if (value) {
+  //     try {
+  //       const response = await addTodoToDB({
+  //         value: value,
+  //         completed: false,
+  //         timestamp: Date.now(),
+  //       });
 
-        const todos = items.length >= limit ? items.slice(0, limit - 1) : items;
-        setItems([response, ...todos]);
-        setValue("");
-        setCompletedAll(false);
-        setCompleted(null);
-        setTotalCount((prevState) => prevState + 1);
-      } catch (e) {
-        setError("Something troubled with adding... Let's try later");
-      }
-    }
-  };
+  //       const todos = items.length >= limit ? items.slice(0, limit - 1) : items;
+  //       setItems([response, ...todos]);
+  //       setValue("");
+  //       setCompletedAll(false);
+  //       setCompleted(null);
+  //       setTotalCount((prevState) => prevState + 1);
+  //     } catch (e) {
+  //       setError("Something troubled with adding... Let's try later");
+  //     }
+  //   }
+  // };
 
   const deleteTask = async (id) => {
     try {
@@ -207,15 +207,15 @@ const App = () => {
     setOffset((value - 1) * limit);
   };
 
-  const handleChange = (e) => {
-    setValue(e.target.value);
-  };
+  // const handleChange = (e) => {
+  //   setValue(e.target.value);
+  // };
 
-  const handleKeyDown = (e) => {
-    if (e.code === "Enter") {
-      addTask();
-    }
-  };
+  // const handleKeyDown = (e) => {
+  //   if (e.code === "Enter") {
+  //     addTask();
+  //   }
+  // };
 
   const handleChangeInputCheckbox = () => {
     setCompletedAll(!completedAll);
@@ -252,14 +252,14 @@ const App = () => {
         )}
         <Wrapper>
           <InputTask
-            handleChange={handleChange}
-            handleKeyDown={handleKeyDown}
-            addTask={addTask}
-            value={value}
-            length={items.length}
-            toggleAllStatus={toggleAllStatus}
-            completedAll={completedAll}
-            handleChangeInputCheckbox={handleChangeInputCheckbox}
+          // handleChange={handleChange}
+          // handleKeyDown={handleKeyDown}
+          // addTask={addTask}
+          // value={value}
+          // length={items.length}
+          // toggleAllStatus={toggleAllStatus}
+          // completedAll={completedAll}
+          // handleChangeInputCheckbox={handleChangeInputCheckbox}
           />
           <Pagination
             page={page}

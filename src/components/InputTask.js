@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addTodo } from "../asyncActions/addTodo";
+
 import {
   InputWrapper,
   Input,
@@ -5,25 +9,37 @@ import {
   CheckboxAbsolute,
 } from "../styles/components";
 
-function InputTask({
-  addTask,
-  handleChange,
-  handleKeyDown,
-  value,
-  length,
-  toggleAllStatus,
-  completedAll,
-  handleChangeInputCheckbox,
-}) {
+function InputTask() {
+  const [value, setValue] = useState("");
+
+  const dispatch = useDispatch();
+  const items = useSelector((state) => state.todos.todos);
+
+  const dispatchAddTodo = () => {
+    if (!value) return;
+    dispatch(addTodo(value));
+    setValue("");
+  };
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.code === "Enter") {
+      dispatchAddTodo();
+    }
+  };
+
   return (
     <InputWrapper>
-      {length ? (
+      {items.length ? (
         <CheckboxAbsolute>
           <input
             type="checkbox"
-            onClick={toggleAllStatus}
-            onChange={handleChangeInputCheckbox}
-            checked={completedAll}
+            // onClick={toggleAllStatus}
+            // onChange={handleChangeInputCheckbox}
+            // checked={completedAll}
           />
         </CheckboxAbsolute>
       ) : (
@@ -36,7 +52,7 @@ function InputTask({
         onKeyDown={handleKeyDown}
         value={value}
       />
-      <Button onClick={addTask}>Add</Button>
+      <Button onClick={dispatchAddTodo}>Add</Button>
     </InputWrapper>
   );
 }
