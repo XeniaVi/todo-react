@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { check, down, cross } from "../assets/icons";
+import { check, down, cross, arrow, double_arrow } from "../assets/icons";
 
 export const Container = styled.div`
   display: flex;
@@ -36,12 +36,12 @@ export const Checkbox = styled.div`
   width: 1rem;
   height: 1rem;
   margin: 0;
-  transition: all 1s ease-in-out;
+  transition: all 0.5s ease-in-out;
   overflow: hidden;
 
   &:hover {
     border-color: #ee4c7c;
-    transition: all 1s ease-in;
+    transition: all 0.5s ease-in;
   }
 
   > input {
@@ -227,11 +227,11 @@ export const Button = styled.button`
   background-color: #5d001e;
   cursor: pointer;
   border: none;
-  transition: all 1s ease-in;
+  transition: all 0.5s ease-in;
 
   &:hover {
     background: #ee4c7c;
-    transition: all 1s ease-in;
+    transition: all 0.5s ease-in;
   }
 
   &:focus-visible {
@@ -329,5 +329,112 @@ export const CloseButton = styled(ButtonDelete)`
   &:hover {
     background-color: rgba(93, 0, 30, 0.5);
     background-size: 0.5rem 0.5rem;
+  }
+`;
+
+export const PaginationWrapper = styled.div`
+  padding: 1rem 0 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+export const ButtonPagination = styled(Button)`
+  padding: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+
+  ${(props) => {
+    switch (props.$mode) {
+      case "select":
+        return css`
+          color: white;
+          background-color: #5d001e;
+          border: 1px solid #5d001e;
+        `;
+      default:
+        return css`
+          color: black;
+          background-color: white;
+          border: 1px solid #5d001e;
+        `;
+    }
+  }}
+`;
+
+export const ButtonPaginationEdge = styled(ButtonPagination)`
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: 1rem 1rem;
+  background-position: center;
+
+  ${(props) => {
+    switch (props.$mode) {
+      case "disabled":
+        return css`
+          color: white;
+          background-color: #e3e2df;
+          border: 1px solid #e3e2df;
+          cursor: not-allowed;
+        `;
+      default:
+        return css``;
+    }
+  }}
+
+  &:hover {
+    background-color: #ee4c7c;
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+    background-position: center;
+
+    ${(props) => {
+      switch (props.$mode) {
+        case "disabled":
+          return css`
+            color: white;
+            background-color: #e3e2df;
+            border: 1px solid #e3e2df;
+            cursor: not-allowed;
+          `;
+        default:
+          return css``;
+      }
+    }}
+  }
+`;
+
+export const ButtonPaginationStart = styled(ButtonPaginationEdge)`
+  background-image: url(${double_arrow});
+  transform: rotate(180deg);
+
+  &:hover {
+    background-image: url(${double_arrow});
+  }
+`;
+
+export const ButtonPaginationEnd = styled(ButtonPaginationEdge)`
+  background-image: url(${double_arrow});
+
+  &:hover {
+    background-image: url(${double_arrow});
+  }
+`;
+
+export const ButtonPaginationLeft = styled(ButtonPaginationEdge)`
+  background-image: url(${arrow});
+  transform: rotate(180deg);
+
+  &:hover {
+    background-image: url(${arrow});
+  }
+`;
+
+export const ButtonPaginationRight = styled(ButtonPaginationEdge)`
+  background-image: url(${arrow});
+
+  &:hover {
+    background-image: url(${arrow});
   }
 `;

@@ -10,14 +10,14 @@ function InputTask({
   handleChange,
   handleKeyDown,
   value,
-  isShowCheckbox,
+  length,
   toggleAllStatus,
   completedAll,
   handleChangeInputCheckbox,
 }) {
   return (
     <InputWrapper>
-      {isShowCheckbox ? (
+      {length ? (
         <CheckboxAbsolute>
           <input
             type="checkbox"
