@@ -1,12 +1,16 @@
+import { getTodosAction } from "../actions";
+import { getTodos } from "../api/todoApi";
 import { LIMIT } from "../constants";
 
-export const fetchTodos = async (offset, completed) => {
-  try {
-    const { todos, count } = await getTodos(LIMIT, offset, completed);
+export const fetchTodos = (offset, completed) => {
+  return async (dispatch) => {
+    try {
+      const response = await getTodos(LIMIT, offset, completed);
 
-    setItems(todos);
-    setTotalCount(count);
-  } catch (e) {
-    setError("Something troubled... Let's update the page!");
-  }
+      dispatch(getTodosAction(response));
+    } catch (e) {
+      console.log(e);
+      //setError("Something troubled... Let's update the page!");
+    }
+  };
 };

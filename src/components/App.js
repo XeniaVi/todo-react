@@ -270,10 +270,10 @@ const App = () => {
           {items.length ? (
             <div>
               <TasksList
-                items={items}
-                deleteTask={deleteTask}
-                editTask={editTask}
-                handleChangeItem={handleChangeItem}
+              // items={items}
+              // deleteTask={deleteTask}
+              // editTask={editTask}
+              // handleChangeItem={handleChangeItem}
               />
               <Footer>
                 <div>{count} items left</div>
