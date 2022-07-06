@@ -23,7 +23,6 @@ import {
 
 const App = () => {
   const limit = 5;
-  // const [value, setValue] = useState("");
   const [items, setItems] = useState([]);
   const [count, setCount] = useState(0);
   const [selectFilter, setSelectFilter] = useState("all");
@@ -33,27 +32,6 @@ const App = () => {
   const [offset, setOffset] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(1);
-
-  // const addTask = async () => {
-  //   if (value) {
-  //     try {
-  //       const response = await addTodoToDB({
-  //         value: value,
-  //         completed: false,
-  //         timestamp: Date.now(),
-  //       });
-
-  //       const todos = items.length >= limit ? items.slice(0, limit - 1) : items;
-  //       setItems([response, ...todos]);
-  //       setValue("");
-  //       setCompletedAll(false);
-  //       setCompleted(null);
-  //       setTotalCount((prevState) => prevState + 1);
-  //     } catch (e) {
-  //       setError("Something troubled with adding... Let's try later");
-  //     }
-  //   }
-  // };
 
   const deleteTask = async (id) => {
     try {
@@ -66,28 +44,28 @@ const App = () => {
     fetchTodos(limit, offset, completed);
   };
 
-  const changeStatus = async (id, completed) => {
-    try {
-      const post = { completed };
+  // const changeStatus = async (id, completed) => {
+  //   try {
+  //     const post = { completed };
 
-      await updateTodoInDB(id, post);
+  //     await updateTodoInDB(id, post);
 
-      setItems((prevState) =>
-        prevState.map((item) =>
-          item.id === id
-            ? {
-                ...item,
-                completed: !item.completed,
-              }
-            : item
-        )
-      );
+  //     setItems((prevState) =>
+  //       prevState.map((item) =>
+  //         item.id === id
+  //           ? {
+  //               ...item,
+  //               completed: !item.completed,
+  //             }
+  //           : item
+  //       )
+  //     );
 
-      setCompletedAll(false);
-    } catch (e) {
-      setError("Something troubled with updating... Let's try later");
-    }
-  };
+  //     setCompletedAll(false);
+  //   } catch (e) {
+  //     setError("Something troubled with updating... Let's try later");
+  //   }
+  // };
 
   const filterTasks = (e) => {
     const value = e ? e.target.textContent.toLowerCase() : selectFilter;
@@ -131,25 +109,25 @@ const App = () => {
     fetchTodos(limit, offset, completed);
   };
 
-  const editTask = async (id, value) => {
-    try {
-      const post = { value };
-      await updateTodoInDB(id, post);
+  // const editTask = async (id, value) => {
+  //   try {
+  //     const post = { value };
+  //     await updateTodoInDB(id, post);
 
-      setItems((prevState) =>
-        prevState.map((item) =>
-          item.id === id
-            ? {
-                ...item,
-                value: value,
-              }
-            : item
-        )
-      );
-    } catch (e) {
-      setError("Something troubled with updating... Let's try later");
-    }
-  };
+  //     setItems((prevState) =>
+  //       prevState.map((item) =>
+  //         item.id === id
+  //           ? {
+  //               ...item,
+  //               value: value,
+  //             }
+  //           : item
+  //       )
+  //     );
+  //   } catch (e) {
+  //     setError("Something troubled with updating... Let's try later");
+  //   }
+  // };
 
   const toggleAllStatus = async () => {
     try {
@@ -207,23 +185,13 @@ const App = () => {
     setOffset((value - 1) * limit);
   };
 
-  // const handleChange = (e) => {
-  //   setValue(e.target.value);
-  // };
-
-  // const handleKeyDown = (e) => {
-  //   if (e.code === "Enter") {
-  //     addTask();
-  //   }
-  // };
-
   const handleChangeInputCheckbox = () => {
     setCompletedAll(!completedAll);
   };
 
-  const handleChangeItem = (id, completed) => {
-    changeStatus(id, completed);
-  };
+  // const handleChangeItem = (id, completed) => {
+  //   changeStatus(id, completed);
+  // };
 
   useEffect(() => {
     fetchTodos(limit, offset);
@@ -254,9 +222,6 @@ const App = () => {
           <InputTask
           // handleChange={handleChange}
           // handleKeyDown={handleKeyDown}
-          // addTask={addTask}
-          // value={value}
-          // length={items.length}
           // toggleAllStatus={toggleAllStatus}
           // completedAll={completedAll}
           // handleChangeInputCheckbox={handleChangeInputCheckbox}

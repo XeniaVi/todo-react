@@ -19,6 +19,7 @@ export const deleteTodoFromDB = async (id) => {
 };
 
 export const updateTodoInDB = async (id, post) => {
+  console.log(post);
   const response = await axios.put(`${config.API_URL}/${id}`, post);
   return response.data;
 };

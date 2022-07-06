@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateTodo } from "../asyncActions/updateTodo";
 import {
   ButtonDelete,
   ButtonSave,
@@ -11,17 +13,19 @@ import {
   TaskText,
 } from "../styles/components";
 
-function Task({ item, deleteTask, editTask, handleChangeItem }) {
+function Task({ item }) {
   const [isEditing, setEditing] = useState(false);
   const [value, setValue] = useState("");
+
+  const dispatch = useDispatch();
 
   const startEdit = () => {
     setEditing(true);
     setValue(item.value);
   };
 
-  const saveItem = (id) => {
-    editTask(id, value);
+  const saveItem = () => {
+    dispatch(updateTodo(item.id, value));
     setEditing(false);
     setValue("");
   };
@@ -37,8 +41,8 @@ function Task({ item, deleteTask, editTask, handleChangeItem }) {
           <CheckboxList>
             <input
               type="checkbox"
-              checked={item.completed}
-              onChange={() => handleChangeItem(item.id, !item.completed)}
+              checked={item.completed ? true : false}
+              onChange={() => dispatch(updateTodo(item.id, !item.completed))}
             />
           </CheckboxList>
           {!isEditing ? (
@@ -60,7 +64,7 @@ function Task({ item, deleteTask, editTask, handleChangeItem }) {
             </EditInput>
           )}
         </TaskInner>
-        <ButtonDelete onClick={() => deleteTask(item.id)}></ButtonDelete>
+        <ButtonDelete /*onClick={() => deleteTask(item.id)}*/></ButtonDelete>
       </TaskItem>
     </div>
   );
