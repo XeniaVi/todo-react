@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setCompletedAction } from "../actions";
 import TasksList from "./TasksList";
 import InputTask from "./InputTask";
 import Pagination from "./Pagination";
@@ -22,11 +24,14 @@ import {
 } from "../api/todoApi.js";
 
 const App = () => {
+  const dispatch = useDispatch();
+  const completed = useSelector((state) => state.status.completed);
+
   const limit = 5;
   const [items, setItems] = useState([]);
   const [count, setCount] = useState(0);
   const [selectFilter, setSelectFilter] = useState("all");
-  const [completed, setCompleted] = useState(null);
+  // const [completed, setCompleted] = useState(null);
   const [completedAll, setCompletedAll] = useState(false);
   const [errorMessage, setError] = useState("");
   const [offset, setOffset] = useState(0);
@@ -73,17 +78,17 @@ const App = () => {
     switch (value) {
       case "completed":
         setSelectFilter("completed");
-        setCompleted(true);
+        dispatch(setCompletedAction(true));
         setCompletedAll(true);
         break;
       case "active":
         setSelectFilter("active");
-        setCompleted(false);
+        dispatch(setCompletedAction(false));
         setCompletedAll(false);
         break;
       default:
         setSelectFilter("all");
-        setCompleted(null);
+        dispatch(setCompletedAction(null));
         setCompletedAll(false);
     }
 
@@ -192,10 +197,6 @@ const App = () => {
   // const handleChangeItem = (id, completed) => {
   //   changeStatus(id, completed);
   // };
-
-  useEffect(() => {
-    fetchTodos(limit, offset);
-  }, []);
 
   useEffect(() => {
     setError("");

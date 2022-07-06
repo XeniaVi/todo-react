@@ -7,12 +7,19 @@ import { Tasks } from "../styles/components";
 function TasksList() {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.todos.todos);
+  const currentPage = useSelector((state) => state.todos.currentPage);
+  const completed = useSelector((state) => state.status.completed);
+  const offset = useSelector((state) => state.status.offset);
 
-  console.log(items);
+  console.log(offset);
 
   useEffect(() => {
-    dispatch(fetchTodos(0));
+    dispatch(fetchTodos(offset));
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchTodos(offset, completed));
+  }, [currentPage, completed]);
 
   return (
     <div>

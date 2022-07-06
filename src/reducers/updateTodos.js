@@ -4,6 +4,8 @@ import { LIMIT } from "../constants";
 const defaultState = {
   todos: [],
   count: null,
+  currentPage: 1,
+  pages: null,
 };
 
 export const updateTodos = (state = defaultState, action) => {
@@ -11,7 +13,12 @@ export const updateTodos = (state = defaultState, action) => {
   console.log(action.payload);
   switch (action.type) {
     case GET_TODOS:
-      return { ...action.payload };
+      return {
+        ...state,
+        todos: action.payload.todos,
+        count: action.payload.count,
+        pages: Math.ceil(action.payload.count / LIMIT),
+      };
     case ADD_TODO:
       const todos =
         state.todos.length >= LIMIT
