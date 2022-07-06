@@ -7,7 +7,7 @@ import { Tasks } from "../styles/components";
 function TasksList() {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.todos.todos);
-  const currentPage = useSelector((state) => state.todos.currentPage);
+  const page = useSelector((state) => state.status.page);
   const completed = useSelector((state) => state.status.completed);
   const offset = useSelector((state) => state.status.offset);
 
@@ -19,19 +19,13 @@ function TasksList() {
 
   useEffect(() => {
     dispatch(fetchTodos(offset, completed));
-  }, [currentPage, completed]);
+  }, [page, completed]);
 
   return (
     <div>
       <Tasks>
         {items.map((item) => (
-          <Task
-            item={item}
-            key={item.id}
-            // deleteTask={deleteTask}
-            // handleChangeItem={handleChangeItem}
-            // editTask={editTask}
-          />
+          <Task item={item} key={item.id} />
         ))}
       </Tasks>
     </div>

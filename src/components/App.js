@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCompletedAction } from "../actions";
+import { setCompletedAction, setPageAction, setOffsetAction } from "../actions";
 import TasksList from "./TasksList";
 import InputTask from "./InputTask";
 import Pagination from "./Pagination";
@@ -92,8 +92,8 @@ const App = () => {
         setCompletedAll(false);
     }
 
-    setOffset(0);
-    setPage(1);
+    dispatch(setOffsetAction(0));
+    dispatch(setPageAction(1));
   };
 
   const deleteCompletedTasks = async () => {

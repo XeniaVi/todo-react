@@ -3,8 +3,7 @@ import { LIMIT } from "../constants";
 
 const defaultState = {
   todos: [],
-  count: null,
-  currentPage: 1,
+  totalCount: null,
   pages: null,
 };
 
@@ -16,7 +15,7 @@ export const updateTodos = (state = defaultState, action) => {
       return {
         ...state,
         todos: action.payload.todos,
-        count: action.payload.count,
+        totalCount: action.payload.count,
         pages: Math.ceil(action.payload.count / LIMIT),
       };
     case ADD_TODO:
@@ -24,7 +23,12 @@ export const updateTodos = (state = defaultState, action) => {
         state.todos.length >= LIMIT
           ? state.todos.slice(0, LIMIT - 1)
           : state.todos;
-      return { ...state, todos: [action.payload, ...todos] };
+      return {
+        ...state,
+        todos: [action.payload, ...todos],
+        totalCount: state.totalCount + 1,
+        pages: Math.ceil((state.totalCount + 1) / LIMIT),
+      };
     case UPDATE_TODO:
       const { id, post } = action.payload;
       console.log(id, post);
