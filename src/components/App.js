@@ -28,6 +28,7 @@ import {
 const App = () => {
   const dispatch = useDispatch();
   const offset = useSelector((state) => state.status.offset);
+  const completed = useSelector((state) => state.status.completed);
   const items = useSelector((state) => state.todos.todos);
   const count = useSelector((state) => state.status.count);
   const errorMessage = useSelector((state) => state.status.errorMessage);
@@ -63,7 +64,7 @@ const App = () => {
       .map((item) => {
         return item.id;
       });
-    dispatch(deleteTodos(ids, offset));
+    dispatch(deleteTodos(ids, offset, completed));
   };
 
   useEffect(() => {
