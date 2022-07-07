@@ -1,4 +1,4 @@
-import { updateTodoAction } from "../actions";
+import { updateTodoAction, setErrorAction } from "../actions";
 import { updateTodoInDB } from "../api/todoApi";
 
 export const updateTodo = (id, updatedTodo) => {
@@ -11,8 +11,9 @@ export const updateTodo = (id, updatedTodo) => {
       dispatch(updateTodoAction({ id, updatedTodo }));
       // setCompletedAll(false);
     } catch (e) {
-      console.log(e);
-      //setError("Something troubled with adding... Let's try later");
+      dispatch(
+        setErrorAction("Something troubled with updating... Let's try later!")
+      );
     }
   };
 };

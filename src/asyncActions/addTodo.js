@@ -1,4 +1,9 @@
-import { addTodoAction } from "../actions";
+import {
+  addTodoAction,
+  setErrorAction,
+  setCompletedAction,
+  setCompletedAllAction,
+} from "../actions";
 import { addTodoToDB } from "../api/todoApi";
 
 export const addTodo = (value) => {
@@ -12,12 +17,12 @@ export const addTodo = (value) => {
       });
 
       dispatch(addTodoAction(response));
-      // setCompletedAll(false);
-      // setCompleted(null);
-      // setTotalCount((prevState) => prevState + 1);
+      dispatch(setCompletedAction(null));
+      dispatch(setCompletedAllAction(false));
     } catch (e) {
-      console.log(e);
-      //setError("Something troubled with adding... Let's try later");
+      dispatch(
+        setErrorAction("Something troubled with adding... Let's try later!")
+      );
     }
   };
 };

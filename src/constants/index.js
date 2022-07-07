@@ -9,5 +9,7 @@ export const SET_COMPLETED_ALL = "SET_COMPLETED_ALL";
 export const SET_PAGE = "SET_PAGE";
 export const SET_OFFSET = "SET_OFFSET";
 export const SET_COUNT = "SET_COUNT";
+export const SET_ERROR = "SET_ERROR";
+export const SET_FILTER = "SET_FILTER";
 
 export const LIMIT = 5;

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setCompletedAllAction } from "../actions";
 import { addTodo } from "../asyncActions/addTodo";
 import { updateTodos } from "../asyncActions/updateTodos";
 
@@ -45,6 +46,10 @@ function InputTask() {
     }
   };
 
+  const handleChangeInputCheckbox = () => {
+    dispatch(setCompletedAllAction(completedAll));
+  };
+
   return (
     <InputWrapper>
       {items.length ? (
@@ -52,7 +57,7 @@ function InputTask() {
           <input
             type="checkbox"
             onClick={toggleAllStatus}
-            // onChange={handleChangeInputCheckbox}
+            onChange={handleChangeInputCheckbox}
             checked={completedAll}
           />
         </CheckboxAbsolute>

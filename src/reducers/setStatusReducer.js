@@ -1,19 +1,22 @@
-import { type } from "@testing-library/user-event/dist/type";
 import {
   SET_COMPLETED,
   SET_PAGE,
   SET_OFFSET,
   SET_COMPLETED_ALL,
   SET_COUNT,
+  SET_ERROR,
+  SET_FILTER,
 } from "../constants";
 import { LIMIT } from "../constants";
 
 const defaultState = {
   completed: null,
   completedAll: false,
+  filter: "all",
   offset: 0,
   page: 1,
   count: 0,
+  errorMessage: "",
 };
 
 export const setStatusReducer = (state = defaultState, action) => {
@@ -41,6 +44,10 @@ export const setStatusReducer = (state = defaultState, action) => {
       return { ...state, completedAll: payload };
     case SET_COUNT:
       return { ...state, count: payload };
+    case SET_ERROR:
+      return { ...state, errorMessage: payload };
+    case SET_FILTER:
+      return { ...state, filter: payload };
     default:
       return { ...state };
   }

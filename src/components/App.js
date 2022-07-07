@@ -5,6 +5,9 @@ import {
   setPageAction,
   setOffsetAction,
   setCountAction,
+  setErrorAction,
+  setFilterAction,
+  setCompletedAllAction,
 } from "../actions";
 import { fetchTodos } from "../asyncActions/fetchTodos";
 import { deleteTodos } from "../asyncActions/deleteTodos";
@@ -25,33 +28,30 @@ import {
 
 const App = () => {
   const dispatch = useDispatch();
-  const completed = useSelector((state) => state.status.completed);
   const offset = useSelector((state) => state.status.offset);
   const items = useSelector((state) => state.todos.todos);
-  const completedAll = useSelector((state) => state.status.completedAll);
   const count = useSelector((state) => state.status.count);
-
-  const [selectFilter, setSelectFilter] = useState("all");
-  const [errorMessage, setError] = useState(""); //перенести в status
+  const errorMessage = useSelector((state) => state.status.errorMessage);
+  const filter = useSelector((state) => state.status.filter);
 
   const filterTasks = (e) => {
-    const value = e ? e.target.textContent.toLowerCase() : selectFilter;
+    const value = e ? e.target.textContent.toLowerCase() : filter;
 
     switch (value) {
       case "completed":
-        setSelectFilter("completed");
         dispatch(setCompletedAction(true));
-        //setCompletedAll(true);
+        dispatch(setFilterAction("completed"));
+        dispatch(setCompletedAllAction(true));
         break;
       case "active":
-        setSelectFilter("active");
+        dispatch(setFilterAction("active"));
         dispatch(setCompletedAction(false));
-        //setCompletedAll(false);
+        dispatch(setCompletedAllAction(false));
         break;
       default:
-        setSelectFilter("all");
+        dispatch(setFilterAction("all"));
         dispatch(setCompletedAction(null));
-      //setCompletedAll(false);
+        dispatch(setCompletedAllAction(false));
     }
 
     dispatch(setOffsetAction(0));
@@ -67,63 +67,12 @@ const App = () => {
     dispatch(deleteTodos(ids, offset));
   };
 
-  const toggleAllStatus = async () => {
-    //переписать с использованием redux
-    try {
-      if (completedAll) {
-        const ids = items.map((item) => item.id);
-        dispatch(updateTodos(ids, false));
-      } else {
-        const ids = items
-          .filter((item) => !item.completed)
-          .map((item) => item.id);
-        dispatch(updateTodos(ids, true));
-      }
-
-      //   setItems((prevState) =>
-      //     prevState.map((item) =>
-      //       item.completed
-      //         ? {
-      //             ...item,
-      //             completed: !item.completed,
-      //           }
-      //         : item
-      //     )
-      //   );
-      // } else {
-      //   const ids = items
-      //     .filter((item) => !item.completed)
-      //     .map((item) => item.id);
-
-      // setItems((prevState) =>
-      //   prevState.map((item) =>
-      //     !item.completed
-      //       ? {
-      //           ...item,
-      //           completed: !item.completed,
-      //         }
-      //       : item
-      //   )
-      // );
-    } catch (error) {
-      setError("Something troubled with updating... Let's try later");
-    }
-  };
-
-  const handleChangeInputCheckbox = () => {
-    //переписать с использованием redux
-    //setCompletedAll(!completedAll);
-  };
-
-  // const handleChangeItem = (id, completed) => {
-  //   changeStatus(id, completed);
-  // };
-
   useEffect(() => {
     dispatch(fetchTodos(offset));
   }, []);
 
   useEffect(() => {
+    dispatch(setErrorAction(""));
     dispatch(setCountAction(items.filter((item) => !item.completed).length));
   }, [items]);
 
@@ -134,7 +83,9 @@ const App = () => {
         {errorMessage ? (
           <ErrorMessage>
             {errorMessage}{" "}
-            <CloseButton onClick={() => setError("")}></CloseButton>
+            <CloseButton
+              onClick={() => dispatch(setErrorAction(""))}
+            ></CloseButton>
           </ErrorMessage>
         ) : (
           ""
@@ -148,17 +99,13 @@ const App = () => {
               <Footer>
                 <div>{count} items left</div>
                 <FilterWrapper onClick={filterTasks}>
-                  <ButtonFooter $mode={selectFilter === "all" ? "select" : ""}>
+                  <ButtonFooter $mode={filter === "all" ? "select" : ""}>
                     All
                   </ButtonFooter>
-                  <ButtonFooter
-                    $mode={selectFilter === "active" ? "select" : ""}
-                  >
+                  <ButtonFooter $mode={filter === "active" ? "select" : ""}>
                     Active
                   </ButtonFooter>
-                  <ButtonFooter
-                    $mode={selectFilter === "completed" ? "select" : ""}
-                  >
+                  <ButtonFooter $mode={filter === "completed" ? "select" : ""}>
                     Completed
                   </ButtonFooter>
                 </FilterWrapper>

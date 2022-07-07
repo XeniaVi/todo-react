@@ -1,5 +1,9 @@
 import { getTodosAction } from "../actions";
-import { setCompletedAllAction, setCountAction } from "../actions";
+import {
+  setCompletedAllAction,
+  setCountAction,
+  setErrorAction,
+} from "../actions";
 import { getTodos } from "../api/todoApi";
 import { LIMIT } from "../constants";
 
@@ -20,7 +24,7 @@ export const fetchTodos = (offset, completed) => {
       );
     } catch (e) {
       console.log(e);
-      //setError("Something troubled... Let's update the page!");
+      dispatch(setErrorAction("Something troubled... Let's update the page!"));
     }
   };
 };

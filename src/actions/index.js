@@ -8,6 +8,8 @@ import {
   SET_OFFSET,
   SET_COMPLETED_ALL,
   SET_COUNT,
+  SET_ERROR,
+  SET_FILTER,
 } from "../constants";
 
 export const getTodosAction = (payload) => ({ type: GET_TODOS, payload });
@@ -33,5 +35,13 @@ export const setOffsetAction = (payload) => ({
 });
 export const setCountAction = (payload) => ({
   type: SET_COUNT,
+  payload,
+});
+export const setErrorAction = (payload) => ({
+  type: SET_ERROR,
+  payload,
+});
+export const setFilterAction = (payload) => ({
+  type: SET_FILTER,
   payload,
 });

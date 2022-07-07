@@ -1,5 +1,6 @@
 import { fetchTodos } from "./fetchTodos";
 import { deleteTodoFromDB } from "../api/todoApi";
+import { setErrorAction } from "../actions";
 
 export const deleteTodo = (id, offset) => {
   console.log(id);
@@ -9,8 +10,9 @@ export const deleteTodo = (id, offset) => {
       console.log(id);
       dispatch(fetchTodos(offset));
     } catch (e) {
-      console.log(e);
-      //setError("Something troubled with adding... Let's try later");
+      dispatch(
+        setErrorAction("Something troubled with removing... Let's try later!")
+      );
     }
   };
 };
