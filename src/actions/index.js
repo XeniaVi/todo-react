@@ -1,47 +1,61 @@
 import constants from "../constants";
 
+const {
+  GET_TODOS,
+  ADD_TODO,
+  UPDATE_TODO,
+  UPDATE_TODOS,
+  SET_COMPLETED,
+  SET_COMPLETED_ALL,
+  SET_PAGE,
+  SET_OFFSET,
+  SET_FILTER,
+  SET_COUNT,
+  SET_ERROR,
+} = constants;
+
 export const getTodosAction = (payload) => ({
-  type: constants.GET_TODOS,
+  type: GET_TODOS,
   payload,
 });
 export const addTodoAction = (payload) => ({
-  type: constants.ADD_TODO,
+  type: ADD_TODO,
   payload,
 });
 export const updateTodoAction = (payload) => ({
-  type: constants.UPDATE_TODO,
+  type: UPDATE_TODO,
   payload,
 });
 export const updateTodosAction = (payload) => ({
-  type: constants.UPDATE_TODOS,
+  type: UPDATE_TODOS,
   payload,
 });
 
 export const setCompletedAction = (payload) => ({
-  type: constants.SET_COMPLETED,
+  type: SET_COMPLETED,
   payload,
 });
 export const setCompletedAllAction = (payload) => ({
-  type: constants.SET_COMPLETED_ALL,
+  type: SET_COMPLETED_ALL,
   payload,
 });
 export const setPageAction = (payload) => ({
-  type: constants.SET_PAGE,
+  type: SET_PAGE,
   payload,
 });
 export const setOffsetAction = (payload) => ({
-  type: constants.SET_OFFSET,
+  type: SET_OFFSET,
   payload,
 });
 export const setCountAction = (payload) => ({
-  type: constants.SET_COUNT,
+  type: SET_COUNT,
   payload,
 });
 export const setErrorAction = (payload) => ({
-  type: constants.SET_ERROR,
+  type: SET_ERROR,
   payload,
 });
 export const setFilterAction = (payload) => ({
-  type: constants.SET_FILTER,
+  type: SET_FILTER,
   payload,
 });
