@@ -1,5 +1,8 @@
-import { updateTodosAction, setErrorAction } from "../actions";
-import { setCompletedAllAction } from "../actions";
+import {
+  updateTodosAction,
+  setErrorAction,
+  setCompletedAllAction,
+} from "../actions";
 import { updateCompleted } from "../api/todoApi";
 
 export const updateTodos = (ids, completed) => {

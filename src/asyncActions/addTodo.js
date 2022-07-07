@@ -5,15 +5,15 @@ import {
   setCompletedAllAction,
   setFilterAction,
 } from "../actions";
-import { addTodoToDB } from "../api/todoApi";
+import { addTodo as appendTodo } from "../api/todoApi";
 
 export const addTodo = (value) => {
   return async (dispatch) => {
     try {
-      const response = await addTodoToDB({
+      const response = await appendTodo({
         value: value,
         completed: false,
-        timestamp: Date.now(),
+        createdAt: Date.now(),
       });
 
       dispatch(addTodoAction(response));

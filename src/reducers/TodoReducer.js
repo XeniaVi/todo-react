@@ -1,13 +1,15 @@
-import { GET_TODOS, ADD_TODO, UPDATE_TODO, UPDATE_TODOS } from "../constants";
-import { LIMIT } from "../constants";
+import constants from "../constants";
 
-const defaultState = {
+const initialState = {
   todos: [],
   totalCount: null,
-  pages: null,
+  pagesCount: null,
 };
 
-export const TodoReducer = (state = defaultState, action) => {
+const { GET_TODOS, ADD_TODO, UPDATE_TODO, UPDATE_TODOS, TODOS_AT_PAGE } =
+  constants;
+
+export const TodoReducer = (state = initialState, action) => {
   const { type, payload } = action;
   let todos = [];
 
@@ -17,18 +19,18 @@ export const TodoReducer = (state = defaultState, action) => {
         ...state,
         todos: payload.todos,
         totalCount: payload.count,
-        pages: Math.ceil(payload.count / LIMIT),
+        pagesCount: Math.ceil(payload.count / TODOS_AT_PAGE),
       };
     case ADD_TODO:
       todos =
-        state.todos.length >= LIMIT
-          ? state.todos.slice(0, LIMIT - 1)
+        state.todos.length >= TODOS_AT_PAGE
+          ? state.todos.slice(0, TODOS_AT_PAGE - 1)
           : state.todos;
       return {
         ...state,
         todos: [payload, ...todos],
         totalCount: state.totalCount + 1,
-        pages: Math.ceil((state.totalCount + 1) / LIMIT),
+        pagesCount: Math.ceil((state.totalCount + 1) / TODOS_AT_PAGE),
       };
     case UPDATE_TODO:
       const { id, updatedTodo } = payload;
@@ -42,7 +44,7 @@ export const TodoReducer = (state = defaultState, action) => {
           : item
       );
 
-      return { ...state, todos: todos };
+      return { ...state, todos };
     case UPDATE_TODOS:
       todos = state.todos.map((item) =>
         item.completed !== payload
@@ -53,7 +55,7 @@ export const TodoReducer = (state = defaultState, action) => {
           : item
       );
 
-      return { ...state, todos: todos };
+      return { ...state, todos };
     default:
       return { ...state };
   }

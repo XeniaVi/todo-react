@@ -1,11 +1,11 @@
-import { fetchTodos } from "./fetchTodos";
-import { deleteTodoFromDB } from "../api/todoApi";
+import { fetchTodos } from "./index.js";
+import { deleteTodo as removeTodo } from "../api/todoApi";
 import { setErrorAction } from "../actions";
 
 export const deleteTodo = (id, offset, completed) => {
   return async (dispatch) => {
     try {
-      await deleteTodoFromDB(id);
+      await removeTodo(id);
       dispatch(fetchTodos(offset, completed));
     } catch (e) {
       dispatch(

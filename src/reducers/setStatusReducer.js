@@ -1,25 +1,27 @@
-import {
-  SET_COMPLETED,
-  SET_PAGE,
-  SET_OFFSET,
-  SET_COMPLETED_ALL,
-  SET_COUNT,
-  SET_ERROR,
-  SET_FILTER,
-} from "../constants";
-import { LIMIT } from "../constants";
+import constants from "../constants";
 
-const defaultState = {
+const initialState = {
   completed: null,
   completedAll: false,
   filter: "all",
   offset: 0,
-  page: 1,
+  currentPage: 1,
   count: 0,
   errorMessage: "",
 };
 
-export const setStatusReducer = (state = defaultState, action) => {
+const {
+  SET_COMPLETED,
+  SET_PAGE,
+  SET_OFFSET,
+  SET_COUNT,
+  SET_COMPLETED_ALL,
+  SET_ERROR,
+  SET_FILTER,
+  TODOS_AT_PAGE,
+} = constants;
+
+export const setStatusReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case SET_COMPLETED:
@@ -31,8 +33,8 @@ export const setStatusReducer = (state = defaultState, action) => {
     case SET_PAGE:
       return {
         ...state,
-        offset: (payload - 1) * LIMIT,
-        page: payload,
+        offset: (payload - 1) * TODOS_AT_PAGE,
+        currentPage: payload,
       };
     case SET_OFFSET:
       return {

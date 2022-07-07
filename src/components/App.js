@@ -9,8 +9,7 @@ import {
   setFilterAction,
   setCompletedAllAction,
 } from "../actions";
-import { fetchTodos } from "../asyncActions/fetchTodos";
-import { deleteTodos } from "../asyncActions/deleteTodos";
+import { fetchTodos, deleteTodos } from "../asyncActions";
 import TasksList from "./TasksList";
 import InputTask from "./InputTask";
 import Pagination from "./Pagination";
@@ -63,11 +62,7 @@ const App = () => {
   };
 
   const deleteCompletedTasks = async () => {
-    const ids = items
-      .filter((item) => item.completed)
-      .map((item) => {
-        return item.id;
-      });
+    const ids = items.filter((item) => item.completed).map((item) => item.id);
     dispatch(deleteTodos(ids, offset, completed));
   };
 
@@ -81,49 +76,43 @@ const App = () => {
   }, [items]);
 
   return (
-    <div>
-      <Container>
-        <Title>todos</Title>
-        {errorMessage ? (
-          <ErrorMessage>
-            {errorMessage}{" "}
-            <CloseButton
-              onClick={() => dispatch(setErrorAction(""))}
-            ></CloseButton>
-          </ErrorMessage>
-        ) : (
-          ""
+    <Container>
+      <Title>todos</Title>
+      {errorMessage && (
+        <ErrorMessage>
+          {errorMessage}{" "}
+          <CloseButton
+            onClick={() => dispatch(setErrorAction(""))}
+          ></CloseButton>
+        </ErrorMessage>
+      )}
+      <Wrapper>
+        <InputTask />
+        <Pagination />
+        {items.length && (
+          <div>
+            <TasksList />
+          </div>
         )}
-        <Wrapper>
-          <InputTask />
-          <Pagination />
-          {items.length ? (
-            <div>
-              <TasksList />
-            </div>
-          ) : (
-            ""
-          )}
-          <Footer>
-            <div>{count} items left</div>
-            <FilterWrapper onClick={filterTasks}>
-              <ButtonFooter $mode={filter === "all" ? "select" : ""}>
-                All
-              </ButtonFooter>
-              <ButtonFooter $mode={filter === "active" ? "select" : ""}>
-                Active
-              </ButtonFooter>
-              <ButtonFooter $mode={filter === "completed" ? "select" : ""}>
-                Completed
-              </ButtonFooter>
-            </FilterWrapper>
-            <ButtonFooter onClick={deleteCompletedTasks}>
-              Clear completed
+        <Footer>
+          <div>{count} items left</div>
+          <FilterWrapper onClick={filterTasks}>
+            <ButtonFooter $mode={filter === "all" ? "select" : ""}>
+              All
             </ButtonFooter>
-          </Footer>
-        </Wrapper>
-      </Container>
-    </div>
+            <ButtonFooter $mode={filter === "active" ? "select" : ""}>
+              Active
+            </ButtonFooter>
+            <ButtonFooter $mode={filter === "completed" ? "select" : ""}>
+              Completed
+            </ButtonFooter>
+          </FilterWrapper>
+          <ButtonFooter onClick={deleteCompletedTasks}>
+            Clear completed
+          </ButtonFooter>
+        </Footer>
+      </Wrapper>
+    </Container>
   );
 };
 

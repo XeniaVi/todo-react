@@ -1,15 +1,17 @@
-export const GET_TODOS = "GET_TODOS";
-export const ADD_TODO = "ADD_TODO";
-export const UPDATE_TODO = "UPDATE_TODO";
-export const UPDATE_TODOS = "UPDATE_TODOS";
-export const DELETE_TODO = "DELETE_TODO";
+const constants = {
+  GET_TODOS: "GET_TODOS",
+  ADD_TODO: "ADD_TODO",
+  UPDATE_TODO: "UPDATE_TODO",
+  UPDATE_TODOS: "UPDATE_TODOS",
+  DELETE_TODO: "DELETE_TODO",
+  SET_COMPLETED: "SET_COMPLETED",
+  SET_COMPLETED_ALL: "SET_COMPLETED_ALL",
+  SET_PAGE: "SET_PAGE",
+  SET_OFFSET: "SET_OFFSET",
+  SET_COUNT: "SET_COUNT",
+  SET_ERROR: "SET_ERROR",
+  SET_FILTER: "SET_FILTER",
+  TODOS_AT_PAGE: 5,
+};
 
-export const SET_COMPLETED = "SET_COMPLETED";
-export const SET_COMPLETED_ALL = "SET_COMPLETED_ALL";
-export const SET_PAGE = "SET_PAGE";
-export const SET_OFFSET = "SET_OFFSET";
-export const SET_COUNT = "SET_COUNT";
-export const SET_ERROR = "SET_ERROR";
-export const SET_FILTER = "SET_FILTER";
-
-export const LIMIT = 5;
+export default constants;

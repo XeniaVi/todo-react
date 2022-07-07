@@ -1,27 +1,26 @@
-import { getTodosAction } from "../actions";
 import {
+  getTodosAction,
   setCompletedAllAction,
   setCountAction,
   setErrorAction,
 } from "../actions";
 import { getTodos } from "../api/todoApi";
-import { LIMIT } from "../constants";
+import constants from "../constants";
+
+const { TODOS_AT_PAGE } = constants;
 
 export const fetchTodos = (offset, completed) => {
   return async (dispatch) => {
     try {
-      const response = await getTodos(LIMIT, offset, completed);
-      const items = response.todos;
-
+      const response = await getTodos(TODOS_AT_PAGE, offset, completed);
       dispatch(getTodosAction(response));
-      dispatch(
-        setCompletedAllAction(
-          items.length === items.filter((item) => item.completed).length
-        )
-      );
-      dispatch(setCountAction(items.filter((item) => !item.completed).length));
+
+      const { todos } = response.todos;
+      const length = todos.filter((item) => item.completed).length;
+
+      dispatch(setCompletedAllAction(todos.length === length));
+      dispatch(setCountAction(todos.filter((item) => !item.completed).length));
     } catch (e) {
-      console.log(e);
       dispatch(setErrorAction("Something troubled... Let's update the page!"));
     }
   };

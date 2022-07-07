@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCompletedAllAction } from "../actions";
-import { addTodo } from "../asyncActions/addTodo";
-import { updateTodos } from "../asyncActions/updateTodos";
+import { addTodo, updateTodos } from "../asyncActions";
 
 import {
   InputWrapper,
@@ -15,7 +14,7 @@ function InputTask() {
   const [value, setValue] = useState("");
 
   const dispatch = useDispatch();
-  
+
   const items = useSelector((state) => state.todos.todos);
   const completedAll = useSelector((state) => state.status.completedAll);
 
@@ -53,7 +52,7 @@ function InputTask() {
 
   return (
     <InputWrapper>
-      {items.length ? (
+      {items.length && (
         <CheckboxAbsolute>
           <input
             type="checkbox"
@@ -62,8 +61,6 @@ function InputTask() {
             checked={completedAll}
           />
         </CheckboxAbsolute>
-      ) : (
-        ""
       )}
       <Input
         type="text"

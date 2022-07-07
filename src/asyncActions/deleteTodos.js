@@ -1,4 +1,4 @@
-import { fetchTodos } from "./fetchTodos";
+import { fetchTodos } from "./index.js";
 import { deleteCompleted } from "../api/todoApi";
 import { setErrorAction } from "../actions";
 

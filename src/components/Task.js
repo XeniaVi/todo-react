@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateTodo } from "../asyncActions/updateTodo";
-import { deleteTodo } from "../asyncActions/deleteTodo";
+import { updateTodo, deleteTodo } from "../asyncActions";
 
 import {
   ButtonDelete,
