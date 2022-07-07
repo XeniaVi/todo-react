@@ -15,14 +15,7 @@ import {
   ErrorMessage,
   CloseButton,
 } from "../styles/components";
-import {
-  getTodos,
-  addTodoToDB,
-  deleteTodoFromDB,
-  updateTodoInDB,
-  deleteCompleted,
-  updateCompleted,
-} from "../api/todoApi.js";
+import { deleteCompleted, updateCompleted } from "../api/todoApi.js";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -34,18 +27,6 @@ const App = () => {
   const [selectFilter, setSelectFilter] = useState("all");
   const [completedAll, setCompletedAll] = useState(false); //перенести в status
   const [errorMessage, setError] = useState(""); //перенести в status
-
-  const deleteTask = async (id) => {
-    //переписать с использованием redux
-    try {
-      await deleteTodoFromDB(id);
-      //setItems(items.filter((item) => item.id !== id));
-    } catch (e) {
-      setError("Something troubled with removing... Let's try later");
-    }
-
-    //fetchTodos(limit, offset, completed);
-  };
 
   const filterTasks = (e) => {
     const value = e ? e.target.textContent.toLowerCase() : selectFilter;

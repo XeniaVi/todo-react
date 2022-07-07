@@ -1,4 +1,4 @@
-import { GET_TODOS, ADD_TODO, UPDATE_TODO } from "../constants";
+import { GET_TODOS, ADD_TODO, UPDATE_TODO, DELETE_TODO } from "../constants";
 import { LIMIT } from "../constants";
 
 const defaultState = {
@@ -9,7 +9,7 @@ const defaultState = {
 
 export const TodoReducer = (state = defaultState, action) => {
   const { type, payload } = action;
-  console.log("REDUCER TodoReducer action.type: " + type);
+  console.log("REDUCER TodoReducer action.type: " + type, payload);
 
   switch (type) {
     case GET_TODOS:

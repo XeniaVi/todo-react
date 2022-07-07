@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTodo } from "../asyncActions/updateTodo";
+import { deleteTodo } from "../asyncActions/deleteTodo";
 import {
   ButtonDelete,
   ButtonSave,
@@ -14,6 +15,7 @@ import {
 } from "../styles/components";
 
 function Task({ item }) {
+  const offset = useSelector((state) => state.status.offset);
   const [isEditing, setEditing] = useState(false);
   const [value, setValue] = useState("");
 
@@ -40,7 +42,7 @@ function Task({ item }) {
         <CheckboxList>
           <input
             type="checkbox"
-            checked={item.completed ? true : false}
+            checked={item.completed}
             onChange={() =>
               dispatch(updateTodo(item.id, { completed: !item.completed }))
             }
@@ -63,7 +65,9 @@ function Task({ item }) {
           </EditInput>
         )}
       </TaskInner>
-      <ButtonDelete /*onClick={() => deleteTask(item.id)}*/></ButtonDelete>
+      <ButtonDelete
+        onClick={() => dispatch(deleteTodo(item.id, offset))}
+      ></ButtonDelete>
     </TaskItem>
   );
 }
