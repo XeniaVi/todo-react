@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTodo } from "../asyncActions/addTodo";
+import { updateTodos } from "../asyncActions/updateTodos";
 
 import {
   InputWrapper,
@@ -14,6 +15,19 @@ function InputTask() {
 
   const dispatch = useDispatch();
   const items = useSelector((state) => state.todos.todos);
+  const completedAll = useSelector((state) => state.status.completedAll);
+
+  const toggleAllStatus = async () => {
+    if (completedAll) {
+      const ids = items.map((item) => item.id);
+      dispatch(updateTodos(ids, false));
+    } else {
+      const ids = items
+        .filter((item) => !item.completed)
+        .map((item) => item.id);
+      dispatch(updateTodos(ids, true));
+    }
+  };
 
   const dispatchAddTodo = () => {
     if (!value) return;
@@ -37,9 +51,9 @@ function InputTask() {
         <CheckboxAbsolute>
           <input
             type="checkbox"
-            // onClick={toggleAllStatus}
+            onClick={toggleAllStatus}
             // onChange={handleChangeInputCheckbox}
-            // checked={completedAll}
+            checked={completedAll}
           />
         </CheckboxAbsolute>
       ) : (

@@ -2,18 +2,24 @@ import {
   GET_TODOS,
   ADD_TODO,
   UPDATE_TODO,
+  UPDATE_TODOS,
   SET_COMPLETED,
   SET_PAGE,
   SET_OFFSET,
-  DELETE_TODO,
+  SET_COMPLETED_ALL,
 } from "../constants";
 
 export const getTodosAction = (payload) => ({ type: GET_TODOS, payload });
 export const addTodoAction = (payload) => ({ type: ADD_TODO, payload });
 export const updateTodoAction = (payload) => ({ type: UPDATE_TODO, payload });
+export const updateTodosAction = (payload) => ({ type: UPDATE_TODOS, payload });
 
 export const setCompletedAction = (payload) => ({
   type: SET_COMPLETED,
+  payload,
+});
+export const setCompletedAllAction = (payload) => ({
+  type: SET_COMPLETED_ALL,
   payload,
 });
 export const setPageAction = (payload) => ({

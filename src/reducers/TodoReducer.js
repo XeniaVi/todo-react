@@ -1,4 +1,4 @@
-import { GET_TODOS, ADD_TODO, UPDATE_TODO, DELETE_TODO } from "../constants";
+import { GET_TODOS, ADD_TODO, UPDATE_TODO, UPDATE_TODOS } from "../constants";
 import { LIMIT } from "../constants";
 
 const defaultState = {
@@ -9,6 +9,7 @@ const defaultState = {
 
 export const TodoReducer = (state = defaultState, action) => {
   const { type, payload } = action;
+  let todos = [];
   console.log("REDUCER TodoReducer action.type: " + type, payload);
 
   switch (type) {
@@ -20,7 +21,7 @@ export const TodoReducer = (state = defaultState, action) => {
         pages: Math.ceil(payload.count / LIMIT),
       };
     case ADD_TODO:
-      const todos =
+      todos =
         state.todos.length >= LIMIT
           ? state.todos.slice(0, LIMIT - 1)
           : state.todos;
@@ -33,7 +34,7 @@ export const TodoReducer = (state = defaultState, action) => {
     case UPDATE_TODO:
       const { id, updatedTodo } = payload;
 
-      const todosUpdated = state.todos.map((item) =>
+      todos = state.todos.map((item) =>
         item.id === id
           ? {
               ...item,
@@ -42,7 +43,20 @@ export const TodoReducer = (state = defaultState, action) => {
           : item
       );
 
-      return { ...state, todos: todosUpdated };
+      return { ...state, todos: todos };
+    case UPDATE_TODOS:
+      console.log(111, payload);
+
+      todos = state.todos.map((item) =>
+        item.completed !== payload
+          ? {
+              ...item,
+              completed: payload,
+            }
+          : item
+      );
+
+      return { ...state, todos: todos };
     default:
       return { ...state };
   }

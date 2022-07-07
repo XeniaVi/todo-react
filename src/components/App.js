@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCompletedAction, setPageAction, setOffsetAction } from "../actions";
 import { fetchTodos } from "../asyncActions/fetchTodos";
 import { deleteTodos } from "../asyncActions/deleteTodos";
+import { updateTodos } from "../asyncActions/updateTodos";
 import TasksList from "./TasksList";
 import InputTask from "./InputTask";
 import Pagination from "./Pagination";
@@ -23,10 +24,11 @@ const App = () => {
   const completed = useSelector((state) => state.status.completed);
   const offset = useSelector((state) => state.status.offset);
   const items = useSelector((state) => state.todos.todos);
+  const completedAll = useSelector((state) => state.status.completedAll);
 
   const [count, setCount] = useState(0); //оставляю здесь
   const [selectFilter, setSelectFilter] = useState("all");
-  const [completedAll, setCompletedAll] = useState(false); //перенести в status
+  //const [completedAll, setCompletedAll] = useState(false); //перенести в status
   const [errorMessage, setError] = useState(""); //перенести в status
 
   const filterTasks = (e) => {
@@ -36,17 +38,17 @@ const App = () => {
       case "completed":
         setSelectFilter("completed");
         dispatch(setCompletedAction(true));
-        setCompletedAll(true);
+        //setCompletedAll(true);
         break;
       case "active":
         setSelectFilter("active");
         dispatch(setCompletedAction(false));
-        setCompletedAll(false);
+        //setCompletedAll(false);
         break;
       default:
         setSelectFilter("all");
         dispatch(setCompletedAction(null));
-        setCompletedAll(false);
+      //setCompletedAll(false);
     }
 
     dispatch(setOffsetAction(0));
@@ -67,37 +69,39 @@ const App = () => {
     try {
       if (completedAll) {
         const ids = items.map((item) => item.id);
-
-        await updateCompleted(ids, false);
-
-        //   setItems((prevState) =>
-        //     prevState.map((item) =>
-        //       item.completed
-        //         ? {
-        //             ...item,
-        //             completed: !item.completed,
-        //           }
-        //         : item
-        //     )
-        //   );
-        // } else {
-        //   const ids = items
-        //     .filter((item) => !item.completed)
-        //     .map((item) => item.id);
-
-        await updateCompleted(ids, true);
-
-        // setItems((prevState) =>
-        //   prevState.map((item) =>
-        //     !item.completed
-        //       ? {
-        //           ...item,
-        //           completed: !item.completed,
-        //         }
-        //       : item
-        //   )
-        // );
+        dispatch(updateTodos(ids, false));
+      } else {
+        const ids = items
+          .filter((item) => !item.completed)
+          .map((item) => item.id);
+        dispatch(updateTodos(ids, true));
       }
+
+      //   setItems((prevState) =>
+      //     prevState.map((item) =>
+      //       item.completed
+      //         ? {
+      //             ...item,
+      //             completed: !item.completed,
+      //           }
+      //         : item
+      //     )
+      //   );
+      // } else {
+      //   const ids = items
+      //     .filter((item) => !item.completed)
+      //     .map((item) => item.id);
+
+      // setItems((prevState) =>
+      //   prevState.map((item) =>
+      //     !item.completed
+      //       ? {
+      //           ...item,
+      //           completed: !item.completed,
+      //         }
+      //       : item
+      //   )
+      // );
     } catch (error) {
       setError("Something troubled with updating... Let's try later");
     }
@@ -105,7 +109,7 @@ const App = () => {
 
   const handleChangeInputCheckbox = () => {
     //переписать с использованием redux
-    setCompletedAll(!completedAll);
+    //setCompletedAll(!completedAll);
   };
 
   // const handleChangeItem = (id, completed) => {
