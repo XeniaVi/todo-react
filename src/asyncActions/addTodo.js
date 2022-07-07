@@ -8,7 +8,6 @@ import {
 import { addTodoToDB } from "../api/todoApi";
 
 export const addTodo = (value) => {
-  console.log("addTodo  async action", value);
   return async (dispatch) => {
     try {
       const response = await addTodoToDB({

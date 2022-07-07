@@ -13,7 +13,6 @@ export const fetchTodos = (offset, completed) => {
       const response = await getTodos(LIMIT, offset, completed);
 
       dispatch(getTodosAction(response));
-      console.log(response);
       dispatch(
         setCompletedAllAction(
           LIMIT === response.todos.filter((item) => item.completed).length

@@ -3,11 +3,9 @@ import { deleteTodoFromDB } from "../api/todoApi";
 import { setErrorAction } from "../actions";
 
 export const deleteTodo = (id, offset) => {
-  console.log(id);
   return async (dispatch) => {
     try {
       await deleteTodoFromDB(id);
-      console.log(id);
       dispatch(fetchTodos(offset));
     } catch (e) {
       dispatch(

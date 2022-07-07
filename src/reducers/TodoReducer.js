@@ -10,7 +10,6 @@ const defaultState = {
 export const TodoReducer = (state = defaultState, action) => {
   const { type, payload } = action;
   let todos = [];
-  console.log("REDUCER TodoReducer action.type: " + type, payload);
 
   switch (type) {
     case GET_TODOS:
@@ -45,8 +44,6 @@ export const TodoReducer = (state = defaultState, action) => {
 
       return { ...state, todos: todos };
     case UPDATE_TODOS:
-      console.log(111, payload);
-
       todos = state.todos.map((item) =>
         item.completed !== payload
           ? {

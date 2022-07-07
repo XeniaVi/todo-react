@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setCompletedAction,
@@ -11,7 +11,6 @@ import {
 } from "../actions";
 import { fetchTodos } from "../asyncActions/fetchTodos";
 import { deleteTodos } from "../asyncActions/deleteTodos";
-import { updateTodos } from "../asyncActions/updateTodos";
 import TasksList from "./TasksList";
 import InputTask from "./InputTask";
 import Pagination from "./Pagination";

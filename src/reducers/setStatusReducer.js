@@ -20,7 +20,6 @@ const defaultState = {
 };
 
 export const setStatusReducer = (state = defaultState, action) => {
-  console.log("REDUCER setStatus action.type: " + action.type);
   const { type, payload } = action;
   switch (type) {
     case SET_COMPLETED:

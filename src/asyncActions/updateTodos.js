@@ -3,9 +3,7 @@ import { setCompletedAllAction } from "../actions";
 import { updateCompleted } from "../api/todoApi";
 
 export const updateTodos = (ids, completed) => {
-  console.log("addTodo  async action", completed);
   return async (dispatch) => {
-    console.log(111, dispatch);
     try {
       await updateCompleted(ids, completed);
 
