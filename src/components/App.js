@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCompletedAction, setPageAction, setOffsetAction } from "../actions";
 import { fetchTodos } from "../asyncActions/fetchTodos";
+import { deleteTodos } from "../asyncActions/deleteTodos";
 import TasksList from "./TasksList";
 import InputTask from "./InputTask";
 import Pagination from "./Pagination";
@@ -53,22 +54,12 @@ const App = () => {
   };
 
   const deleteCompletedTasks = async () => {
-    //переписать с использованием redux
-    try {
-      const ids = items
-        .filter((item) => item.completed)
-        .map((item) => {
-          return item.id;
-        });
-
-      await deleteCompleted(ids);
-
-      //setItems((prevState) => prevState.filter((item) => !item.completed));
-    } catch (error) {
-      setError("Something troubled with removing... Let's try later");
-    }
-
-    //fetchTodos(limit, offset, completed);
+    const ids = items
+      .filter((item) => item.completed)
+      .map((item) => {
+        return item.id;
+      });
+    dispatch(deleteTodos(ids, offset));
   };
 
   const toggleAllStatus = async () => {

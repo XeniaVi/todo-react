@@ -1,12 +1,12 @@
 import { fetchTodos } from "./fetchTodos";
-import { deleteTodoFromDB } from "../api/todoApi";
+import { deleteCompleted } from "../api/todoApi";
 
-export const deleteTodo = (id, offset) => {
-  console.log(id);
+export const deleteTodos = (ids, offset) => {
+  console.log(ids);
   return async (dispatch) => {
     try {
-      await deleteTodoFromDB(id);
-      console.log(id);
+      await deleteCompleted(ids);
+      console.log(ids);
       dispatch(fetchTodos(offset));
     } catch (e) {
       console.log(e);
