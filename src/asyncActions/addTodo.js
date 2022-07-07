@@ -3,6 +3,7 @@ import {
   setErrorAction,
   setCompletedAction,
   setCompletedAllAction,
+  setFilterAction,
 } from "../actions";
 import { addTodoToDB } from "../api/todoApi";
 
@@ -19,6 +20,7 @@ export const addTodo = (value) => {
       dispatch(addTodoAction(response));
       dispatch(setCompletedAction(null));
       dispatch(setCompletedAllAction(false));
+      dispatch(setFilterAction("all"));
     } catch (e) {
       dispatch(
         setErrorAction("Something troubled with adding... Let's try later!")
