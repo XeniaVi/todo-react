@@ -6,6 +6,7 @@ import { Tasks } from "../styles/components";
 
 function TasksList() {
   const dispatch = useDispatch();
+
   const items = useSelector((state) => state.todos.todos);
   const page = useSelector((state) => state.status.page);
   const completed = useSelector((state) => state.status.completed);

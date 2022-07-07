@@ -15,6 +15,7 @@ function InputTask() {
   const [value, setValue] = useState("");
 
   const dispatch = useDispatch();
+  
   const items = useSelector((state) => state.todos.todos);
   const completedAll = useSelector((state) => state.status.completedAll);
 

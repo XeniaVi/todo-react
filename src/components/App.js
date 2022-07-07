@@ -27,9 +27,10 @@ import {
 
 const App = () => {
   const dispatch = useDispatch();
+
+  const items = useSelector((state) => state.todos.todos);
   const offset = useSelector((state) => state.status.offset);
   const completed = useSelector((state) => state.status.completed);
-  const items = useSelector((state) => state.todos.todos);
   const count = useSelector((state) => state.status.count);
   const errorMessage = useSelector((state) => state.status.errorMessage);
   const filter = useSelector((state) => state.status.filter);
@@ -42,16 +43,19 @@ const App = () => {
         dispatch(setCompletedAction(true));
         dispatch(setFilterAction("completed"));
         dispatch(setCompletedAllAction(true));
+        dispatch(fetchTodos(offset, true));
         break;
       case "active":
         dispatch(setFilterAction("active"));
         dispatch(setCompletedAction(false));
         dispatch(setCompletedAllAction(false));
+        dispatch(fetchTodos(offset, false));
         break;
       default:
         dispatch(setFilterAction("all"));
         dispatch(setCompletedAction(null));
         dispatch(setCompletedAllAction(false));
+        dispatch(fetchTodos(offset, null));
     }
 
     dispatch(setOffsetAction(0));
@@ -96,27 +100,27 @@ const App = () => {
           {items.length ? (
             <div>
               <TasksList />
-              <Footer>
-                <div>{count} items left</div>
-                <FilterWrapper onClick={filterTasks}>
-                  <ButtonFooter $mode={filter === "all" ? "select" : ""}>
-                    All
-                  </ButtonFooter>
-                  <ButtonFooter $mode={filter === "active" ? "select" : ""}>
-                    Active
-                  </ButtonFooter>
-                  <ButtonFooter $mode={filter === "completed" ? "select" : ""}>
-                    Completed
-                  </ButtonFooter>
-                </FilterWrapper>
-                <ButtonFooter onClick={deleteCompletedTasks}>
-                  Clear completed
-                </ButtonFooter>
-              </Footer>
             </div>
           ) : (
             ""
           )}
+          <Footer>
+            <div>{count} items left</div>
+            <FilterWrapper onClick={filterTasks}>
+              <ButtonFooter $mode={filter === "all" ? "select" : ""}>
+                All
+              </ButtonFooter>
+              <ButtonFooter $mode={filter === "active" ? "select" : ""}>
+                Active
+              </ButtonFooter>
+              <ButtonFooter $mode={filter === "completed" ? "select" : ""}>
+                Completed
+              </ButtonFooter>
+            </FilterWrapper>
+            <ButtonFooter onClick={deleteCompletedTasks}>
+              Clear completed
+            </ButtonFooter>
+          </Footer>
         </Wrapper>
       </Container>
     </div>

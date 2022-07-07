@@ -11,16 +11,15 @@ export const fetchTodos = (offset, completed) => {
   return async (dispatch) => {
     try {
       const response = await getTodos(LIMIT, offset, completed);
+      const items = response.todos;
 
       dispatch(getTodosAction(response));
       dispatch(
         setCompletedAllAction(
-          LIMIT === response.todos.filter((item) => item.completed).length
+          items.length === items.filter((item) => item.completed).length
         )
       );
-      dispatch(
-        setCountAction(response.todos.filter((item) => !item.completed).length)
-      );
+      dispatch(setCountAction(items.filter((item) => !item.completed).length));
     } catch (e) {
       console.log(e);
       dispatch(setErrorAction("Something troubled... Let's update the page!"));

@@ -17,6 +17,7 @@ import {
 
 function Task({ item }) {
   const offset = useSelector((state) => state.status.offset);
+  const completed = useSelector((state) => state.status.completed);
   const [isEditing, setEditing] = useState(false);
   const [value, setValue] = useState("");
 
@@ -67,7 +68,7 @@ function Task({ item }) {
         )}
       </TaskInner>
       <ButtonDelete
-        onClick={() => dispatch(deleteTodo(item.id, offset))}
+        onClick={() => dispatch(deleteTodo(item.id, offset, completed))}
       ></ButtonDelete>
     </TaskItem>
   );

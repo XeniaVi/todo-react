@@ -10,9 +10,10 @@ import {
 } from "../styles/components";
 
 function Pagination() {
+  const dispatch = useDispatch();
+
   const pages = useSelector((state) => state.todos.pages);
   const page = useSelector((state) => state.status.page);
-  const dispatch = useDispatch();
 
   const getPageList = () => {
     const list = [];
