@@ -25,7 +25,7 @@ function Task({ item }) {
   };
 
   const saveItem = () => {
-    dispatch(updateTodo(item.id, value));
+    dispatch(updateTodo(item.id, { value }));
     setEditing(false);
     setValue("");
   };
@@ -35,38 +35,36 @@ function Task({ item }) {
   };
 
   return (
-    <div>
-      <TaskItem>
-        <TaskInner>
-          <CheckboxList>
-            <input
-              type="checkbox"
-              checked={item.completed ? true : false}
-              onChange={() => dispatch(updateTodo(item.id, !item.completed))}
-            />
-          </CheckboxList>
-          {!isEditing ? (
-            <TaskText
-              onDoubleClick={startEdit}
-              $mode={item.completed ? "done" : ""}
-            >
-              {item.value}
-            </TaskText>
-          ) : (
-            <EditInput>
-              <Input type="text" value={value} onChange={handleChange} />
-              <ButtonSave onClick={() => saveItem(item.id, item.completed)}>
-                Save
-              </ButtonSave>
-              <ButtonCancel onClick={() => setEditing(false)}>
-                Cancel
-              </ButtonCancel>
-            </EditInput>
-          )}
-        </TaskInner>
-        <ButtonDelete /*onClick={() => deleteTask(item.id)}*/></ButtonDelete>
-      </TaskItem>
-    </div>
+    <TaskItem>
+      <TaskInner>
+        <CheckboxList>
+          <input
+            type="checkbox"
+            checked={item.completed ? true : false}
+            onChange={() =>
+              dispatch(updateTodo(item.id, { completed: !item.completed }))
+            }
+          />
+        </CheckboxList>
+        {!isEditing ? (
+          <TaskText
+            onDoubleClick={startEdit}
+            $mode={item.completed ? "done" : ""}
+          >
+            {item.value}
+          </TaskText>
+        ) : (
+          <EditInput>
+            <Input type="text" value={value} onChange={handleChange} />
+            <ButtonSave onClick={() => saveItem()}>Save</ButtonSave>
+            <ButtonCancel onClick={() => setEditing(false)}>
+              Cancel
+            </ButtonCancel>
+          </EditInput>
+        )}
+      </TaskInner>
+      <ButtonDelete /*onClick={() => deleteTask(item.id)}*/></ButtonDelete>
+    </TaskItem>
   );
 }
 

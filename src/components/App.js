@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCompletedAction, setPageAction, setOffsetAction } from "../actions";
+import { fetchTodos } from "../asyncActions/fetchTodos";
 import TasksList from "./TasksList";
 import InputTask from "./InputTask";
 import Pagination from "./Pagination";
@@ -26,51 +27,25 @@ import {
 const App = () => {
   const dispatch = useDispatch();
   const completed = useSelector((state) => state.status.completed);
+  const offset = useSelector((state) => state.status.offset);
+  const items = useSelector((state) => state.todos.todos);
 
-  const limit = 5;
-  const [items, setItems] = useState([]);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0); //оставляю здесь
   const [selectFilter, setSelectFilter] = useState("all");
-  // const [completed, setCompleted] = useState(null);
-  const [completedAll, setCompletedAll] = useState(false);
-  const [errorMessage, setError] = useState("");
-  const [offset, setOffset] = useState(0);
-  const [totalCount, setTotalCount] = useState(0);
-  const [page, setPage] = useState(1);
+  const [completedAll, setCompletedAll] = useState(false); //перенести в status
+  const [errorMessage, setError] = useState(""); //перенести в status
 
   const deleteTask = async (id) => {
+    //переписать с использованием redux
     try {
       await deleteTodoFromDB(id);
-      setItems(items.filter((item) => item.id !== id));
+      //setItems(items.filter((item) => item.id !== id));
     } catch (e) {
       setError("Something troubled with removing... Let's try later");
     }
 
-    fetchTodos(limit, offset, completed);
+    //fetchTodos(limit, offset, completed);
   };
-
-  // const changeStatus = async (id, completed) => {
-  //   try {
-  //     const post = { completed };
-
-  //     await updateTodoInDB(id, post);
-
-  //     setItems((prevState) =>
-  //       prevState.map((item) =>
-  //         item.id === id
-  //           ? {
-  //               ...item,
-  //               completed: !item.completed,
-  //             }
-  //           : item
-  //       )
-  //     );
-
-  //     setCompletedAll(false);
-  //   } catch (e) {
-  //     setError("Something troubled with updating... Let's try later");
-  //   }
-  // };
 
   const filterTasks = (e) => {
     const value = e ? e.target.textContent.toLowerCase() : selectFilter;
@@ -97,6 +72,7 @@ const App = () => {
   };
 
   const deleteCompletedTasks = async () => {
+    //переписать с использованием redux
     try {
       const ids = items
         .filter((item) => item.completed)
@@ -106,91 +82,57 @@ const App = () => {
 
       await deleteCompleted(ids);
 
-      setItems((prevState) => prevState.filter((item) => !item.completed));
+      //setItems((prevState) => prevState.filter((item) => !item.completed));
     } catch (error) {
       setError("Something troubled with removing... Let's try later");
     }
 
-    fetchTodos(limit, offset, completed);
+    //fetchTodos(limit, offset, completed);
   };
 
-  // const editTask = async (id, value) => {
-  //   try {
-  //     const post = { value };
-  //     await updateTodoInDB(id, post);
-
-  //     setItems((prevState) =>
-  //       prevState.map((item) =>
-  //         item.id === id
-  //           ? {
-  //               ...item,
-  //               value: value,
-  //             }
-  //           : item
-  //       )
-  //     );
-  //   } catch (e) {
-  //     setError("Something troubled with updating... Let's try later");
-  //   }
-  // };
-
   const toggleAllStatus = async () => {
+    //переписать с использованием redux
     try {
       if (completedAll) {
         const ids = items.map((item) => item.id);
 
         await updateCompleted(ids, false);
 
-        setItems((prevState) =>
-          prevState.map((item) =>
-            item.completed
-              ? {
-                  ...item,
-                  completed: !item.completed,
-                }
-              : item
-          )
-        );
-      } else {
-        const ids = items
-          .filter((item) => !item.completed)
-          .map((item) => item.id);
+        //   setItems((prevState) =>
+        //     prevState.map((item) =>
+        //       item.completed
+        //         ? {
+        //             ...item,
+        //             completed: !item.completed,
+        //           }
+        //         : item
+        //     )
+        //   );
+        // } else {
+        //   const ids = items
+        //     .filter((item) => !item.completed)
+        //     .map((item) => item.id);
 
         await updateCompleted(ids, true);
 
-        setItems((prevState) =>
-          prevState.map((item) =>
-            !item.completed
-              ? {
-                  ...item,
-                  completed: !item.completed,
-                }
-              : item
-          )
-        );
+        // setItems((prevState) =>
+        //   prevState.map((item) =>
+        //     !item.completed
+        //       ? {
+        //           ...item,
+        //           completed: !item.completed,
+        //         }
+        //       : item
+        //   )
+        // );
       }
     } catch (error) {
       setError("Something troubled with updating... Let's try later");
     }
   };
 
-  const fetchTodos = async (limit, offset, completed) => {
-    try {
-      const { todos, count } = await getTodos(limit, offset, completed);
-
-      setItems(todos);
-      setTotalCount(count);
-    } catch (e) {
-      setError("Something troubled... Let's update the page!");
-    }
-  };
-
-  const switchPages = async (value) => {
-    setPage(value);
-    setOffset((value - 1) * limit);
-  };
-
   const handleChangeInputCheckbox = () => {
+    //переписать с использованием redux
     setCompletedAll(!completedAll);
   };
 
@@ -199,13 +141,8 @@ const App = () => {
   // };
 
   useEffect(() => {
-    setError("");
-    setCount(items.filter((item) => !item.completed).length);
-  }, [items]);
-
-  useEffect(() => {
-    fetchTodos(limit, offset, completed);
-  }, [page, completed]);
+    dispatch(fetchTodos(offset));
+  }, []);
 
   return (
     <div>
@@ -220,27 +157,11 @@ const App = () => {
           ""
         )}
         <Wrapper>
-          <InputTask
-          // handleChange={handleChange}
-          // handleKeyDown={handleKeyDown}
-          // toggleAllStatus={toggleAllStatus}
-          // completedAll={completedAll}
-          // handleChangeInputCheckbox={handleChangeInputCheckbox}
-          />
-          <Pagination
-            page={page}
-            switchPages={switchPages}
-            totalCount={totalCount}
-            limit={limit}
-          />
+          <InputTask />
+          <Pagination />
           {items.length ? (
             <div>
-              <TasksList
-              // items={items}
-              // deleteTask={deleteTask}
-              // editTask={editTask}
-              // handleChangeItem={handleChangeItem}
-              />
+              <TasksList />
               <Footer>
                 <div>{count} items left</div>
                 <FilterWrapper onClick={filterTasks}>

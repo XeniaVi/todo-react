@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import { setStatus } from "./setStatus";
-import { updateTodos } from "./updateTodos";
+import { setStatusReducer } from "./setStatusReducer";
+import { TodoReducer } from "./TodoReducer";
 
 const rootReducer = combineReducers({
-  todos: updateTodos,
-  status: setStatus,
+  todos: TodoReducer,
+  status: setStatusReducer,
 });
 
 export default rootReducer;

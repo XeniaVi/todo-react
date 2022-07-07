@@ -7,16 +7,17 @@ const defaultState = {
   pages: null,
 };
 
-export const updateTodos = (state = defaultState, action) => {
-  console.log("REDUCER UpdateTodos action.type: " + action.type);
-  console.log(action.payload);
-  switch (action.type) {
+export const TodoReducer = (state = defaultState, action) => {
+  const { type, payload } = action;
+  console.log("REDUCER TodoReducer action.type: " + type);
+
+  switch (type) {
     case GET_TODOS:
       return {
         ...state,
-        todos: action.payload.todos,
-        totalCount: action.payload.count,
-        pages: Math.ceil(action.payload.count / LIMIT),
+        todos: payload.todos,
+        totalCount: payload.count,
+        pages: Math.ceil(payload.count / LIMIT),
       };
     case ADD_TODO:
       const todos =
@@ -25,21 +26,22 @@ export const updateTodos = (state = defaultState, action) => {
           : state.todos;
       return {
         ...state,
-        todos: [action.payload, ...todos],
+        todos: [payload, ...todos],
         totalCount: state.totalCount + 1,
         pages: Math.ceil((state.totalCount + 1) / LIMIT),
       };
     case UPDATE_TODO:
-      const { id, post } = action.payload;
-      console.log(id, post);
+      const { id, updatedTodo } = payload;
+
       const todosUpdated = state.todos.map((item) =>
         item.id === id
           ? {
               ...item,
-              ...post,
+              ...updatedTodo,
             }
           : item
       );
+
       return { ...state, todos: todosUpdated };
     default:
       return { ...state };

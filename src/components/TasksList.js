@@ -13,9 +13,6 @@ function TasksList() {
 
   console.log(offset);
 
-  useEffect(() => {
-    dispatch(fetchTodos(offset));
-  }, []);
 
   useEffect(() => {
     dispatch(fetchTodos(offset, completed));

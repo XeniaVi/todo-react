@@ -1,15 +1,14 @@
 import { updateTodoAction } from "../actions";
 import { updateTodoInDB } from "../api/todoApi";
 
-export const updateTodo = (id, value) => {
-  console.log("addTodo  async action", value);
+export const updateTodo = (id, updatedTodo) => {
+  console.log("addTodo  async action", updatedTodo);
   return async (dispatch) => {
+    console.log(111, dispatch);
     try {
-      const post =
-        typeof value === "string " ? { value } : { completed: value };
-      await updateTodoInDB(id, post);
+      const res = await updateTodoInDB(id, updatedTodo);
 
-      dispatch(updateTodoAction({ id, post }));
+      dispatch(updateTodoAction({ id, updatedTodo }));
       // setCompletedAll(false);
     } catch (e) {
       console.log(e);

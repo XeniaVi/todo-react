@@ -8,7 +8,7 @@ const defaultState = {
   page: 1,
 };
 
-export const setStatus = (state = defaultState, action) => {
+export const setStatusReducer = (state = defaultState, action) => {
   console.log("REDUCER setStatus action.type: " + action.type);
   switch (action.type) {
     case SET_COMPLETED:
