@@ -7,6 +7,7 @@ import {
   SET_PAGE,
   SET_OFFSET,
   SET_COMPLETED_ALL,
+  SET_COUNT,
 } from "../constants";
 
 export const getTodosAction = (payload) => ({ type: GET_TODOS, payload });
@@ -28,5 +29,9 @@ export const setPageAction = (payload) => ({
 });
 export const setOffsetAction = (payload) => ({
   type: SET_OFFSET,
+  payload,
+});
+export const setCountAction = (payload) => ({
+  type: SET_COUNT,
   payload,
 });

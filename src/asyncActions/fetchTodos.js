@@ -1,5 +1,5 @@
 import { getTodosAction } from "../actions";
-import { setCompletedAllAction } from "../actions";
+import { setCompletedAllAction, setCountAction } from "../actions";
 import { getTodos } from "../api/todoApi";
 import { LIMIT } from "../constants";
 
@@ -14,6 +14,9 @@ export const fetchTodos = (offset, completed) => {
         setCompletedAllAction(
           LIMIT === response.todos.filter((item) => item.completed).length
         )
+      );
+      dispatch(
+        setCountAction(response.todos.filter((item) => !item.completed).length)
       );
     } catch (e) {
       console.log(e);

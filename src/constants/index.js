@@ -8,5 +8,6 @@ export const SET_COMPLETED = "SET_COMPLETED";
 export const SET_COMPLETED_ALL = "SET_COMPLETED_ALL";
 export const SET_PAGE = "SET_PAGE";
 export const SET_OFFSET = "SET_OFFSET";
+export const SET_COUNT = "SET_COUNT";
 
 export const LIMIT = 5;

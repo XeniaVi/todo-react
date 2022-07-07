@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCompletedAction, setPageAction, setOffsetAction } from "../actions";
+import {
+  setCompletedAction,
+  setPageAction,
+  setOffsetAction,
+  setCountAction,
+} from "../actions";
 import { fetchTodos } from "../asyncActions/fetchTodos";
 import { deleteTodos } from "../asyncActions/deleteTodos";
 import { updateTodos } from "../asyncActions/updateTodos";
@@ -17,7 +22,6 @@ import {
   ErrorMessage,
   CloseButton,
 } from "../styles/components";
-import { deleteCompleted, updateCompleted } from "../api/todoApi.js";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -25,10 +29,9 @@ const App = () => {
   const offset = useSelector((state) => state.status.offset);
   const items = useSelector((state) => state.todos.todos);
   const completedAll = useSelector((state) => state.status.completedAll);
+  const count = useSelector((state) => state.status.count);
 
-  const [count, setCount] = useState(0); //оставляю здесь
   const [selectFilter, setSelectFilter] = useState("all");
-  //const [completedAll, setCompletedAll] = useState(false); //перенести в status
   const [errorMessage, setError] = useState(""); //перенести в status
 
   const filterTasks = (e) => {
@@ -119,6 +122,10 @@ const App = () => {
   useEffect(() => {
     dispatch(fetchTodos(offset));
   }, []);
+
+  useEffect(() => {
+    dispatch(setCountAction(items.filter((item) => !item.completed).length));
+  }, [items]);
 
   return (
     <div>

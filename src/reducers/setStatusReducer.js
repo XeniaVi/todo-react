@@ -4,6 +4,7 @@ import {
   SET_PAGE,
   SET_OFFSET,
   SET_COMPLETED_ALL,
+  SET_COUNT,
 } from "../constants";
 import { LIMIT } from "../constants";
 
@@ -12,6 +13,7 @@ const defaultState = {
   completedAll: false,
   offset: 0,
   page: 1,
+  count: 0,
 };
 
 export const setStatusReducer = (state = defaultState, action) => {
@@ -37,6 +39,8 @@ export const setStatusReducer = (state = defaultState, action) => {
       };
     case SET_COMPLETED_ALL:
       return { ...state, completedAll: payload };
+    case SET_COUNT:
+      return { ...state, count: payload };
     default:
       return { ...state };
   }
