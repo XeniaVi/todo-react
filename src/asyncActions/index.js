@@ -53,7 +53,6 @@ export const addTodo = (value) => {
       dispatch(setCompletedAllAction(false));
       dispatch(setFilterAction("all"));
     } catch (e) {
-      console.log(e.response.data.message);
       dispatch(setErrorAction(`${e.response.data.message} Try later...`));
     }
   };
