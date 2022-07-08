@@ -1,61 +1,47 @@
-import constants from "../constants";
-
-const {
-  GET_TODOS,
-  ADD_TODO,
-  UPDATE_TODO,
-  UPDATE_TODOS,
-  SET_COMPLETED,
-  SET_COMPLETED_ALL,
-  SET_PAGE,
-  SET_OFFSET,
-  SET_FILTER,
-  SET_COUNT,
-  SET_ERROR,
-} = constants;
+import { ReducersConstants } from "../constants";
 
 export const getTodosAction = (payload) => ({
-  type: GET_TODOS,
+  type: ReducersConstants.GET_TODOS,
   payload,
 });
 export const addTodoAction = (payload) => ({
-  type: ADD_TODO,
+  type: ReducersConstants.ADD_TODO,
   payload,
 });
 export const updateTodoAction = (payload) => ({
-  type: UPDATE_TODO,
+  type: ReducersConstants.UPDATE_TODO,
   payload,
 });
 export const updateTodosAction = (payload) => ({
-  type: UPDATE_TODOS,
+  type: ReducersConstants.UPDATE_TODOS,
   payload,
 });
 
 export const setCompletedAction = (payload) => ({
-  type: SET_COMPLETED,
+  type: ReducersConstants.SET_COMPLETED,
   payload,
 });
 export const setCompletedAllAction = (payload) => ({
-  type: SET_COMPLETED_ALL,
+  type: ReducersConstants.SET_COMPLETED_ALL,
   payload,
 });
 export const setPageAction = (payload) => ({
-  type: SET_PAGE,
+  type: ReducersConstants.SET_PAGE,
   payload,
 });
 export const setOffsetAction = (payload) => ({
-  type: SET_OFFSET,
+  type: ReducersConstants.SET_OFFSET,
   payload,
 });
 export const setCountAction = (payload) => ({
-  type: SET_COUNT,
+  type: ReducersConstants.SET_COUNT,
   payload,
 });
 export const setErrorAction = (payload) => ({
-  type: SET_ERROR,
+  type: ReducersConstants.SET_ERROR,
   payload,
 });
 export const setFilterAction = (payload) => ({
-  type: SET_FILTER,
+  type: ReducersConstants.SET_FILTER,
   payload,
 });

@@ -1,4 +1,4 @@
-const constants = {
+export const ReducersConstants = {
   GET_TODOS: "GET_TODOS",
   ADD_TODO: "ADD_TODO",
   UPDATE_TODO: "UPDATE_TODO",
@@ -11,7 +11,4 @@ const constants = {
   SET_COUNT: "SET_COUNT",
   SET_ERROR: "SET_ERROR",
   SET_FILTER: "SET_FILTER",
-  TODOS_AT_PAGE: 5,
 };
-
-export default constants;
