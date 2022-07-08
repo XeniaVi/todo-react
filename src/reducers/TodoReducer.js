@@ -17,20 +17,18 @@ export const TodoReducer = (state = initialState, action) => {
         ...state,
         todos: payload.todos,
         totalCount: payload.count,
-        pagesCount: Math.ceil(payload.count / config.TODOS_AT_PAGE),
+        pagesCount: Math.ceil(payload.count / config.TODOS_PER_PAGE),
       };
     case ReducersConstants.ADD_TODO:
       todos =
-        state.todos.length >= config.TODOS_AT_PAGE
-          ? state.todos.slice(0, config.TODOS_AT_PAGE - 1)
+        state.todos.length >= config.TODOS_PER_PAGE
+          ? state.todos.slice(0, config.TODOS_PER_PAGE - 1)
           : state.todos;
       return {
         ...state,
         todos: [payload, ...todos],
         totalCount: state.totalCount + 1,
-        pagesCount: Math.ceil(
-          (state.totalCount + 1) / config.TODOS_AT_PAGE
-        ),
+        pagesCount: Math.ceil((state.totalCount + 1) / config.TODOS_PER_PAGE),
       };
     case ReducersConstants.UPDATE_TODO:
       const { id, updatedTodo } = payload;

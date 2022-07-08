@@ -23,7 +23,7 @@ export const setStatusReducer = (state = initialState, action) => {
     case ReducersConstants.SET_PAGE:
       return {
         ...state,
-        offset: (payload - 1) * config.TODOS_AT_PAGE,
+        offset: (payload - 1) * config.TODOS_PER_PAGE,
         currentPage: payload,
       };
     case ReducersConstants.SET_OFFSET:

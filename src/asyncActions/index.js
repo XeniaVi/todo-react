@@ -22,7 +22,7 @@ import { config } from "../config/config.js";
 export const fetchTodos = (offset, completed) => {
   return async (dispatch) => {
     try {
-      const response = await getTodos(config.TODOS_AT_PAGE, offset, completed);
+      const response = await getTodos(config.TODOS_PER_PAGE, offset, completed);
       dispatch(getTodosAction(response));
 
       const length = response.todos.filter((item) => item.completed).length;
