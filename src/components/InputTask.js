@@ -1,3 +1,8 @@
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setCompletedAllAction } from "../actions";
+import { addTodo, updateTodos } from "../asyncActions";
+
 import {
   InputWrapper,
   Input,
@@ -5,19 +10,49 @@ import {
   CheckboxAbsolute,
 } from "../styles/components";
 
-function InputTask({
-  addTask,
-  handleChange,
-  handleKeyDown,
-  value,
-  length,
-  toggleAllStatus,
-  completedAll,
-  handleChangeInputCheckbox,
-}) {
+function InputTask() {
+  const [value, setValue] = useState("");
+
+  const dispatch = useDispatch();
+
+  const items = useSelector((state) => state.todos.todos);
+  const completedAll = useSelector((state) => state.status.completedAll);
+
+  const toggleAllStatus = async () => {
+    if (completedAll) {
+      const ids = items.map((item) => item.id);
+      dispatch(updateTodos(ids, false));
+    } else {
+      const ids = items
+        .filter((item) => !item.completed)
+        .map((item) => item.id);
+      dispatch(updateTodos(ids, true));
+    }
+  };
+
+  const dispatchAddTodo = () => {
+    if (!value) return;
+    dispatch(addTodo(value));
+    setValue("");
+  };
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.code === "Enter") {
+      dispatchAddTodo();
+    }
+  };
+
+  const handleChangeInputCheckbox = () => {
+    dispatch(setCompletedAllAction(completedAll));
+  };
+
   return (
     <InputWrapper>
-      {length ? (
+      {items.length && (
         <CheckboxAbsolute>
           <input
             type="checkbox"
@@ -26,8 +61,6 @@ function InputTask({
             checked={completedAll}
           />
         </CheckboxAbsolute>
-      ) : (
-        ""
       )}
       <Input
         type="text"
@@ -36,7 +69,7 @@ function InputTask({
         onKeyDown={handleKeyDown}
         value={value}
       />
-      <Button onClick={addTask}>Add</Button>
+      <Button onClick={dispatchAddTodo}>Add</Button>
     </InputWrapper>
   );
 }

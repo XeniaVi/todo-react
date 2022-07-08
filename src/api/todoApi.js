@@ -9,17 +9,17 @@ export const getTodos = async (limit, offset, completed) => {
   return response.data;
 };
 
-export const addTodoToDB = async (item) => {
+export const addTodo = async (item) => {
   const response = await axios.post(config.API_URL, item);
   return response.data;
 };
 
-export const deleteTodoFromDB = async (id) => {
+export const deleteTodo = async (id) => {
   return axios.delete(`${config.API_URL}/${id}`, id);
 };
 
-export const updateTodoInDB = async (id, post) => {
-  const response = await axios.put(`${config.API_URL}/${id}`, post);
+export const updateTodo = async (id, updatedTodo) => {
+  const response = await axios.put(`${config.API_URL}/${id}`, updatedTodo);
   return response.data;
 };
 

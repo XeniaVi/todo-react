@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateTodo, deleteTodo } from "../asyncActions";
+
 import {
   ButtonDelete,
   ButtonSave,
@@ -11,17 +14,21 @@ import {
   TaskText,
 } from "../styles/components";
 
-function Task({ item, deleteTask, editTask, handleChangeItem }) {
+function Task({ item }) {
+  const offset = useSelector((state) => state.status.offset);
+  const completed = useSelector((state) => state.status.completed);
   const [isEditing, setEditing] = useState(false);
   const [value, setValue] = useState("");
+
+  const dispatch = useDispatch();
 
   const startEdit = () => {
     setEditing(true);
     setValue(item.value);
   };
 
-  const saveItem = (id) => {
-    editTask(id, value);
+  const saveItem = () => {
+    dispatch(updateTodo(item.id, { value }));
     setEditing(false);
     setValue("");
   };
@@ -31,38 +38,38 @@ function Task({ item, deleteTask, editTask, handleChangeItem }) {
   };
 
   return (
-    <div>
-      <TaskItem>
-        <TaskInner>
-          <CheckboxList>
-            <input
-              type="checkbox"
-              checked={item.completed}
-              onChange={() => handleChangeItem(item.id, !item.completed)}
-            />
-          </CheckboxList>
-          {!isEditing ? (
-            <TaskText
-              onDoubleClick={startEdit}
-              $mode={item.completed ? "done" : ""}
-            >
-              {item.value}
-            </TaskText>
-          ) : (
-            <EditInput>
-              <Input type="text" value={value} onChange={handleChange} />
-              <ButtonSave onClick={() => saveItem(item.id, item.completed)}>
-                Save
-              </ButtonSave>
-              <ButtonCancel onClick={() => setEditing(false)}>
-                Cancel
-              </ButtonCancel>
-            </EditInput>
-          )}
-        </TaskInner>
-        <ButtonDelete onClick={() => deleteTask(item.id)}></ButtonDelete>
-      </TaskItem>
-    </div>
+    <TaskItem>
+      <TaskInner>
+        <CheckboxList>
+          <input
+            type="checkbox"
+            checked={item.completed}
+            onChange={() =>
+              dispatch(updateTodo(item.id, { completed: !item.completed }))
+            }
+          />
+        </CheckboxList>
+        {!isEditing ? (
+          <TaskText
+            onDoubleClick={startEdit}
+            $mode={item.completed ? "done" : ""}
+          >
+            {item.value}
+          </TaskText>
+        ) : (
+          <EditInput>
+            <Input type="text" value={value} onChange={handleChange} />
+            <ButtonSave onClick={() => saveItem()}>Save</ButtonSave>
+            <ButtonCancel onClick={() => setEditing(false)}>
+              Cancel
+            </ButtonCancel>
+          </EditInput>
+        )}
+      </TaskInner>
+      <ButtonDelete
+        onClick={() => dispatch(deleteTodo(item.id, offset, completed))}
+      ></ButtonDelete>
+    </TaskItem>
   );
 }
 
