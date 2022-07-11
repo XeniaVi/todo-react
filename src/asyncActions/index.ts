@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
 import { Action } from "redux";
 import { RootState } from '../store'
-import { ThunkAction } from 'redux-thunk'
+import { ThunkAction, ThunkDispatch } from 'redux-thunk'
 import { AnyAction } from 'redux';
 import {
   getTodosAction,
@@ -23,10 +23,10 @@ import {
   updateTodo as changeTodo,
 } from "../api/todoApi";
 import { config } from "../config/config.js";
-import { IGetTodosAction, ITodoGet, ITodosState, UpdatedTodo } from "../types";
+import { ActionTypes, ITodoGet, ITodosState, UpdatedTodo } from "../types";
 
-export const fetchTodos = (offset: number, completed: boolean): ThunkAction<{}, {}, {}, AnyAction> => {
-  return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): void  => {
+export const fetchTodos = (offset: number, completed?: boolean | null): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
+  return async (dispatch: ThunkDispatch<{}, {}, ActionTypes>): Promise<void>  => {
     try {
       const response = await getTodos(config.TODOS_PER_PAGE, offset, completed);
       dispatch(getTodosAction(response));
@@ -46,8 +46,8 @@ export const fetchTodos = (offset: number, completed: boolean): ThunkAction<{}, 
   };
 };
 
-export const addTodo = (value: string) => {
-  return async (dispatch: Function) => {
+export const addTodo = (value: string): ThunkAction<Promise<void>, {}, {}, AnyAction>  => {
+  return async (dispatch: ThunkDispatch<{}, {}, ActionTypes>): Promise<void> => {
     try {
       const response = await appendTodo({
         value: value,
@@ -66,8 +66,8 @@ export const addTodo = (value: string) => {
   };
 };
 
-export const deleteTodo = (id: string, offset: number, completed: boolean) => {
-  return async (dispatch: Function) => {
+export const deleteTodo = (id: string, offset: number, completed: boolean): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
+  return async (dispatch: ThunkDispatch<{}, {}, ActionTypes>): Promise<void> => {
     try {
       await removeTodo(id);
       dispatch(fetchTodos(offset, completed));
@@ -78,8 +78,8 @@ export const deleteTodo = (id: string, offset: number, completed: boolean) => {
   };
 };
 
-export const deleteTodos = (ids: string[], offset: number, completed: boolean) => {
-  return async (dispatch: Function) => {
+export const deleteTodos = (ids: string[], offset: number, completed: boolean | null): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
+  return async (dispatch: ThunkDispatch<{}, {}, ActionTypes>): Promise<void> => {
     try {
       await deleteCompleted(ids);
       dispatch(fetchTodos(offset, completed));
@@ -90,8 +90,8 @@ export const deleteTodos = (ids: string[], offset: number, completed: boolean) =
   };
 };
 
-export const updateTodo = (id: string, updatedTodo: UpdatedTodo): Function => {
-  return async (dispatch: Function): Promise<void> => {
+export const updateTodo = (id: string, updatedTodo: UpdatedTodo): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
+  return async (dispatch: ThunkDispatch<{}, {}, ActionTypes>): Promise<void> => {
     try {
       await changeTodo(id, updatedTodo);
 

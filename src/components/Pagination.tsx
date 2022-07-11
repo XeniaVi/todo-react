@@ -10,7 +10,7 @@ import {
 } from "../styles/components";
 import { IRootState } from "types";
 
-function Pagination(): React.FC {
+function Pagination():JSX.Element {
   const dispatch = useDispatch();
 
   const pagesCount: number = useSelector((state: IRootState) => state.todos.pagesCount);

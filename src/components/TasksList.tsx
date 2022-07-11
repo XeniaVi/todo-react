@@ -7,7 +7,7 @@ import { Tasks } from "../styles/components";
 
 import { ITodosState, IStatusState, IRootState, ITodoGet, HTMLElementEvent } from "types";
 
-function TasksList(): React.ReactNode {
+function TasksList():JSX.Element {
   const dispatch = useAppDispatch();
 
   const items = useAppSelector((state) => state.todos.todos);

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppSelector, useAppDispatch } from '../hooks'
 import { setCompletedAllAction } from "../actions";
 import { addTodo, updateTodos } from "../asyncActions";
 
@@ -11,13 +11,13 @@ import {
 } from "../styles/components";
 import { ITodosState, IStatusState, IRootState, ITodoGet, HTMLElementEvent } from "types";
 
-function InputTask(): React.ReactNode {
+function InputTask():JSX.Element {
   const [value, setValue] = useState("");
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const items: ITodoGet[] = useSelector((state: IRootState) => state.todos.todos);
-  const completedAll: boolean = useSelector((state: IRootState) => state.status.completedAll);
+  const items: ITodoGet[] = useAppSelector((state) => state.todos.todos);
+  const completedAll: boolean = useAppSelector((state) => state.status.completedAll);
 
   const toggleAllStatus = async () => {
     if (completedAll) {

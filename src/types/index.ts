@@ -1,5 +1,6 @@
 import { ThunkAction } from 'redux-thunk'
 import { AnyAction } from 'redux';
+import { updateTodo } from 'asyncActions';
 
 export interface ITodo {
   value: string;
@@ -14,6 +15,11 @@ export interface ITodoGet extends ITodo {
 export type UpdatedTodo = {
   value?: string,
   completed?: boolean;
+}
+
+export type UpdatedTodoID = {
+  id: string,
+  updatedTodo: UpdatedTodo
 }
 
 export interface ITodosState {
@@ -58,7 +64,7 @@ export type HTMLElementEvent<T extends HTMLElement> = Event & {
 
 export interface IGetTodosAction {
   type: string,
-  payload: Array<ITodoGet>
+  payload: ITodosState
 }
 
 export interface IAddTodosAction {
@@ -68,45 +74,47 @@ export interface IAddTodosAction {
 
 export interface IUpdateTodoAction {
   type: string,
-  payload: ITodoGet
+  payload: UpdatedTodoID
 }
 
 export interface IUpdateTodosAction {
   type: string,
-  payload: ITodoGet
+  payload: boolean
 }
 
 export interface ISetCompletedAction {
   type: string,
-  payload: ITodoGet
+  payload: boolean | null
 }
 
 export interface ISetCompletedAllAction {
   type: string,
-payload: ITodoGet
+  payload: boolean
 }
 
 export interface ISetPageAction {
   type: string,
-payload: ITodoGet
+  payload: number
 }
 
 export interface ISetOffsetAction {
   type: string,
-payload: ITodoGet
+  payload: number
 }
 
 export interface ISetCountAction {
   type: string,
-payload: ITodoGet
+  payload: number
 }
 
 export interface ISetErrorAction {
   type: string,
-payload: ITodoGet
+  payload: string
 }
 
 export interface ISetFilterAction {
   type: string,
-  payload: ITodoGet
+  payload: string
 }
+
+export type ActionTypes = ISetCompletedAllAction | IAddTodosAction | IUpdateTodoAction | ISetCompletedAction | IUpdateTodosAction | IGetTodosAction | ISetFilterAction | ISetErrorAction | ISetCountAction | ISetPageAction | ISetOffsetAction

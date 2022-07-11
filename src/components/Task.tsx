@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { updateTodo, deleteTodo } from "../asyncActions";
 import { useAppSelector, useAppDispatch } from '../hooks'
 

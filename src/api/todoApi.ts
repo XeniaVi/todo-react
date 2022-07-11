@@ -2,7 +2,7 @@ import axios from "axios";
 import { ITodo, UpdatedTodo } from "types/index.js";
 import { config } from "../config/config.js";
 
-export const getTodos = async (limit: number, offset: number, completed: boolean) => {
+export const getTodos = async (limit: number | string, offset: number, completed?: boolean | null) => {
   const extra = typeof completed === "boolean" ? `&completed=${completed}` : "";
   const response = await axios.get(
     `${config.API_URL}?offset=${offset}&limit=${limit}${extra}`
