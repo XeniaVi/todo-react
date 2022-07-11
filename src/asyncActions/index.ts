@@ -1,3 +1,8 @@
+import { Dispatch } from "react";
+import { Action } from "redux";
+import { RootState } from '../store'
+import { ThunkAction } from 'redux-thunk'
+import { AnyAction } from 'redux';
 import {
   getTodosAction,
   addTodoAction,
@@ -18,14 +23,10 @@ import {
   updateTodo as changeTodo,
 } from "../api/todoApi";
 import { config } from "../config/config.js";
-import { ITodo, UpdatedTodo } from "../types";
+import { IGetTodosAction, ITodoGet, ITodosState, UpdatedTodo } from "../types";
 
-interface ITodoGet extends ITodo {
-  id: string;
- }
-
-export const fetchTodos = (offset: number, completed: boolean) => {
-  return async (dispatch: Function) => {
+export const fetchTodos = (offset: number, completed: boolean): ThunkAction<{}, {}, {}, AnyAction> => {
+  return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): void  => {
     try {
       const response = await getTodos(config.TODOS_PER_PAGE, offset, completed);
       dispatch(getTodosAction(response));
@@ -89,8 +90,8 @@ export const deleteTodos = (ids: string[], offset: number, completed: boolean) =
   };
 };
 
-export const updateTodo = (id: string, updatedTodo: UpdatedTodo) => {
-  return async (dispatch: Function) => {
+export const updateTodo = (id: string, updatedTodo: UpdatedTodo): Function => {
+  return async (dispatch: Function): Promise<void> => {
     try {
       await changeTodo(id, updatedTodo);
 

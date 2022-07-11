@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTodo, deleteTodo } from "../asyncActions";
+import { useAppSelector, useAppDispatch } from '../hooks'
 
 import {
   ButtonDelete,
@@ -13,14 +14,19 @@ import {
   EditInput,
   TaskText,
 } from "../styles/components";
+import { IRootState, ITodoGet, HTMLElementEvent } from "types";
+import { AnyAction } from "redux";
+type Props = {
+  item: ITodoGet;
+}
 
-function Task({ item }) {
-  const offset = useSelector((state) => state.status.offset);
-  const completed = useSelector((state) => state.status.completed);
+function Task ({ item }: Props):JSX.Element {
+  const offset = useAppSelector((state) => state.status.offset);
+  const completed = useAppSelector((state) => state.status.completed);
   const [isEditing, setEditing] = useState(false);
   const [value, setValue] = useState("");
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const startEdit = () => {
     setEditing(true);
@@ -28,13 +34,15 @@ function Task({ item }) {
   };
 
   const saveItem = () => {
-    dispatch(updateTodo(item.id, { value }));
+    const a: any = updateTodo(item.id, { value })
+    dispatch(a);
     setEditing(false);
     setValue("");
   };
 
-  const handleChange = (e) => {
-    setValue(e.target.value);
+  const handleChange = (e: HTMLElementEvent<HTMLButtonElement>) => {
+    const { value } = e.target;
+    setValue(value);
   };
 
   return (

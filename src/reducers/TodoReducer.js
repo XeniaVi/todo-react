@@ -3,8 +3,8 @@ import { config } from "../config/config.js";
 
 const initialState = {
   todos: [],
-  totalCount: null,
-  pagesCount: null,
+  totalCount: 0,
+  pagesCount: 0,
 };
 
 export const TodoReducer = (state = initialState, action) => {

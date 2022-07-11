@@ -9,14 +9,15 @@ import {
   Button,
   CheckboxAbsolute,
 } from "../styles/components";
+import { ITodosState, IStatusState, IRootState, ITodoGet, HTMLElementEvent } from "types";
 
-function InputTask() {
+function InputTask(): React.ReactNode {
   const [value, setValue] = useState("");
 
   const dispatch = useDispatch();
 
-  const items = useSelector((state) => state.todos.todos);
-  const completedAll = useSelector((state) => state.status.completedAll);
+  const items: ITodoGet[] = useSelector((state: IRootState) => state.todos.todos);
+  const completedAll: boolean = useSelector((state: IRootState) => state.status.completedAll);
 
   const toggleAllStatus = async () => {
     if (completedAll) {
@@ -36,12 +37,14 @@ function InputTask() {
     setValue("");
   };
 
-  const handleChange = (e) => {
-    setValue(e.target.value);
+  const handleChange = (e: HTMLElementEvent<HTMLButtonElement>) => {
+    const { value } = e.target;
+    setValue(value);
   };
 
-  const handleKeyDown = (e) => {
-    if (e.code === "Enter") {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const { code } = e
+    if (code === "Enter") {
       dispatchAddTodo();
     }
   };

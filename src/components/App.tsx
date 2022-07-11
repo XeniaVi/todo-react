@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Dispatch } from 'redux';
 import { useDispatch, useSelector } from "react-redux";
 import {
   setCompletedAction,
@@ -23,19 +24,21 @@ import {
   ErrorMessage,
   CloseButton,
 } from "../styles/components";
+import { ITodosState, IStatusState, IRootState, ITodoGet, HTMLElementEvent } from "types";
 
-const App = () => {
-  const dispatch = useDispatch();
+const App: React.FC = () => {
+  const dispatch   = useDispatch();
 
-  const items = useSelector((state) => state.todos.todos);
-  const offset = useSelector((state) => state.status.offset);
-  const completed = useSelector((state) => state.status.completed);
-  const count = useSelector((state) => state.status.count);
-  const errorMessage = useSelector((state) => state.status.errorMessage);
-  const filter = useSelector((state) => state.status.filter);
+  const items: ITodoGet[] = useSelector((state: IRootState) => state.todos.todos);
+  const offset: number = useSelector((state: IRootState) => state.status.offset);
+  const completed: boolean | null = useSelector((state: IRootState) => state.status.completed);
+  const count: number = useSelector((state: IRootState) => state.status.count);
+  const errorMessage: string = useSelector((state: IRootState) => state.status.errorMessage);
+  const filter: string = useSelector((state: IRootState) => state.status.filter);
 
-  const filterTasks = (e) => {
-    const value = e ? e.target.textContent.toLowerCase() : filter;
+  const filterTasks = (e: HTMLElementEvent<HTMLButtonElement>) => {
+    const { textContent } = e.target;
+    const value: string = textContent ? textContent.toLowerCase() : filter;
 
     switch (value) {
       case "completed":

@@ -1,4 +1,6 @@
-export const ReducersConstants = {
+import { IReducersConstants } from "types";
+
+export const ReducersConstants: IReducersConstants = {
   GET_TODOS: "GET_TODOS",
   ADD_TODO: "ADD_TODO",
   UPDATE_TODO: "UPDATE_TODO",

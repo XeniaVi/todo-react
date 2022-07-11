@@ -8,12 +8,13 @@ import {
   ButtonPaginationLeft,
   ButtonPaginationRight,
 } from "../styles/components";
+import { IRootState } from "types";
 
-function Pagination() {
+function Pagination(): React.FC {
   const dispatch = useDispatch();
 
-  const pagesCount = useSelector((state) => state.todos.pagesCount);
-  const currentPage = useSelector((state) => state.status.currentPage);
+  const pagesCount: number = useSelector((state: IRootState) => state.todos.pagesCount);
+  const currentPage: number = useSelector((state: IRootState) => state.status.currentPage);
 
   const getPageList = () => {
     const list = [];
@@ -32,7 +33,7 @@ function Pagination() {
     return list;
   };
 
-  const switchPages = (value) => {
+  const switchPages = (value: number) => {
     dispatch(setPageAction(value));
   };
 
