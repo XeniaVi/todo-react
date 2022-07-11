@@ -32,7 +32,9 @@ export const fetchTodos = (offset, completed) => {
         setCountAction(response.todos.filter((item) => !item.completed).length)
       );
     } catch (e) {
-      dispatch(setErrorAction("Something troubled... Let's update the page!"));
+      dispatch(
+        setErrorAction(`${e.response.data.message} Try update the page...`)
+      );
     }
   };
 };
@@ -51,9 +53,7 @@ export const addTodo = (value) => {
       dispatch(setCompletedAllAction(false));
       dispatch(setFilterAction("all"));
     } catch (e) {
-      dispatch(
-        setErrorAction("Something troubled with adding... Let's try later!")
-      );
+      dispatch(setErrorAction(`${e.response.data.message} Try later...`));
     }
   };
 };
@@ -64,9 +64,7 @@ export const deleteTodo = (id, offset, completed) => {
       await removeTodo(id);
       dispatch(fetchTodos(offset, completed));
     } catch (e) {
-      dispatch(
-        setErrorAction("Something troubled with removing... Let's try later!")
-      );
+      dispatch(setErrorAction(`${e.response.data.message} Try later...`));
     }
   };
 };
@@ -77,9 +75,7 @@ export const deleteTodos = (ids, offset, completed) => {
       await deleteCompleted(ids);
       dispatch(fetchTodos(offset, completed));
     } catch (e) {
-      dispatch(
-        setErrorAction("Something troubled with removing... Let's try later!")
-      );
+      dispatch(setErrorAction(`${e.response.data.message} Try later...`));
     }
   };
 };
@@ -92,9 +88,7 @@ export const updateTodo = (id, updatedTodo) => {
       dispatch(updateTodoAction({ id, updatedTodo }));
       dispatch(setCompletedAllAction(false));
     } catch (e) {
-      dispatch(
-        setErrorAction("Something troubled with updating... Let's try later!")
-      );
+      dispatch(setErrorAction(`${e.response.data.message} Try later...`));
     }
   };
 };
@@ -107,9 +101,7 @@ export const updateTodos = (ids, completed) => {
       dispatch(updateTodosAction(completed));
       dispatch(setCompletedAllAction(completed));
     } catch (e) {
-      dispatch(
-        setErrorAction("Something troubled with updating... Let's try later!")
-      );
+      dispatch(setErrorAction(`${e.response.data.message} Try later...`));
     }
   };
 };
