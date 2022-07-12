@@ -3,7 +3,6 @@ import {
   updateTodos as updateTodosAction,
 } from "slices/todosSlice";
 import {
-  setCompleted,
   setCompletedAll,
   setCount,
   setError,
@@ -25,7 +24,7 @@ import { AxiosError } from "axios";
 export const fetchTodos = createAsyncThunk(
   "todos/fetchTodos",
   async (
-    obj: { offset: number; completed?: null | boolean },
+    obj: { offset: number; completed?: boolean },
     { rejectWithValue, dispatch }
   ) => {
     try {
@@ -69,9 +68,7 @@ export const addTodo = createAsyncThunk(
         createdAt: Date.now(),
       });
 
-      dispatch(setCompleted(null));
-      dispatch(setCompletedAll(false));
-      dispatch(setFilter("all"));
+      dispatch(setFilter({ value, completedAll: false }));
       return response;
     } catch (e) {
       if (e instanceof AxiosError) {
@@ -91,7 +88,7 @@ export const addTodo = createAsyncThunk(
 export const deleteTodo = createAsyncThunk(
   "todos/deleteTodo",
   async (
-    obj: { id: string; offset: number; completed: boolean | null },
+    obj: { id: string; offset: number; completed?: boolean },
     { dispatch }
   ) => {
     try {
@@ -119,7 +116,7 @@ export const deleteTodos = createAsyncThunk(
     obj: {
       ids: string[];
       offset: number;
-      completed: boolean | null;
+      completed?: boolean;
     },
     { dispatch }
   ) => {

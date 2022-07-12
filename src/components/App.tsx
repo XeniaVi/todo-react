@@ -1,13 +1,9 @@
 import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from '../hooks'
 import {
-  setCompleted,
-  setPage,
-  setOffset,
-  setCompletedAll,
   setCount,
   setError,
-  setFilter,
+  setFilter
 } from "slices/setStatusSlice";
 import { fetchTodos, deleteTodos } from "../asyncActions";
 import TasksList from "./TasksList";
@@ -30,7 +26,7 @@ const App: React.FC = () => {
 
   const items: ITodoGet[] = useAppSelector((state) => state.todos.todos);
   const offset: number = useAppSelector((state) => state.status.offset);
-  const completed: boolean | null = useAppSelector((state) => state.status.completed);
+  const completed: boolean | undefined = useAppSelector((state) => state.status.completed);
   const count: number = useAppSelector((state) => state.status.count);
   const errorMessage: string = useAppSelector((state) => state.status.errorMessage);
   const filter: string = useAppSelector((state) => state.status.filter);
@@ -41,26 +37,14 @@ const App: React.FC = () => {
 
     switch (value) {
       case "completed":
-        dispatch(setCompleted(true));
-        dispatch(setFilter("completed"));
-        dispatch(setCompletedAll(true));
-        dispatch(fetchTodos({offset, completed: true}));
+        dispatch(setFilter({value, completedAll: true, completed: true}));
         break;
       case "active":
-        dispatch(setFilter("active"));
-        dispatch(setCompleted(false));
-        dispatch(setCompletedAll(false));
-        dispatch(fetchTodos({offset, completed: false}));
-        break;
+        dispatch(setFilter({value, completedAll: false, completed: false}));
+        break;  
       default:
-        dispatch(setFilter("all"));
-        dispatch(setCompleted(null));
-        dispatch(setCompletedAll(false));
-        dispatch(fetchTodos({offset, completed: null}));
+        dispatch(setFilter({value, completedAll: false}));
     }
-
-    dispatch(setOffset(0));
-    dispatch(setPage(1));
   };
 
   const deleteCompletedTasks = async () => {

@@ -3,7 +3,6 @@ import { IStatusState } from "types";
 import { config } from "../config/config";
 
 const initialState: IStatusState = {
-  completed: null,
   completedAll: false,
   filter: "all",
   offset: 0,
@@ -45,16 +44,23 @@ export const setStatusSlice = createSlice({
       return { ...state, errorMessage: action.payload };
     },
     setFilter(state, action) {
-      return { ...state, filter: action.payload };
+      return {
+        ...state,
+        filter: action.payload.filter,
+        completedAll: action.payload.completedAll,
+        completed: action.payload.completed,
+        offset: 0,
+        currentPage: 1,
+      };
     },
   },
 });
 
 const { actions, reducer } = setStatusSlice;
 export const {
-  setCompleted,
-  setPage,
-  setOffset,
+  setCompleted, //check
+  setPage, //check
+  setOffset, //check
   setCompletedAll,
   setCount,
   setError,

@@ -13,10 +13,11 @@ function TasksList():JSX.Element {
   const currentPage = useAppSelector((state) => state.status.currentPage);
   const completed = useAppSelector((state) => state.status.completed);
   const offset = useAppSelector((state) => state.status.offset);
+  const filter = useAppSelector((state) => state.status.filter);
 
   useEffect(() => {
     dispatch(fetchTodos({offset, completed}));
-  }, [currentPage, completed, offset, dispatch]);
+  }, [currentPage, completed, offset, dispatch, filter]);
 
   return (
     <Tasks>

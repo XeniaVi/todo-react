@@ -25,7 +25,7 @@ export interface ITodosState {
 }
 
 export interface IStatusState {
-  completed: null | boolean;
+  completed?: boolean;
   completedAll: boolean;
   filter: string;
   offset: number;

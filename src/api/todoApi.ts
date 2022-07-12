@@ -5,7 +5,7 @@ import { config } from "../config/config";
 export const getTodos = async (
   limit: number | string,
   offset: number,
-  completed?: boolean | null
+  completed?: boolean
 ) => {
   const extra = typeof completed === "boolean" ? `&completed=${completed}` : "";
   const response = await axios.get(
