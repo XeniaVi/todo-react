@@ -29,6 +29,7 @@ const App: React.FC = () => {
   const count: number = useAppSelector((state) => state.todos.notCompletedCount);
   const errorMessage: string = useAppSelector((state) => state.status.errorMessage);
   const filter: string = useAppSelector((state) => state.status.filter);
+  const ids: Array<string> = useAppSelector((state) => state.todos.idsCompleted);
 
   const filterTasks = (e: React.MouseEvent<HTMLElement>) => {
     const { textContent } = e.target as HTMLElement;
@@ -36,18 +37,17 @@ const App: React.FC = () => {
 
     switch (value) {
       case "completed":
-        dispatch(setFilter({value, completedAll: true, completed: true}));
+        dispatch(setFilter({filter: value, completedAll: true, completed: true}));
         break;
       case "active":
-        dispatch(setFilter({value, completedAll: false, completed: false}));
+        dispatch(setFilter({filter: value, completedAll: false, completed: false}));
         break;  
       default:
-        dispatch(setFilter({value, completedAll: false}));
+        dispatch(setFilter({filter: value, completedAll: false}));
     }
   };
 
   const deleteCompletedTasks = () => {
-    const ids = items.filter((item) => item.completed).map((item) => item.id);
     dispatch(deleteTodos({ids, offset, completed}));
   };
 
@@ -57,7 +57,6 @@ const App: React.FC = () => {
 
   useEffect(() => {
     dispatch(setError(""));
-    //dispatch(setCount(items.filter((item) => !item.completed).length));
   }, [items]);
 
   return (

@@ -23,6 +23,7 @@ export interface ITodosState {
   totalCount: number;
   pagesCount: number;
   notCompletedCount: number;
+  idsCompleted: Array<string>;
 }
 
 export interface IStatusState {

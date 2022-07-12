@@ -2,6 +2,7 @@ import {
   updateTodo as updateTodoAction,
   updateTodos as updateTodosAction,
   setCount,
+  setIdsCompleted,
 } from "slices/todosSlice";
 import { setCompletedAll, setError, setFilter } from "slices/setStatusSlice";
 import {
@@ -143,6 +144,7 @@ export const updateTodo = createAsyncThunk(
       dispatch(updateTodoAction({ id, updatedTodo }));
       dispatch(setCompletedAll(false));
       dispatch(setCount());
+      dispatch(setIdsCompleted());
     } catch (e) {
       if (e instanceof AxiosError) {
         const { response } = e;

@@ -8,6 +8,7 @@ const initialState: ITodosState = {
   totalCount: 0,
   pagesCount: 0,
   notCompletedCount: 0,
+  idsCompleted: [],
 };
 
 export const todosSlice = createSlice({
@@ -45,6 +46,15 @@ export const todosSlice = createSlice({
         ).length,
       };
     },
+    setIdsCompleted(state) {
+      const ids = state.todos
+        .filter((item) => item.completed)
+        .map((item) => item.id);
+      return {
+        ...state,
+        idsCompleted: ids,
+      };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchTodos.fulfilled, (state, action) => {
@@ -58,6 +68,9 @@ export const todosSlice = createSlice({
         notCompletedCount: action.payload.todos.filter(
           (item: ITodoGet) => !item.completed
         ).length,
+        idsCompleted: action.payload.todos
+          .filter((item: ITodoGet) => item.completed)
+          .map((item: ITodoGet) => item.id),
       };
     });
     builder.addCase(addTodo.fulfilled, (state, action) => {
@@ -78,6 +91,6 @@ export const todosSlice = createSlice({
 });
 
 const { actions, reducer } = todosSlice;
-export const { updateTodo, updateTodos, setCount } = actions;
+export const { updateTodo, updateTodos, setCount, setIdsCompleted } = actions;
 
 export default reducer;
