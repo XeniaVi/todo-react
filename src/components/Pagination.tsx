@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
-import { setPageAction } from "../actions";
+import { useAppSelector, useAppDispatch } from '../hooks'
+import { setPage } from "slices/setStatusSlice";
 import {
   PaginationWrapper,
   ButtonPagination,
@@ -8,13 +8,12 @@ import {
   ButtonPaginationLeft,
   ButtonPaginationRight,
 } from "../styles/components";
-import { IRootState } from "types";
 
 function Pagination():JSX.Element {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const pagesCount: number = useSelector((state: IRootState) => state.todos.pagesCount);
-  const currentPage: number = useSelector((state: IRootState) => state.status.currentPage);
+  const pagesCount: number = useAppSelector((state) => state.todos.pagesCount);
+  const currentPage: number = useAppSelector((state) => state.status.currentPage);
 
   const getPageList = () => {
     const list = [];
@@ -34,19 +33,19 @@ function Pagination():JSX.Element {
   };
 
   const switchPages = (value: number) => {
-    dispatch(setPageAction(value));
+    dispatch(setPage(value));
   };
 
   return (
     <PaginationWrapper>
       <ButtonPaginationStart
         onClick={() => switchPages(1)}
-        $mode={currentPage === 1 ? "disabled" : 0}
+        $mode={currentPage === 1 ? "disabled" : ''}
         disabled={currentPage === 1}
       ></ButtonPaginationStart>
       <ButtonPaginationLeft
         onClick={() => switchPages(currentPage - 1)}
-        $mode={currentPage === 1 ? "disabled" : 0}
+        $mode={currentPage === 1 ? "disabled" : ''}
         disabled={currentPage === 1}
       ></ButtonPaginationLeft>
       {getPageList().map((item) => (
@@ -60,12 +59,12 @@ function Pagination():JSX.Element {
       ))}
       <ButtonPaginationRight
         onClick={() => switchPages(currentPage + 1)}
-        $mode={currentPage === pagesCount ? "disabled" : 0}
+        $mode={currentPage === pagesCount ? "disabled" : ''}
         disabled={currentPage === pagesCount}
       ></ButtonPaginationRight>
       <ButtonPaginationEnd
         onClick={() => switchPages(pagesCount)}
-        $mode={currentPage === pagesCount ? "disabled" : 0}
+        $mode={currentPage === pagesCount ? "disabled" : ''}
         disabled={currentPage === pagesCount}
       ></ButtonPaginationEnd>
     </PaginationWrapper>

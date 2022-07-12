@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from '../hooks'
-import { setCompletedAllAction } from "../actions";
+import { setCompletedAll } from "slices/setStatusSlice";
 import { addTodo, updateTodos } from "../asyncActions";
 
 import {
@@ -9,7 +9,7 @@ import {
   Button,
   CheckboxAbsolute,
 } from "../styles/components";
-import { ITodosState, IStatusState, IRootState, ITodoGet, HTMLElementEvent } from "types";
+import { ITodoGet } from "types";
 
 function InputTask():JSX.Element {
   const [value, setValue] = useState("");
@@ -22,12 +22,12 @@ function InputTask():JSX.Element {
   const toggleAllStatus = async () => {
     if (completedAll) {
       const ids = items.map((item) => item.id);
-      dispatch(updateTodos(ids, false));
+      dispatch(updateTodos({ids, completed: false}));
     } else {
       const ids = items
         .filter((item) => !item.completed)
         .map((item) => item.id);
-      dispatch(updateTodos(ids, true));
+      dispatch(updateTodos({ids, completed: true}));
     }
   };
 
@@ -37,7 +37,7 @@ function InputTask():JSX.Element {
     setValue("");
   };
 
-  const handleChange = (e: HTMLElementEvent<HTMLButtonElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setValue(value);
   };
@@ -50,7 +50,7 @@ function InputTask():JSX.Element {
   };
 
   const handleChangeInputCheckbox = () => {
-    dispatch(setCompletedAllAction(completedAll));
+    dispatch(setCompletedAll(completedAll));
   };
 
   return (

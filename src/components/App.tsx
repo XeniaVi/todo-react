@@ -1,15 +1,14 @@
 import { useEffect } from "react";
-import { Dispatch } from 'redux';
 import { useAppSelector, useAppDispatch } from '../hooks'
 import {
-  setCompletedAction,
-  setPageAction,
-  setOffsetAction,
-  setCountAction,
-  setErrorAction,
-  setFilterAction,
-  setCompletedAllAction,
-} from "../actions";
+  setCompleted,
+  setPage,
+  setOffset,
+  setCompletedAll,
+  setCount,
+  setError,
+  setFilter,
+} from "slices/setStatusSlice";
 import { fetchTodos, deleteTodos } from "../asyncActions";
 import TasksList from "./TasksList";
 import InputTask from "./InputTask";
@@ -24,7 +23,7 @@ import {
   ErrorMessage,
   CloseButton,
 } from "../styles/components";
-import { ITodosState, IStatusState, IRootState, ITodoGet, HTMLElementEvent } from "types";
+import { ITodoGet } from "types";
 
 const App: React.FC = () => {
   const dispatch   = useAppDispatch();
@@ -36,46 +35,46 @@ const App: React.FC = () => {
   const errorMessage: string = useAppSelector((state) => state.status.errorMessage);
   const filter: string = useAppSelector((state) => state.status.filter);
 
-  const filterTasks = (e: HTMLElementEvent<HTMLButtonElement>) => {
-    const { textContent } = e.target;
+  const filterTasks = (e: React.MouseEvent<HTMLElement>) => {
+    const { textContent } = e.target as HTMLElement;
     const value: string = textContent ? textContent.toLowerCase() : filter;
 
     switch (value) {
       case "completed":
-        dispatch(setCompletedAction(true));
-        dispatch(setFilterAction("completed"));
-        dispatch(setCompletedAllAction(true));
-        dispatch(fetchTodos(offset, true));
+        dispatch(setCompleted(true));
+        dispatch(setFilter("completed"));
+        dispatch(setCompletedAll(true));
+        dispatch(fetchTodos({offset, completed: true}));
         break;
       case "active":
-        dispatch(setFilterAction("active"));
-        dispatch(setCompletedAction(false));
-        dispatch(setCompletedAllAction(false));
-        dispatch(fetchTodos(offset, false));
+        dispatch(setFilter("active"));
+        dispatch(setCompleted(false));
+        dispatch(setCompletedAll(false));
+        dispatch(fetchTodos({offset, completed: false}));
         break;
       default:
-        dispatch(setFilterAction("all"));
-        dispatch(setCompletedAction(null));
-        dispatch(setCompletedAllAction(false));
-        dispatch(fetchTodos(offset, null));
+        dispatch(setFilter("all"));
+        dispatch(setCompleted(null));
+        dispatch(setCompletedAll(false));
+        dispatch(fetchTodos({offset, completed: null}));
     }
 
-    dispatch(setOffsetAction(0));
-    dispatch(setPageAction(1));
+    dispatch(setOffset(0));
+    dispatch(setPage(1));
   };
 
   const deleteCompletedTasks = async () => {
     const ids = items.filter((item) => item.completed).map((item) => item.id);
-    dispatch(deleteTodos(ids, offset, completed));
+    dispatch(deleteTodos({ids, offset, completed}));
   };
 
   useEffect(() => {
-    dispatch(fetchTodos(offset));
+    dispatch(fetchTodos({offset}));
   }, []);
 
   useEffect(() => {
-    dispatch(setErrorAction(""));
-    dispatch(setCountAction(items.filter((item) => !item.completed).length));
+    dispatch(setError(""));
+    dispatch(setCount(items.filter((item) => !item.completed).length));
   }, [items]);
 
   return (
@@ -85,7 +84,7 @@ const App: React.FC = () => {
         <ErrorMessage>
           {errorMessage}{" "}
           <CloseButton
-            onClick={() => dispatch(setErrorAction(""))}
+            onClick={() => dispatch(setError(""))}
           ></CloseButton>
         </ErrorMessage>
       )}

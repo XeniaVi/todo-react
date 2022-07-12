@@ -13,8 +13,7 @@ import {
   EditInput,
   TaskText,
 } from "../styles/components";
-import { IRootState, ITodoGet, HTMLElementEvent } from "types";
-import { AnyAction } from "redux";
+import { ITodoGet } from "types";
 type Props = {
   item: ITodoGet;
 }
@@ -33,13 +32,13 @@ function Task ({ item }: Props):JSX.Element {
   };
 
   const saveItem = () => {
-    const a: any = updateTodo(item.id, { value })
+    const a: any = updateTodo({id: item.id, updatedTodo: { value }})
     dispatch(a);
     setEditing(false);
     setValue("");
   };
 
-  const handleChange = (e: HTMLElementEvent<HTMLButtonElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setValue(value);
   };
@@ -52,7 +51,7 @@ function Task ({ item }: Props):JSX.Element {
             type="checkbox"
             checked={item.completed}
             onChange={() =>
-              dispatch(updateTodo(item.id, { completed: !item.completed }))
+              dispatch(updateTodo({id: item.id, updatedTodo:{ completed: !item.completed }}))
             }
           />
         </CheckboxList>
@@ -74,7 +73,7 @@ function Task ({ item }: Props):JSX.Element {
         )}
       </TaskInner>
       <ButtonDelete
-        onClick={() => dispatch(deleteTodo(item.id, offset, completed))}
+        onClick={() => dispatch(deleteTodo({id: item.id, offset, completed}))}
       ></ButtonDelete>
     </TaskItem>
   );

@@ -1,11 +1,10 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useAppSelector, useAppDispatch } from '../hooks'
 import { fetchTodos } from "../asyncActions";
 import Task from "./Task";
 import { Tasks } from "../styles/components";
 
-import { ITodosState, IStatusState, IRootState, ITodoGet, HTMLElementEvent } from "types";
+import { ITodoGet } from "types";
 
 function TasksList():JSX.Element {
   const dispatch = useAppDispatch();
@@ -16,8 +15,8 @@ function TasksList():JSX.Element {
   const offset = useAppSelector((state) => state.status.offset);
 
   useEffect(() => {
-    dispatch(fetchTodos(offset, completed));
-  }, [currentPage, completed]);
+    dispatch(fetchTodos({offset, completed}));
+  }, [currentPage, completed, offset, dispatch]);
 
   return (
     <Tasks>

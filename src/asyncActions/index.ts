@@ -1,19 +1,14 @@
-import { Dispatch } from "react";
-import { Action } from "redux";
-import { RootState } from '../store'
-import { ThunkAction, ThunkDispatch } from 'redux-thunk'
-import { AnyAction } from 'redux';
 import {
-  getTodosAction,
-  addTodoAction,
-  setErrorAction,
-  setCompletedAction,
-  setCompletedAllAction,
-  setFilterAction,
-  setCountAction,
-  updateTodoAction,
-  updateTodosAction,
-} from "../actions";
+  updateTodo as updateTodoAction,
+  updateTodos as updateTodosAction,
+} from "slices/todosSlice";
+import {
+  setCompleted,
+  setCompletedAll,
+  setCount,
+  setError,
+  setFilter,
+} from "slices/setStatusSlice";
 import {
   addTodo as appendTodo,
   updateCompleted,
@@ -22,32 +17,51 @@ import {
   getTodos,
   updateTodo as changeTodo,
 } from "../api/todoApi";
-import { config } from "../config/config.js";
-import { ActionTypes, ITodoGet, ITodosState, UpdatedTodo } from "../types";
+import { config } from "../config/config";
+import { ITodoGet, UpdatedTodo } from "../types";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { AxiosError } from "axios";
 
-export const fetchTodos = (offset: number, completed?: boolean | null): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
-  return async (dispatch: ThunkDispatch<{}, {}, ActionTypes>): Promise<void>  => {
+export const fetchTodos = createAsyncThunk(
+  "todos/fetchTodos",
+  async (
+    obj: { offset: number; completed?: null | boolean },
+    { rejectWithValue, dispatch }
+  ) => {
     try {
+      const { offset, completed } = obj;
       const response = await getTodos(config.TODOS_PER_PAGE, offset, completed);
-      dispatch(getTodosAction(response));
 
-      const length = response.todos.filter((item: ITodoGet) => item.completed).length;
+      const length = response.todos.filter(
+        (item: ITodoGet) => item.completed
+      ).length;
 
-      dispatch(setCompletedAllAction(response.todos.length === length));
+      dispatch(setCompletedAll(response.todos.length === length));
       dispatch(
-        setCountAction(response.todos.filter((item: ITodoGet) => !item.completed).length)
+        setCount(
+          response.todos.filter((item: ITodoGet) => !item.completed).length
+        )
       );
-    } catch (e: unknown) {
-      dispatch(
-        //setErrorAction(`${e.response.data.message} Try update the page...`)
-        setErrorAction(`Try update the page...`)
-      );
+
+      return response;
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        const { response } = e;
+        if (response) {
+          dispatch(
+            setError(`${response.data.message} Try update the page....`)
+          );
+        } else {
+          dispatch(setError(`Try update the page...`));
+        }
+      }
     }
-  };
-};
+  }
+);
 
-export const addTodo = (value: string): ThunkAction<Promise<void>, {}, {}, AnyAction>  => {
-  return async (dispatch: ThunkDispatch<{}, {}, ActionTypes>): Promise<void> => {
+export const addTodo = createAsyncThunk(
+  "todos/addTodo",
+  async (value: string, { rejectWithValue, dispatch }) => {
     try {
       const response = await appendTodo({
         value: value,
@@ -55,65 +69,126 @@ export const addTodo = (value: string): ThunkAction<Promise<void>, {}, {}, AnyAc
         createdAt: Date.now(),
       });
 
-      dispatch(addTodoAction(response));
-      dispatch(setCompletedAction(null));
-      dispatch(setCompletedAllAction(false));
-      dispatch(setFilterAction("all"));
+      dispatch(setCompleted(null));
+      dispatch(setCompletedAll(false));
+      dispatch(setFilter("all"));
+      return response;
     } catch (e) {
-      //dispatch(setErrorAction(`${e.response.data.message} Try later...`));
-      dispatch(setErrorAction(`Try later...`));
+      if (e instanceof AxiosError) {
+        const { response } = e;
+        if (response) {
+          dispatch(
+            setError(`${response.data.message} Try update the page....`)
+          );
+        } else {
+          dispatch(setError(`Try update the page...`));
+        }
+      }
     }
-  };
-};
+  }
+);
 
-export const deleteTodo = (id: string, offset: number, completed: boolean): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
-  return async (dispatch: ThunkDispatch<{}, {}, ActionTypes>): Promise<void> => {
+export const deleteTodo = createAsyncThunk(
+  "todos/deleteTodo",
+  async (
+    obj: { id: string; offset: number; completed: boolean | null },
+    { dispatch }
+  ) => {
     try {
+      const { id, offset, completed } = obj;
       await removeTodo(id);
-      dispatch(fetchTodos(offset, completed));
+      dispatch(fetchTodos({ offset, completed }));
     } catch (e) {
-      //dispatch(setErrorAction(`${e.response.data.message} Try later...`));
-      dispatch(setErrorAction(`Try later...`));
+      if (e instanceof AxiosError) {
+        const { response } = e;
+        if (response) {
+          dispatch(
+            setError(`${response.data.message} Try update the page....`)
+          );
+        } else {
+          dispatch(setError(`Try update the page...`));
+        }
+      }
     }
-  };
-};
+  }
+);
 
-export const deleteTodos = (ids: string[], offset: number, completed: boolean | null): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
-  return async (dispatch: ThunkDispatch<{}, {}, ActionTypes>): Promise<void> => {
+export const deleteTodos = createAsyncThunk(
+  "todos/deleteTodos",
+  async (
+    obj: {
+      ids: string[];
+      offset: number;
+      completed: boolean | null;
+    },
+    { dispatch }
+  ) => {
     try {
+      const { ids, offset, completed } = obj;
       await deleteCompleted(ids);
-      dispatch(fetchTodos(offset, completed));
+      dispatch(fetchTodos({ offset, completed }));
     } catch (e) {
-      //dispatch(setErrorAction(`${e.response.data.message} Try later...`));
-      dispatch(setErrorAction(`Try later...`));
+      if (e instanceof AxiosError) {
+        const { response } = e;
+        if (response) {
+          dispatch(
+            setError(`${response.data.message} Try update the page....`)
+          );
+        } else {
+          dispatch(setError(`Try update the page...`));
+        }
+      }
     }
-  };
-};
+  }
+);
 
-export const updateTodo = (id: string, updatedTodo: UpdatedTodo): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
-  return async (dispatch: ThunkDispatch<{}, {}, ActionTypes>): Promise<void> => {
+export const updateTodo = createAsyncThunk(
+  "todos/updateTodo",
+  async (obj: { id: string; updatedTodo: UpdatedTodo }, { dispatch }) => {
     try {
+      const { id, updatedTodo } = obj;
       await changeTodo(id, updatedTodo);
 
       dispatch(updateTodoAction({ id, updatedTodo }));
-      dispatch(setCompletedAllAction(false));
+      dispatch(setCompletedAll(false));
     } catch (e) {
-      //dispatch(setErrorAction(`${e.response.data.message} Try later...`));
-      dispatch(setErrorAction(`Try later...`));
+      if (e instanceof AxiosError) {
+        const { response } = e;
+        if (response) {
+          dispatch(
+            setError(`${response.data.message} Try update the page....`)
+          );
+        } else {
+          dispatch(setError(`Try update the page...`));
+        }
+      }
     }
-  };
-};
+  }
+);
 
-export const updateTodos = (ids: string[], completed: boolean) => {
-  return async (dispatch: Function) => {
+export const updateTodos = createAsyncThunk(
+  "todos/updateTodos",
+  async (
+    obj: { ids: string[]; completed: boolean },
+    { rejectWithValue, dispatch }
+  ) => {
     try {
+      const { ids, completed } = obj;
       await updateCompleted(ids, completed);
 
       dispatch(updateTodosAction(completed));
-      dispatch(setCompletedAllAction(completed));
+      dispatch(setCompletedAll(completed));
     } catch (e) {
-      //dispatch(setErrorAction(`${e.response.data.message} Try later...`));
-      dispatch(setErrorAction(`Try later...`));
+      if (e instanceof AxiosError) {
+        const { response } = e;
+        if (response) {
+          dispatch(
+            setError(`${response.data.message} Try update the page....`)
+          );
+        } else {
+          dispatch(setError(`Try update the page...`));
+        }
+      }
     }
-  };
-};
+  }
+);

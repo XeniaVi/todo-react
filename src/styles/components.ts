@@ -1,6 +1,10 @@
 import styled, { css } from "styled-components";
 import { check, down, cross, arrow, double_arrow } from "../assets/icons";
 
+interface Props {
+  $mode?: string;
+}
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -200,7 +204,7 @@ export const TaskInner = styled.div`
   gap: 1.5rem;
 `;
 
-export const TaskText = styled.div`
+export const TaskText = styled.div<Props>`
   ${(props) => {
     switch (props.$mode) {
       case "done":
@@ -219,7 +223,7 @@ export const TaskText = styled.div`
 
 export const EditInput = styled(TaskInner)``;
 
-export const Button = styled.button`
+export const Button = styled.button<Props>`
   padding: 0.5rem;
   color: #e3e2df;
   text-transform: uppercase;

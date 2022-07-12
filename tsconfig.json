@@ -20,13 +20,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
   },
   "include": [
     "./src/**/*.ts",
     "./src/**/*.tsx",
-    "declarations.d.ts"
-, "src/pages/index.js"  ],
+    "src/declaration.d.ts",
+    "src/pages/index.js"],
   "exclude": ["node_modules", "public", ".cache"],
   "types": ["node", "jest", "@testing-library/jest-dom"]
 }
