@@ -7,7 +7,6 @@ const initialState: IStatusState = {
   filter: "all",
   offset: 0,
   currentPage: 1,
-  count: 0,
   errorMessage: "",
 };
 
@@ -37,9 +36,6 @@ export const setStatusSlice = createSlice({
     setCompletedAll(state, action) {
       return { ...state, completedAll: action.payload };
     },
-    setCount(state, action) {
-      return { ...state, count: action.payload };
-    },
     setError(state, action) {
       return { ...state, errorMessage: action.payload };
     },
@@ -62,7 +58,6 @@ export const {
   setPage, //check
   setOffset, //check
   setCompletedAll,
-  setCount,
   setError,
   setFilter,
 } = actions;

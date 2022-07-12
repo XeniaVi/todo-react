@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from '../hooks'
 import {
-  setCount,
   setError,
   setFilter
 } from "slices/setStatusSlice";
@@ -27,7 +26,7 @@ const App: React.FC = () => {
   const items: ITodoGet[] = useAppSelector((state) => state.todos.todos);
   const offset: number = useAppSelector((state) => state.status.offset);
   const completed: boolean | undefined = useAppSelector((state) => state.status.completed);
-  const count: number = useAppSelector((state) => state.status.count);
+  const count: number = useAppSelector((state) => state.todos.notCompletedCount);
   const errorMessage: string = useAppSelector((state) => state.status.errorMessage);
   const filter: string = useAppSelector((state) => state.status.filter);
 
@@ -47,7 +46,7 @@ const App: React.FC = () => {
     }
   };
 
-  const deleteCompletedTasks = async () => {
+  const deleteCompletedTasks = () => {
     const ids = items.filter((item) => item.completed).map((item) => item.id);
     dispatch(deleteTodos({ids, offset, completed}));
   };
@@ -58,7 +57,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     dispatch(setError(""));
-    dispatch(setCount(items.filter((item) => !item.completed).length));
+    //dispatch(setCount(items.filter((item) => !item.completed).length));
   }, [items]);
 
   return (

@@ -1,13 +1,9 @@
 import {
   updateTodo as updateTodoAction,
   updateTodos as updateTodosAction,
-} from "slices/todosSlice";
-import {
-  setCompletedAll,
   setCount,
-  setError,
-  setFilter,
-} from "slices/setStatusSlice";
+} from "slices/todosSlice";
+import { setCompletedAll, setError, setFilter } from "slices/setStatusSlice";
 import {
   addTodo as appendTodo,
   updateCompleted,
@@ -36,11 +32,6 @@ export const fetchTodos = createAsyncThunk(
       ).length;
 
       dispatch(setCompletedAll(response.todos.length === length));
-      dispatch(
-        setCount(
-          response.todos.filter((item: ITodoGet) => !item.completed).length
-        )
-      );
 
       return response;
     } catch (e) {
@@ -69,6 +60,7 @@ export const addTodo = createAsyncThunk(
       });
 
       dispatch(setFilter({ value, completedAll: false }));
+      dispatch(setCount());
       return response;
     } catch (e) {
       if (e instanceof AxiosError) {
@@ -95,6 +87,7 @@ export const deleteTodo = createAsyncThunk(
       const { id, offset, completed } = obj;
       await removeTodo(id);
       dispatch(fetchTodos({ offset, completed }));
+      dispatch(setCount());
     } catch (e) {
       if (e instanceof AxiosError) {
         const { response } = e;
@@ -124,6 +117,7 @@ export const deleteTodos = createAsyncThunk(
       const { ids, offset, completed } = obj;
       await deleteCompleted(ids);
       dispatch(fetchTodos({ offset, completed }));
+      dispatch(setCount());
     } catch (e) {
       if (e instanceof AxiosError) {
         const { response } = e;
@@ -148,6 +142,7 @@ export const updateTodo = createAsyncThunk(
 
       dispatch(updateTodoAction({ id, updatedTodo }));
       dispatch(setCompletedAll(false));
+      dispatch(setCount());
     } catch (e) {
       if (e instanceof AxiosError) {
         const { response } = e;
@@ -175,6 +170,7 @@ export const updateTodos = createAsyncThunk(
 
       dispatch(updateTodosAction(completed));
       dispatch(setCompletedAll(completed));
+      dispatch(setCount());
     } catch (e) {
       if (e instanceof AxiosError) {
         const { response } = e;

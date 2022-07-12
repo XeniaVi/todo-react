@@ -22,6 +22,7 @@ export interface ITodosState {
   todos: ITodoGet[];
   totalCount: number;
   pagesCount: number;
+  notCompletedCount: number;
 }
 
 export interface IStatusState {
@@ -30,6 +31,5 @@ export interface IStatusState {
   filter: string;
   offset: number;
   currentPage: number;
-  count: number;
   errorMessage: string;
 }

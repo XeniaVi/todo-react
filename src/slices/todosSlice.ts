@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { config } from "../config/config";
-import { ITodosState } from "types";
+import { ITodoGet, ITodosState } from "types";
 import { fetchTodos, addTodo } from "asyncActions";
 
 const initialState: ITodosState = {
   todos: [],
   totalCount: 0,
   pagesCount: 0,
+  notCompletedCount: 0,
 };
 
 export const todosSlice = createSlice({
@@ -36,6 +37,14 @@ export const todosSlice = createSlice({
       );
       return { ...state, todos };
     },
+    setCount(state) {
+      return {
+        ...state,
+        notCompletedCount: state.todos.filter(
+          (item: ITodoGet) => !item.completed
+        ).length,
+      };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchTodos.fulfilled, (state, action) => {
@@ -46,6 +55,9 @@ export const todosSlice = createSlice({
         pagesCount: Math.ceil(
           action.payload.count / Number(config.TODOS_PER_PAGE)
         ),
+        notCompletedCount: action.payload.todos.filter(
+          (item: ITodoGet) => !item.completed
+        ).length,
       };
     });
     builder.addCase(addTodo.fulfilled, (state, action) => {
@@ -66,6 +78,6 @@ export const todosSlice = createSlice({
 });
 
 const { actions, reducer } = todosSlice;
-export const { updateTodo, updateTodos } = actions;
+export const { updateTodo, updateTodos, setCount } = actions;
 
 export default reducer;
