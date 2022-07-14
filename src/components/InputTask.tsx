@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setCompletedAllAction } from "../actions";
+import { useAppSelector, useAppDispatch } from '../hooks'
+import { setCompletedAll } from "slices/setStatusSlice";
 import { addTodo, updateTodos } from "../asyncActions";
 
 import {
@@ -9,24 +9,25 @@ import {
   Button,
   CheckboxAbsolute,
 } from "../styles/components";
+import { ITodoGet } from "types";
 
-function InputTask() {
+function InputTask():JSX.Element {
   const [value, setValue] = useState("");
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const items = useSelector((state) => state.todos.todos);
-  const completedAll = useSelector((state) => state.status.completedAll);
+  const items: ITodoGet[] = useAppSelector((state) => state.todos.todos);
+  const completedAll: boolean = useAppSelector((state) => state.status.completedAll);
 
   const toggleAllStatus = async () => {
     if (completedAll) {
       const ids = items.map((item) => item.id);
-      dispatch(updateTodos(ids, false));
+      dispatch(updateTodos({ids, completed: false}));
     } else {
       const ids = items
         .filter((item) => !item.completed)
         .map((item) => item.id);
-      dispatch(updateTodos(ids, true));
+      dispatch(updateTodos({ids, completed: true}));
     }
   };
 
@@ -36,18 +37,20 @@ function InputTask() {
     setValue("");
   };
 
-  const handleChange = (e) => {
-    setValue(e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setValue(value);
   };
 
-  const handleKeyDown = (e) => {
-    if (e.code === "Enter") {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const { code } = e
+    if (code === "Enter") {
       dispatchAddTodo();
     }
   };
 
   const handleChangeInputCheckbox = () => {
-    dispatch(setCompletedAllAction(completedAll));
+    dispatch(setCompletedAll(completedAll));
   };
 
   return (

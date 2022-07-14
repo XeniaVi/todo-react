@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { updateTodo, deleteTodo } from "../asyncActions";
+import { useAppSelector, useAppDispatch } from '../hooks'
 
 import {
   ButtonDelete,
@@ -13,14 +13,18 @@ import {
   EditInput,
   TaskText,
 } from "../styles/components";
+import { ITodoGet } from "types";
+type Props = {
+  item: ITodoGet;
+}
 
-function Task({ item }) {
-  const offset = useSelector((state) => state.status.offset);
-  const completed = useSelector((state) => state.status.completed);
+function Task ({ item }: Props):JSX.Element {
+  const offset = useAppSelector((state) => state.status.offset);
+  const completed = useAppSelector((state) => state.status.completed);
   const [isEditing, setEditing] = useState(false);
   const [value, setValue] = useState("");
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const startEdit = () => {
     setEditing(true);
@@ -28,13 +32,15 @@ function Task({ item }) {
   };
 
   const saveItem = () => {
-    dispatch(updateTodo(item.id, { value }));
+    const a: any = updateTodo({id: item.id, updatedTodo: { value }})
+    dispatch(a);
     setEditing(false);
     setValue("");
   };
 
-  const handleChange = (e) => {
-    setValue(e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setValue(value);
   };
 
   return (
@@ -45,7 +51,7 @@ function Task({ item }) {
             type="checkbox"
             checked={item.completed}
             onChange={() =>
-              dispatch(updateTodo(item.id, { completed: !item.completed }))
+              dispatch(updateTodo({id: item.id, updatedTodo:{ completed: !item.completed }}))
             }
           />
         </CheckboxList>
@@ -67,7 +73,7 @@ function Task({ item }) {
         )}
       </TaskInner>
       <ButtonDelete
-        onClick={() => dispatch(deleteTodo(item.id, offset, completed))}
+        onClick={() => dispatch(deleteTodo({id: item.id, offset, completed}))}
       ></ButtonDelete>
     </TaskItem>
   );
