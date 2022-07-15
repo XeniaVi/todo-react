@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { check, down, cross, arrow, double_arrow } from "../assets/icons";
+import { Link } from "react-router-dom";
 
 interface Props {
   $mode?: string;
@@ -30,7 +31,23 @@ export const Wrapper = styled.div`
   box-shadow: 0 0.5rem 1rem 0.1rem #999;
 `;
 
+export const Columns = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  place-items: center;
+  min-height: 20rem;
+  border-top: 1px solid #5d001e;
+  border-bottom: 1px solid #5d001e;
+`;
+
 export const Title = styled.h1`
+  color: #5d001e;
+  font-weight: 700;
+  text-align: center;
+`;
+
+export const TitleSmall = styled.h2`
   color: #5d001e;
   font-weight: 700;
   text-align: center;
@@ -460,6 +477,41 @@ export const InputForm = styled(Input)`
 `;
 
 export const ButtonForm = styled(ButtonFooter)`
+  &:hover {
+    color: white;
+    background-color: #5d001e;
+  }
+`;
+
+export const Nav = styled.nav``;
+
+export const NavList = styled.ul`
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding-left: 0;
+  list-style: none;
+`;
+
+export const NavItem = styled.li`
+  text-transform: uppercase;
+  font-weight: 500;
+
+  &:hover {
+    color: white;
+    background-color: #5d001e;
+  }
+`;
+
+export const NavLink = styled(Link)`
+  display: block;
+  padding: 0.5rem;
+  color: black;
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #5d001e;
+  transition: all 0.5s ease-in;
+
   &:hover {
     color: white;
     background-color: #5d001e;
