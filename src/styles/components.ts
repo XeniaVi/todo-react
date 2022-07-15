@@ -442,3 +442,26 @@ export const ButtonPaginationRight = styled(ButtonPaginationEdge)`
     background-image: url(${arrow});
   }
 `;
+
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  background: field;
+  border-radius: 0.1rem;
+  box-shadow: 0 0.5rem 1rem 0.1rem #999;
+`;
+
+export const InputForm = styled(Input)`
+  padding: 0.5rem;
+`;
+
+export const ButtonForm = styled(ButtonFooter)`
+  &:hover {
+    color: white;
+    background-color: #5d001e;
+  }
+`;
