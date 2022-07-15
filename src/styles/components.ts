@@ -10,7 +10,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  min-height: calc(100vh - 2rem);
+  min-height: calc(100vh - 4rem);
   padding: 2rem;
   background: #e3e2df;
 
