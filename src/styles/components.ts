@@ -517,3 +517,8 @@ export const NavLink = styled(Link)`
     background-color: #5d001e;
   }
 `;
+
+export const Message = styled(ErrorMessage)`
+  color: #000;
+  background-color: rgba(93, 0, 30, 0.1);
+`

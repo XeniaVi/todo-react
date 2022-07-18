@@ -5,6 +5,7 @@ import {
   setIdsCompleted,
 } from "slices/todosSlice";
 import { setCompletedAll, setError, setFilter } from "slices/setStatusSlice";
+import { setSuccessfulRegistration } from "slices/authSlice";
 import {
   addTodo as appendTodo,
   updateCompleted,
@@ -12,9 +13,10 @@ import {
   deleteCompleted,
   getTodos,
   updateTodo as changeTodo,
+  signUp as registration,
 } from "../api/todoApi";
 import { config } from "../config/config";
-import { ITodoGet, UpdatedTodo } from "../types";
+import { ITodoGet, PostRegistration, UpdatedTodo } from "../types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
@@ -173,6 +175,28 @@ export const updateTodos = createAsyncThunk(
       dispatch(updateTodosAction(completed));
       dispatch(setCompletedAll(completed));
       dispatch(setCount());
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        const { response } = e;
+        if (response) {
+          dispatch(
+            setError(`${response.data.message} Try update the page....`)
+          );
+        } else {
+          dispatch(setError(`Try update the page...`));
+        }
+      }
+    }
+  }
+);
+
+export const signUp = createAsyncThunk(
+  "auth/signUp",
+  async (user: PostRegistration, { rejectWithValue, dispatch }) => {
+    try {
+      const res = await registration(user);
+      dispatch(setError(""));
+      dispatch(setSuccessfulRegistration(false));
     } catch (e) {
       if (e instanceof AxiosError) {
         const { response } = e;

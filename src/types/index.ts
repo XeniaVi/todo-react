@@ -34,3 +34,13 @@ export interface IStatusState {
   currentPage: number;
   errorMessage: string;
 }
+
+export interface IRegistrationState {
+  isRegistration: boolean;
+  message: string;
+}
+
+export type PostRegistration = {
+  username: string;
+  password: string;
+};

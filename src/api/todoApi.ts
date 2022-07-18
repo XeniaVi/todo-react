@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ITodo, UpdatedTodo } from "types/index.js";
+import { ITodo, UpdatedTodo, PostRegistration } from "types/index.js";
 import { config } from "../config/config";
 
 export const getTodos = async (
@@ -37,5 +37,10 @@ export const updateCompleted = async (
   completed: boolean
 ) => {
   const response = await axios.put(config.API_URL, { ids, completed });
+  return response.data;
+};
+
+export const signUp = async (user: PostRegistration) => {
+  const response = await axios.post(`${config.AUTH_URL}/registration`, user);
   return response.data;
 };
