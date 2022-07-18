@@ -74,7 +74,7 @@ const Todos: React.FC = () => {
       <Wrapper>
         <InputTask />
         <Pagination />
-        {items.length && (
+        {items.length > 0 && (
           <div>
             <TasksList />
           </div>

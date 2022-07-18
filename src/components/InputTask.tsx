@@ -11,7 +11,7 @@ import {
 } from "../styles/components";
 import { ITodoGet } from "types";
 
-function InputTask():JSX.Element {
+function InputTask(): JSX.Element {
   const [value, setValue] = useState("");
 
   const dispatch = useAppDispatch();
@@ -22,12 +22,12 @@ function InputTask():JSX.Element {
   const toggleAllStatus = async () => {
     if (completedAll) {
       const ids = items.map((item) => item.id);
-      dispatch(updateTodos({ids, completed: false}));
+      dispatch(updateTodos({ ids, completed: false }));
     } else {
       const ids = items
         .filter((item) => !item.completed)
         .map((item) => item.id);
-      dispatch(updateTodos({ids, completed: true}));
+      dispatch(updateTodos({ ids, completed: true }));
     }
   };
 
@@ -55,7 +55,7 @@ function InputTask():JSX.Element {
 
   return (
     <InputWrapper>
-      {items.length && (
+      {items.length > 0 && (
         <CheckboxAbsolute>
           <input
             type="checkbox"
