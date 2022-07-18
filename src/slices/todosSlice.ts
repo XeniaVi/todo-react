@@ -51,7 +51,9 @@ export const todosSlice = createSlice({
     setCount(state) {
       return {
         ...state,
-        notCompletedCount: state.notCompletedCount + 1,
+        notCompletedCount: state.todos.filter(
+          (item: ITodoGet) => !item.completed
+        ).length,
       };
     },
     setIdsCompleted(state) {
@@ -93,6 +95,7 @@ export const todosSlice = createSlice({
         pagesCount: Math.ceil(
           (state.totalCount + 1) / Number(config.TODOS_PER_PAGE)
         ),
+        notCompletedCount: state.notCompletedCount + 1,
       };
     });
   },

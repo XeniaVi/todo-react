@@ -65,7 +65,6 @@ export const addTodo = createAsyncThunk(
       }, token);
 
       dispatch(setFilter({ filter: 'all', completedAll: false }));
-      dispatch(setCount());
       return response;
     } catch (e) {
       if (e instanceof AxiosError) {
