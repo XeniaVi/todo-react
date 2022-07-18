@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from '../hooks'
 import {
+  resetStatus,
   setError,
   setFilter
 } from "slices/setStatusSlice";
-import { setLogin } from "slices/authSlice";
+import { setSignOut } from "slices/authSlice";
 import { fetchTodos, deleteTodos } from "../asyncActions";
 import TasksList from "./TasksList";
 import InputTask from "./InputTask";
@@ -22,6 +23,7 @@ import {
 } from "../styles/components";
 import { ITodoGet } from "types";
 import { Navigate } from "react-router-dom";
+import { resetTodos } from "slices/todosSlice";
 
 const Todos: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -36,7 +38,7 @@ const Todos: React.FC = () => {
   const token: string | null = useAppSelector((state) => state.auth.token);
   const isLogin: boolean = useAppSelector((state) => state.auth.isLogin);
 
-  console.log(filter)
+  console.log(token)
 
   const filterTasks = (e: React.MouseEvent<HTMLElement>) => {
     const { textContent } = e.target as HTMLElement;
@@ -58,9 +60,15 @@ const Todos: React.FC = () => {
     dispatch(deleteTodos({ ids, offset, token, completed }));
   };
 
+  const signOut = () => {
+    dispatch(setSignOut());
+    dispatch(resetStatus());
+    dispatch(resetTodos());
+  }
+
   useEffect(() => {
     dispatch(fetchTodos({ offset, token }));
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     dispatch(setError(""));
@@ -101,7 +109,7 @@ const Todos: React.FC = () => {
           <ButtonFooter onClick={deleteCompletedTasks}>
             Clear completed
           </ButtonFooter>
-          <ButtonSignOut onClick={() => dispatch(setLogin())}>Sign out</ButtonSignOut>
+          <ButtonSignOut onClick={signOut}>Sign out</ButtonSignOut>
         </Footer>
       </Wrapper>
       {!isLogin && (<Navigate to="/" />)}

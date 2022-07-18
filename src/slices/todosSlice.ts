@@ -15,6 +15,16 @@ export const todosSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
+    resetTodos(state) {
+      return {
+        ...state,
+        todos: [],
+        totalCount: 0,
+        pagesCount: 0,
+        notCompletedCount: 0,
+        idsCompleted: [],
+      }
+    },
     updateTodo(state, action) {
       const { id, updatedTodo } = action.payload;
       const todos = state.todos.map((item) =>
@@ -90,6 +100,6 @@ export const todosSlice = createSlice({
 });
 
 const { actions, reducer } = todosSlice;
-export const { updateTodo, updateTodos, setCount, setIdsCompleted } = actions;
+export const { updateTodo, updateTodos, setCount, setIdsCompleted, resetTodos } = actions;
 
 export default reducer;

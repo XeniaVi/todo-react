@@ -14,23 +14,21 @@ export const setStatusSlice = createSlice({
   name: "status",
   initialState,
   reducers: {
-    setCompleted(state, action) {
+    resetStatus(state) {
       return {
         ...state,
-        completed: action.payload,
-      };
-    },
+        completedAll: false,
+        filter: "all",
+        offset: 0,
+        currentPage: 1,
+        errorMessage: "",
+      }
+    }, 
     setPage(state, action) {
       return {
         ...state,
         offset: (Number(action.payload) - 1) * Number(config.TODOS_PER_PAGE),
         currentPage: action.payload,
-      };
-    },
-    setOffset(state, action) {
-      return {
-        ...state,
-        offset: action.payload,
       };
     },
     setCompletedAll(state, action) {
@@ -55,12 +53,11 @@ export const setStatusSlice = createSlice({
 
 const { actions, reducer } = setStatusSlice;
 export const {
-  setCompleted, //check
-  setPage, //check
-  setOffset, //check
+  setPage,
   setCompletedAll,
   setError,
   setFilter,
+  resetStatus,
 } = actions;
 
 export default reducer;
