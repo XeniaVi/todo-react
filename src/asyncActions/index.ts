@@ -64,7 +64,7 @@ export const addTodo = createAsyncThunk(
         createdAt: Date.now(),
       }, token);
 
-      dispatch(setFilter({ value, completedAll: false }));
+      dispatch(setFilter({ filter: 'all', completedAll: false }));
       dispatch(setCount());
       return response;
     } catch (e) {

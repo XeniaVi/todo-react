@@ -12,10 +12,9 @@ import {
 import { ITodoGet } from "types";
 
 function InputTask(): JSX.Element {
-  const [value, setValue] = useState("");
-
   const dispatch = useAppDispatch();
 
+  const [value, setValue] = useState("");
   const items: ITodoGet[] = useAppSelector((state) => state.todos.todos);
   const completedAll: boolean = useAppSelector((state) => state.status.completedAll);
   const token: string | null = useAppSelector((state) => state.auth.token);

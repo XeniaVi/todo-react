@@ -32,6 +32,8 @@ const Todos: React.FC = () => {
   const ids: Array<string> = useAppSelector((state) => state.todos.idsCompleted);
   const token: string | null = useAppSelector((state) => state.auth.token);
 
+  console.log(filter)
+
   const filterTasks = (e: React.MouseEvent<HTMLElement>) => {
     const { textContent } = e.target as HTMLElement;
     const value: string = textContent ? textContent.toLowerCase() : filter;
