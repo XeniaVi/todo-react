@@ -10,7 +10,6 @@ export const getTodos = async (
 ) => {
   const extra = typeof completed === "boolean" ? `&completed=${completed}` : "";
   const header: {authorization?: string} = token ? {authorization: token} : {};
-  console.log(header)
   const response = await axios.get(
     `${config.API_URL}?offset=${offset}&limit=${limit}${extra}`, {headers: header}
   );
@@ -56,6 +55,5 @@ export const signUp = async (user: PostRegistration) => {
 
 export const signIn = async (user: PostRegistration) => {
   const response = await axios.post(`${config.AUTH_URL}/login`, user);
-  console.log(response)
   return response.data;
 };

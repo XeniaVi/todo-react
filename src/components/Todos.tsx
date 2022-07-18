@@ -38,8 +38,6 @@ const Todos: React.FC = () => {
   const token: string | null = useAppSelector((state) => state.auth.token);
   const isLogin: boolean = useAppSelector((state) => state.auth.isLogin);
 
-  console.log(token)
-
   const filterTasks = (e: React.MouseEvent<HTMLElement>) => {
     const { textContent } = e.target as HTMLElement;
     const value: string = textContent ? textContent.toLowerCase() : filter;

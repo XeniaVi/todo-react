@@ -49,7 +49,6 @@ export const todosSlice = createSlice({
       return { ...state, todos };
     },
     setCount(state) {
-      console.log('setCount ', state.notCompletedCount)
       return {
         ...state,
         notCompletedCount: state.notCompletedCount + 1,

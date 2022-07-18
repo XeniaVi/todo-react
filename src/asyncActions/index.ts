@@ -218,7 +218,6 @@ export const signIn = createAsyncThunk(
   async (user: PostLogin, { rejectWithValue, dispatch }) => {
     try {
       const response = await login(user);
-      console.log(response);
       dispatch(setError(""))
       return response;
     } catch (e) {

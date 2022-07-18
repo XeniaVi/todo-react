@@ -16,8 +16,6 @@ const Login: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    console.log(token)
-
     const handleChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
         setUsername(value);

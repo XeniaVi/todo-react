@@ -38,7 +38,6 @@ export const setStatusSlice = createSlice({
       return { ...state, errorMessage: action.payload };
     },
     setFilter(state, action) {
-      console.log(action.payload.filter);
       return {
         ...state,
         filter: action.payload.filter,
