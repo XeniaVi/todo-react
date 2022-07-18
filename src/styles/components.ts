@@ -541,3 +541,17 @@ export const LabelMessage = styled(ErrorMessage)`
     padding: 0.2rem;
     font-size: 0.6rem;
 `
+
+export const ButtonSignOut = styled(ButtonFooter)`
+  color: #e3e2df;
+  background-color: #5d001e;
+  
+  &:hover {
+    background: #ee4c7c;
+    transition: all 0.5s ease-in;
+  }
+
+  &:focus-visible {
+    outline: 1px solid #ee4c7c;
+  }
+`

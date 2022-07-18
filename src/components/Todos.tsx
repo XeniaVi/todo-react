@@ -4,6 +4,7 @@ import {
   setError,
   setFilter
 } from "slices/setStatusSlice";
+import { setLogin } from "slices/authSlice";
 import { fetchTodos, deleteTodos } from "../asyncActions";
 import TasksList from "./TasksList";
 import InputTask from "./InputTask";
@@ -17,8 +18,10 @@ import {
   FilterWrapper,
   ErrorMessage,
   CloseButton,
+  ButtonSignOut,
 } from "../styles/components";
 import { ITodoGet } from "types";
+import { Navigate } from "react-router-dom";
 
 const Todos: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -31,6 +34,7 @@ const Todos: React.FC = () => {
   const filter: string = useAppSelector((state) => state.status.filter);
   const ids: Array<string> = useAppSelector((state) => state.todos.idsCompleted);
   const token: string | null = useAppSelector((state) => state.auth.token);
+  const isLogin: boolean = useAppSelector((state) => state.auth.isLogin);
 
   console.log(filter)
 
@@ -97,8 +101,10 @@ const Todos: React.FC = () => {
           <ButtonFooter onClick={deleteCompletedTasks}>
             Clear completed
           </ButtonFooter>
+          <ButtonSignOut onClick={() => dispatch(setLogin())}>Sign out</ButtonSignOut>
         </Footer>
       </Wrapper>
+      {!isLogin && (<Navigate to="/" />)}
     </Container>
   );
 };

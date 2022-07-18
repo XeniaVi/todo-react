@@ -28,12 +28,20 @@ export const registrationSlice = createSlice({
         registrationError: action.payload,
       };
     },
+    setLogin(state) {
+      localStorage.setItem("token", ``);
+      return {
+        ...state,
+        isLogin: false,
+      }
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(signIn.fulfilled, (state, action) => {
       localStorage.setItem("token", `Bearer ${action.payload}`);
       return {
         ...state,
+        isLogin: true,
         token: action.payload,
       }
     })
@@ -41,6 +49,6 @@ export const registrationSlice = createSlice({
 });
 
 const { actions, reducer } = registrationSlice;
-export const { setSuccessfulRegistration, setRegistrationError } = actions;
+export const { setSuccessfulRegistration, setRegistrationError, setLogin } = actions;
 
 export default reducer;
