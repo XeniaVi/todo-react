@@ -28,6 +28,12 @@ export const registrationSlice = createSlice({
         registrationError: action.payload,
       };
     },
+    setMessage(state, action) {
+      return {
+        ...state,
+        message: action.payload,
+      };
+    },
     setSignOut(state) {
       localStorage.setItem("token", ``);
       return {
@@ -50,6 +56,6 @@ export const registrationSlice = createSlice({
 });
 
 const { actions, reducer } = registrationSlice;
-export const { setSuccessfulRegistration, setRegistrationError, setSignOut } = actions;
+export const { setSuccessfulRegistration, setRegistrationError, setSignOut, setMessage } = actions;
 
 export default reducer;
