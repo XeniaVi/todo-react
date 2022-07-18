@@ -4,7 +4,8 @@ import { IRegistrationState } from "types";
 
 const initialState: IRegistrationState = {
   isRegistration: true,
-  message: ''
+  message: '',
+  registrationError: ''
 };
 
 export const registrationSlice = createSlice({
@@ -15,13 +16,20 @@ export const registrationSlice = createSlice({
       return {
         ...state,
         isRegistration: action.payload,
-        message: "Registration completed successfully!"
+        message: "Registration completed successfully!",
+        registrationError: ''
+      };
+    },
+    setRegistrationError(state, action) {
+      return {
+        ...state,
+        registrationError: action.payload,
       };
     },
   },
 });
 
 const { actions, reducer } = registrationSlice;
-export const { setSuccessfulRegistration } = actions;
+export const { setSuccessfulRegistration, setRegistrationError } = actions;
 
 export default reducer;

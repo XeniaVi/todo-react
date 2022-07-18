@@ -38,6 +38,7 @@ export interface IStatusState {
 export interface IRegistrationState {
   isRegistration: boolean;
   message: string;
+  registrationError: string;
 }
 
 export type PostRegistration = {
