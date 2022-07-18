@@ -90,7 +90,7 @@ export const deleteTodo = createAsyncThunk(
   ) => {
     try {
       const { id, offset, completed, token } = obj;
-      await removeTodo(id);
+      await removeTodo(id, token);
       dispatch(fetchTodos({ offset, token, completed }));
       dispatch(setCount());
     } catch (e) {
