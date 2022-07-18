@@ -32,6 +32,7 @@ const Registration: React.FC = () => {
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLElement>) => {
+    resetErrors();
     e.preventDefault()
     if (!username) {
       dispatch(setRegistrationError('Username must not be empty'));
