@@ -17,8 +17,9 @@ export const getTodos = async (
   return response.data;
 };
 
-export const addTodo = async (item: ITodo) => {
-  const response = await axios.post(config.API_URL, item);
+export const addTodo = async (item: ITodo, token: string | null) => {
+  const header: {authorization?: string} = token ? {authorization: JSON.parse(token)} : {}
+  const response = await axios.post(config.API_URL, item, {headers: header});
   return response.data;
 };
 

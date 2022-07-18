@@ -18,6 +18,7 @@ function InputTask(): JSX.Element {
 
   const items: ITodoGet[] = useAppSelector((state) => state.todos.todos);
   const completedAll: boolean = useAppSelector((state) => state.status.completedAll);
+  const token: string | null = useAppSelector((state) => state.auth.token);
 
   const toggleAllStatus = async () => {
     if (completedAll) {
@@ -33,7 +34,7 @@ function InputTask(): JSX.Element {
 
   const dispatchAddTodo = () => {
     if (!value) return;
-    dispatch(addTodo(value));
+    dispatch(addTodo({ value, token }));
     setValue("");
   };
 

@@ -55,13 +55,14 @@ export const fetchTodos = createAsyncThunk(
 
 export const addTodo = createAsyncThunk(
   "todos/addTodo",
-  async (value: string, { rejectWithValue, dispatch }) => {
+  async (obj: {value: string, token: string | null}, { rejectWithValue, dispatch }) => {
     try {
+      const { value, token } = obj;
       const response = await appendTodo({
         value: value,
         completed: false,
         createdAt: Date.now(),
-      });
+      }, token);
 
       dispatch(setFilter({ value, completedAll: false }));
       dispatch(setCount());
