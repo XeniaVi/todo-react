@@ -168,12 +168,12 @@ export const updateTodo = createAsyncThunk(
 export const updateTodos = createAsyncThunk(
   "todos/updateTodos",
   async (
-    obj: { ids: string[]; completed: boolean },
+    obj: { ids: string[]; completed: boolean; token: string | null },
     { rejectWithValue, dispatch }
   ) => {
     try {
-      const { ids, completed } = obj;
-      await updateCompleted(ids, completed);
+      const { ids, completed, token } = obj;
+      await updateCompleted(ids, completed, token);
 
       dispatch(updateTodosAction(completed));
       dispatch(setCompletedAll(completed));

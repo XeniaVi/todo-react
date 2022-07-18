@@ -23,12 +23,12 @@ function InputTask(): JSX.Element {
   const toggleAllStatus = async () => {
     if (completedAll) {
       const ids = items.map((item) => item.id);
-      dispatch(updateTodos({ ids, completed: false }));
+      dispatch(updateTodos({ ids, completed: false, token }));
     } else {
       const ids = items
         .filter((item) => !item.completed)
         .map((item) => item.id);
-      dispatch(updateTodos({ ids, completed: true }));
+      dispatch(updateTodos({ ids, completed: true, token }));
     }
   };
 

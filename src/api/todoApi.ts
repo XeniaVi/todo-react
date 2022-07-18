@@ -41,9 +41,11 @@ export const deleteCompleted = async (ids: Array<string>, token: string | null) 
 
 export const updateCompleted = async (
   ids: Array<string>,
-  completed: boolean
+  completed: boolean, 
+  token: string | null
 ) => {
-  const response = await axios.put(config.API_URL, { ids, completed });
+  const header: {authorization?: string} = token ? {authorization: token} : {};
+  const response = await axios.put(config.API_URL, { ids, completed }, {headers: header});
   return response.data;
 };
 
