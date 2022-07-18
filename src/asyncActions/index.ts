@@ -141,10 +141,10 @@ export const deleteTodos = createAsyncThunk(
 
 export const updateTodo = createAsyncThunk(
   "todos/updateTodo",
-  async (obj: { id: string; updatedTodo: UpdatedTodo }, { dispatch }) => {
+  async (obj: { id: string; updatedTodo: UpdatedTodo; token: string | null }, { dispatch }) => {
     try {
-      const { id, updatedTodo } = obj;
-      await changeTodo(id, updatedTodo);
+      const { id, updatedTodo, token } = obj;
+      await changeTodo(id, updatedTodo, token);
 
       dispatch(updateTodoAction({ id, updatedTodo }));
       dispatch(setCompletedAll(false));

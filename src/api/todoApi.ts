@@ -28,8 +28,9 @@ export const deleteTodo = async (id: string, token: string | null) => {
   return axios.delete(`${config.API_URL}/${id}`, {headers:  header, data: {data: id }});
 };
 
-export const updateTodo = async (id: string, updatedTodo: UpdatedTodo) => {
-  const response = await axios.put(`${config.API_URL}/${id}`, updatedTodo);
+export const updateTodo = async (id: string, updatedTodo: UpdatedTodo, token: string | null) => {
+  const header: {authorization?: string} = token ? {authorization: token} : {};
+  const response = await axios.put(`${config.API_URL}/${id}`, updatedTodo, {headers: header});
   return response.data;
 };
 

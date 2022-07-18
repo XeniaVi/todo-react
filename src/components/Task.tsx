@@ -33,7 +33,7 @@ function Task({ item }: Props): JSX.Element {
   };
 
   const saveItem = () => {
-    const a: any = updateTodo({ id: item.id, updatedTodo: { value } })
+    const a: any = updateTodo({ id: item.id, updatedTodo: { value }, token })
     dispatch(a);
     setEditing(false);
     setValue("");
@@ -52,7 +52,7 @@ function Task({ item }: Props): JSX.Element {
             type="checkbox"
             checked={item.completed}
             onChange={() =>
-              dispatch(updateTodo({ id: item.id, updatedTodo: { completed: !item.completed } }))
+              dispatch(updateTodo({ id: item.id, updatedTodo: { completed: !item.completed }, token }))
             }
           />
         </CheckboxList>
