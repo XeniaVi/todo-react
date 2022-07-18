@@ -44,3 +44,9 @@ export const signUp = async (user: PostRegistration) => {
   const response = await axios.post(`${config.AUTH_URL}/registration`, user);
   return response.data;
 };
+
+export const signIn = async (user: PostRegistration) => {
+  const response = await axios.post(`${config.AUTH_URL}/login`, user);
+  console.log(response)
+  return response.data;
+};

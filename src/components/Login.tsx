@@ -3,14 +3,20 @@ import { useAppSelector, useAppDispatch } from '../hooks';
 import { setRegistrationError } from "slices/authSlice";
 import { ButtonForm, Container, Form, InputForm, Message, Title, LabelMessage } from "styles/components";
 import { minLengthPassword, maxLengthPassword } from "../constants";
+import { signIn } from "asyncActions";
+import { PostLogin } from "types";
+import { Navigate } from "react-router-dom";
 
 const Login: React.FC = () => {
     const dispatch = useAppDispatch();
 
     const message: string = useAppSelector((state) => state.auth.message);
     const registrationError: string = useAppSelector((state) => state.auth.registrationError);
+    const token: string | null = useAppSelector((state) => state.auth.token);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+    console.log(token)
 
     const handleChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
@@ -32,7 +38,10 @@ const Login: React.FC = () => {
         ) {
             dispatch(setRegistrationError(`Password's length must be more than ${minLengthPassword} and less than ${maxLengthPassword}`));
         } else {
-            console.log('login')
+            const user: PostLogin = { username, password };
+            dispatch(signIn(user))
+            setUsername('')
+            setPassword('')
         }
     }
 
@@ -51,6 +60,7 @@ const Login: React.FC = () => {
                 </div>
                 <ButtonForm type="submit">Sign in</ButtonForm>
             </Form>
+            {token && (<Navigate to="/todos" />)}
         </Container>
     );
 };

@@ -1,14 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signUp } from "asyncActions";
-import { IRegistrationState } from "types";
+import { signIn } from "asyncActions";
+import { AuthState } from "types";
 
-const initialState: IRegistrationState = {
+const initialState: AuthState = {
   isRegistration: true,
+  isLogin: localStorage.getItem("token") ? true : false,
   message: '',
-  registrationError: ''
+  registrationError: '',
+  token: localStorage.getItem("token") ? localStorage.getItem("token") : ''
 };
 
-export const registrationSlice = createSlice({
+export const registrationSlice = createSlice({  
   name: "registration",
   initialState,
   reducers: {
@@ -26,6 +28,17 @@ export const registrationSlice = createSlice({
         registrationError: action.payload,
       };
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(signIn.fulfilled, (state, action) => {
+      console.log(action.payload)
+      localStorage.setItem("token", JSON.stringify(action.payload));
+      console.log(action.payload)
+      return {
+        ...state,
+        token: action.payload,
+      }
+    })
   },
 });
 

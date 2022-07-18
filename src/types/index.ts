@@ -35,13 +35,17 @@ export interface IStatusState {
   errorMessage: string;
 }
 
-export interface IRegistrationState {
+export type AuthState = {
   isRegistration: boolean;
+  isLogin: boolean;
   message: string;
   registrationError: string;
+  token: string | null;
 }
 
-export type PostRegistration = {
+export interface PostRegistration {
   username: string;
   password: string;
 };
+
+export interface PostLogin extends PostRegistration {}

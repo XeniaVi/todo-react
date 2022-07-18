@@ -14,9 +14,10 @@ import {
   getTodos,
   updateTodo as changeTodo,
   signUp as registration,
+  signIn as login,
 } from "../api/todoApi";
 import { config } from "../config/config";
-import { ITodoGet, PostRegistration, UpdatedTodo } from "../types";
+import { ITodoGet, PostRegistration, UpdatedTodo, PostLogin } from "../types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
@@ -194,9 +195,32 @@ export const signUp = createAsyncThunk(
   "auth/signUp",
   async (user: PostRegistration, { rejectWithValue, dispatch }) => {
     try {
-      const res = await registration(user);
+      await registration(user);
       dispatch(setError(""));
       dispatch(setSuccessfulRegistration(false));
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        const { response } = e;
+        if (response) {
+          dispatch(
+            setError(`${response.data.message} Try update the page....`)
+          );
+        } else {
+          dispatch(setError(`Try update the page...`));
+        }
+      }
+    }
+  }
+);
+
+export const signIn = createAsyncThunk(
+  "auth/signIn",
+  async (user: PostLogin, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await login(user);
+      console.log(response);
+      dispatch(setError(""))
+      return response;
     } catch (e) {
       if (e instanceof AxiosError) {
         const { response } = e;
