@@ -52,6 +52,8 @@ const Todos: React.FC = () => {
       default:
         dispatch(setFilter({ filter: value, completedAll: false }));
     }
+
+    dispatch(fetchTodos({ offset, completed, token }));
   };
 
   const deleteCompletedTasks = () => {

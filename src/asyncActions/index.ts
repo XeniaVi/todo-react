@@ -5,7 +5,7 @@ import {
   setIdsCompleted,
 } from "slices/todosSlice";
 import { setCompletedAll, setError, setFilter } from "slices/setStatusSlice";
-import { setSuccessfulRegistration } from "slices/authSlice";
+import { setSignOut, setSuccessfulRegistration } from "slices/authSlice";
 import {
   addTodo as appendTodo,
   updateCompleted,
@@ -42,8 +42,10 @@ export const fetchTodos = createAsyncThunk(
       if (e instanceof AxiosError) {
         const { response } = e;
         if (response) {
+          if(response.data.status === 500) dispatch(setSignOut());
+
           dispatch(
-            setError(`${response.data.message} Try update the page....`)
+            setError(`${response.data.message}. Try update the page....`)
           );
         } else {
           dispatch(setError(`Try update the page...`));
@@ -71,7 +73,7 @@ export const addTodo = createAsyncThunk(
         const { response } = e;
         if (response) {
           dispatch(
-            setError(`${response.data.message} Try update the page....`)
+            setError(`${response.data.message}. Try update the page....`)
           );
         } else {
           dispatch(setError(`Try update the page...`));
@@ -96,7 +98,7 @@ export const deleteTodo = createAsyncThunk(
         const { response } = e;
         if (response) {
           dispatch(
-            setError(`${response.data.message} Try update the page....`)
+            setError(`${response.data.message}. Try update the page....`)
           );
         } else {
           dispatch(setError(`Try update the page...`));
@@ -126,7 +128,7 @@ export const deleteTodos = createAsyncThunk(
         const { response } = e;
         if (response) {
           dispatch(
-            setError(`${response.data.message} Try update the page....`)
+            setError(`${response.data.message}. Try update the page....`)
           );
         } else {
           dispatch(setError(`Try update the page...`));
@@ -152,7 +154,7 @@ export const updateTodo = createAsyncThunk(
         const { response } = e;
         if (response) {
           dispatch(
-            setError(`${response.data.message} Try update the page....`)
+            setError(`${response.data.message}. Try update the page....`)
           );
         } else {
           dispatch(setError(`Try update the page...`));
@@ -180,7 +182,7 @@ export const updateTodos = createAsyncThunk(
         const { response } = e;
         if (response) {
           dispatch(
-            setError(`${response.data.message} Try update the page....`)
+            setError(`${response.data.message}. Try update the page....`)
           );
         } else {
           dispatch(setError(`Try update the page...`));
@@ -202,7 +204,7 @@ export const signUp = createAsyncThunk(
         const { response } = e;
         if (response) {
           dispatch(
-            setError(`${response.data.message} Try update the page....`)
+            setError(`${response.data.message}. Try update the page....`)
           );
         } else {
           dispatch(setError(`Try update the page...`));
@@ -224,7 +226,7 @@ export const signIn = createAsyncThunk(
         const { response } = e;
         if (response) {
           dispatch(
-            setError(`${response.data.message} Try update the page....`)
+            setError(`${response.data.message}. Try update the page....`)
           );
         } else {
           dispatch(setError(`Try update the page...`));
