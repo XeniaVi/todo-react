@@ -34,8 +34,9 @@ export const updateTodo = async (id: string, updatedTodo: UpdatedTodo, token: st
   return response.data;
 };
 
-export const deleteCompleted = async (ids: Array<string>) => {
-  return axios.delete(config.API_URL, { data: { ids } });
+export const deleteCompleted = async (ids: Array<string>, token: string | null) => {
+  const header: {authorization?: string} = token ? {authorization: token} : {};
+  return axios.delete(config.API_URL, { headers: header, data: { ids } });
 };
 
 export const updateCompleted = async (
