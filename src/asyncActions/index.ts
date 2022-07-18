@@ -92,7 +92,6 @@ export const deleteTodo = createAsyncThunk(
       const { id, offset, completed, token } = obj;
       await removeTodo(id, token);
       dispatch(fetchTodos({ offset, token, completed }));
-      dispatch(setCount());
     } catch (e) {
       if (e instanceof AxiosError) {
         const { response } = e;
@@ -123,7 +122,6 @@ export const deleteTodos = createAsyncThunk(
       const { ids, offset, completed, token } = obj;
       await deleteCompleted(ids, token);
       dispatch(fetchTodos({ offset, token, completed }));
-      dispatch(setCount());
     } catch (e) {
       if (e instanceof AxiosError) {
         const { response } = e;

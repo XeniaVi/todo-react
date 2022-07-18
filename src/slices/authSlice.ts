@@ -33,6 +33,7 @@ export const registrationSlice = createSlice({
       return {
         ...state,
         isLogin: false,
+        token: '',
       }
     }
   },

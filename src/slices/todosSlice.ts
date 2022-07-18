@@ -39,11 +39,10 @@ export const todosSlice = createSlice({
       return { ...state, todos };
     },
     setCount(state) {
+      console.log('setCount ', state.notCompletedCount)
       return {
         ...state,
-        notCompletedCount: state.todos.filter(
-          (item: ITodoGet) => !item.completed
-        ).length,
+        notCompletedCount: state.notCompletedCount + 1,
       };
     },
     setIdsCompleted(state) {
