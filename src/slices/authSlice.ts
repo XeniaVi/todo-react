@@ -7,7 +7,7 @@ const initialState: AuthState = {
   isLogin: localStorage.getItem("token") ? true : false,
   message: '',
   registrationError: '',
-  token: localStorage.getItem("token") ? localStorage.getItem("token") : ''
+  token: localStorage.getItem("token") ? localStorage.getItem("token") : '',
 };
 
 export const registrationSlice = createSlice({  
@@ -32,7 +32,7 @@ export const registrationSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(signIn.fulfilled, (state, action) => {
       console.log(action.payload)
-      localStorage.setItem("token", JSON.stringify(action.payload));
+      localStorage.setItem("token", JSON.stringify(`Bearer ${action.payload}`));
       console.log(action.payload)
       return {
         ...state,

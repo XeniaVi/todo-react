@@ -5,11 +5,14 @@ import { config } from "../config/config";
 export const getTodos = async (
   limit: number | string,
   offset: number,
-  completed?: boolean
+  token: string | null,
+  completed?: boolean,
 ) => {
   const extra = typeof completed === "boolean" ? `&completed=${completed}` : "";
+  const header: {authorization?: string} = token ? {authorization: JSON.parse(token)} : {}
+  console.log(header)
   const response = await axios.get(
-    `${config.API_URL}?offset=${offset}&limit=${limit}${extra}`
+    `${config.API_URL}?offset=${offset}&limit=${limit}${extra}`, {headers: header}
   );
   return response.data;
 };

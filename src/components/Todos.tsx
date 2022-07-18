@@ -21,7 +21,7 @@ import {
 import { ITodoGet } from "types";
 
 const Todos: React.FC = () => {
-  const dispatch   = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const items: ITodoGet[] = useAppSelector((state) => state.todos.todos);
   const offset: number = useAppSelector((state) => state.status.offset);
@@ -30,6 +30,7 @@ const Todos: React.FC = () => {
   const errorMessage: string = useAppSelector((state) => state.status.errorMessage);
   const filter: string = useAppSelector((state) => state.status.filter);
   const ids: Array<string> = useAppSelector((state) => state.todos.idsCompleted);
+  const token: string | null = useAppSelector((state) => state.auth.token);
 
   const filterTasks = (e: React.MouseEvent<HTMLElement>) => {
     const { textContent } = e.target as HTMLElement;
@@ -37,22 +38,22 @@ const Todos: React.FC = () => {
 
     switch (value) {
       case "completed":
-        dispatch(setFilter({filter: value, completedAll: true, completed: true}));
+        dispatch(setFilter({ filter: value, completedAll: true, completed: true }));
         break;
       case "active":
-        dispatch(setFilter({filter: value, completedAll: false, completed: false}));
-        break;  
+        dispatch(setFilter({ filter: value, completedAll: false, completed: false }));
+        break;
       default:
-        dispatch(setFilter({filter: value, completedAll: false}));
+        dispatch(setFilter({ filter: value, completedAll: false }));
     }
   };
 
   const deleteCompletedTasks = () => {
-    dispatch(deleteTodos({ids, offset, completed}));
+    dispatch(deleteTodos({ ids, offset, token, completed }));
   };
 
   useEffect(() => {
-    dispatch(fetchTodos({offset}));
+    dispatch(fetchTodos({ offset, token }));
   }, []);
 
   useEffect(() => {

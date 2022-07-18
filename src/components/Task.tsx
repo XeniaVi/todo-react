@@ -18,9 +18,10 @@ type Props = {
   item: ITodoGet;
 }
 
-function Task ({ item }: Props):JSX.Element {
+function Task({ item }: Props): JSX.Element {
   const offset = useAppSelector((state) => state.status.offset);
   const completed = useAppSelector((state) => state.status.completed);
+  const token: string | null = useAppSelector((state) => state.auth.token);
   const [isEditing, setEditing] = useState(false);
   const [value, setValue] = useState("");
 
@@ -32,7 +33,7 @@ function Task ({ item }: Props):JSX.Element {
   };
 
   const saveItem = () => {
-    const a: any = updateTodo({id: item.id, updatedTodo: { value }})
+    const a: any = updateTodo({ id: item.id, updatedTodo: { value } })
     dispatch(a);
     setEditing(false);
     setValue("");
@@ -51,7 +52,7 @@ function Task ({ item }: Props):JSX.Element {
             type="checkbox"
             checked={item.completed}
             onChange={() =>
-              dispatch(updateTodo({id: item.id, updatedTodo:{ completed: !item.completed }}))
+              dispatch(updateTodo({ id: item.id, updatedTodo: { completed: !item.completed } }))
             }
           />
         </CheckboxList>
@@ -73,7 +74,7 @@ function Task ({ item }: Props):JSX.Element {
         )}
       </TaskInner>
       <ButtonDelete
-        onClick={() => dispatch(deleteTodo({id: item.id, offset, completed}))}
+        onClick={() => dispatch(deleteTodo({ id: item.id, offset, token, completed }))}
       ></ButtonDelete>
     </TaskItem>
   );

@@ -24,12 +24,12 @@ import { AxiosError } from "axios";
 export const fetchTodos = createAsyncThunk(
   "todos/fetchTodos",
   async (
-    obj: { offset: number; completed?: boolean },
+    obj: { offset: number; completed?: boolean; token: string | null},
     { rejectWithValue, dispatch }
   ) => {
     try {
-      const { offset, completed } = obj;
-      const response = await getTodos(config.TODOS_PER_PAGE, offset, completed);
+      const { offset, completed, token } = obj;
+      const response = await getTodos(config.TODOS_PER_PAGE, offset, token, completed);
 
       const length = response.todos.filter(
         (item: ITodoGet) => item.completed
@@ -84,13 +84,13 @@ export const addTodo = createAsyncThunk(
 export const deleteTodo = createAsyncThunk(
   "todos/deleteTodo",
   async (
-    obj: { id: string; offset: number; completed?: boolean },
+    obj: { id: string; offset: number; completed?: boolean, token: string | null },
     { dispatch }
   ) => {
     try {
-      const { id, offset, completed } = obj;
+      const { id, offset, completed, token } = obj;
       await removeTodo(id);
-      dispatch(fetchTodos({ offset, completed }));
+      dispatch(fetchTodos({ offset, token, completed }));
       dispatch(setCount());
     } catch (e) {
       if (e instanceof AxiosError) {
@@ -114,13 +114,14 @@ export const deleteTodos = createAsyncThunk(
       ids: string[];
       offset: number;
       completed?: boolean;
+      token: string | null
     },
     { dispatch }
   ) => {
     try {
-      const { ids, offset, completed } = obj;
+      const { ids, offset, completed, token } = obj;
       await deleteCompleted(ids);
-      dispatch(fetchTodos({ offset, completed }));
+      dispatch(fetchTodos({ offset, token, completed }));
       dispatch(setCount());
     } catch (e) {
       if (e instanceof AxiosError) {
