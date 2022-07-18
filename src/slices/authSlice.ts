@@ -43,7 +43,7 @@ export const registrationSlice = createSlice({
       return {
         ...state,
         isLogin: true,
-        token: action.payload,
+        token: `Bearer ${action.payload}`,
       }
     })
   },
