@@ -8,12 +8,14 @@ import {
   ButtonPaginationLeft,
   ButtonPaginationRight,
 } from "../styles/components";
+import { ITodoGet } from "types";
 
-function Pagination():JSX.Element {
+function Pagination(): JSX.Element {
   const dispatch = useAppDispatch();
 
   const pagesCount: number = useAppSelector((state) => state.todos.pagesCount);
   const currentPage: number = useAppSelector((state) => state.status.currentPage);
+  const items: ITodoGet[] = useAppSelector((state) => state.todos.todos);
 
   const getPageList = () => {
     const list = [];
@@ -37,37 +39,41 @@ function Pagination():JSX.Element {
   };
 
   return (
-    <PaginationWrapper>
-      <ButtonPaginationStart
-        onClick={() => switchPages(1)}
-        $mode={currentPage === 1 ? "disabled" : ''}
-        disabled={currentPage === 1}
-      ></ButtonPaginationStart>
-      <ButtonPaginationLeft
-        onClick={() => switchPages(currentPage - 1)}
-        $mode={currentPage === 1 ? "disabled" : ''}
-        disabled={currentPage === 1}
-      ></ButtonPaginationLeft>
-      {getPageList().map((item) => (
-        <ButtonPagination
-          onClick={() => switchPages(item)}
-          $mode={item === currentPage ? "select" : ""}
-          key={item}
-        >
-          {item}
-        </ButtonPagination>
-      ))}
-      <ButtonPaginationRight
-        onClick={() => switchPages(currentPage + 1)}
-        $mode={currentPage === pagesCount ? "disabled" : ''}
-        disabled={currentPage === pagesCount}
-      ></ButtonPaginationRight>
-      <ButtonPaginationEnd
-        onClick={() => switchPages(pagesCount)}
-        $mode={currentPage === pagesCount ? "disabled" : ''}
-        disabled={currentPage === pagesCount}
-      ></ButtonPaginationEnd>
-    </PaginationWrapper>
+    <>
+      {
+        items.length > 0 && (<PaginationWrapper>
+          <ButtonPaginationStart
+            onClick={() => switchPages(1)}
+            $mode={currentPage === 1 ? "disabled" : ''}
+            disabled={currentPage === 1}
+          ></ButtonPaginationStart>
+          <ButtonPaginationLeft
+            onClick={() => switchPages(currentPage - 1)}
+            $mode={currentPage === 1 ? "disabled" : ''}
+            disabled={currentPage === 1}
+          ></ButtonPaginationLeft>
+          {getPageList().map((item) => (
+            <ButtonPagination
+              onClick={() => switchPages(item)}
+              $mode={item === currentPage ? "select" : ""}
+              key={item}
+            >
+              {item}
+            </ButtonPagination>
+          ))}
+          <ButtonPaginationRight
+            onClick={() => switchPages(currentPage + 1)}
+            $mode={currentPage === pagesCount ? "disabled" : ''}
+            disabled={currentPage === pagesCount}
+          ></ButtonPaginationRight>
+          <ButtonPaginationEnd
+            onClick={() => switchPages(pagesCount)}
+            $mode={currentPage === pagesCount ? "disabled" : ''}
+            disabled={currentPage === pagesCount}
+          ></ButtonPaginationEnd>
+        </PaginationWrapper>)
+      }
+    </>
   );
 }
 
