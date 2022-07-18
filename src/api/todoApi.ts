@@ -9,7 +9,7 @@ export const getTodos = async (
   completed?: boolean,
 ) => {
   const extra = typeof completed === "boolean" ? `&completed=${completed}` : "";
-  const header: {authorization?: string} = token ? {authorization: JSON.parse(token)} : {}
+  const header: {authorization?: string} = token ? {authorization: token} : {};
   console.log(header)
   const response = await axios.get(
     `${config.API_URL}?offset=${offset}&limit=${limit}${extra}`, {headers: header}
@@ -18,7 +18,7 @@ export const getTodos = async (
 };
 
 export const addTodo = async (item: ITodo, token: string | null) => {
-  const header: {authorization?: string} = token ? {authorization: JSON.parse(token)} : {}
+  const header: {authorization?: string} = token ? {authorization: token} : {};
   const response = await axios.post(config.API_URL, item, {headers: header});
   return response.data;
 };

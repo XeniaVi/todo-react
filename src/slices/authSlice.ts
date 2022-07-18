@@ -31,9 +31,7 @@ export const registrationSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(signIn.fulfilled, (state, action) => {
-      console.log(action.payload)
-      localStorage.setItem("token", JSON.stringify(`Bearer ${action.payload}`));
-      console.log(action.payload)
+      localStorage.setItem("token", `Bearer ${action.payload}`);
       return {
         ...state,
         token: action.payload,
