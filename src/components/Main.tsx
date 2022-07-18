@@ -1,8 +1,11 @@
-import { useAppSelector } from '../hooks';
+import { useAppSelector, useAppDispatch } from '../hooks';
 import { Container, Nav, NavItem, NavList, Title, NavLink, TitleSmall, Wrapper, Columns } from "styles/components";
 import { Navigate } from "react-router-dom";
+import { setError } from 'slices/setStatusSlice';
 
 const Main: React.FC = () => {
+  const dispatch = useAppDispatch();
+
   const token: string | null = useAppSelector((state) => state.auth.token);
 
   return (
@@ -18,7 +21,7 @@ const Main: React.FC = () => {
                   <NavLink to='/login'>Sign in</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink to='/registration'>Sign up</NavLink>
+                  <NavLink to='/registration' onClick={() => dispatch(setError(''))}>Sign up</NavLink>
                 </NavItem>
               </NavList>
             </Nav>
