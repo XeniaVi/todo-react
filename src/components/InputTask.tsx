@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from '../hooks'
 import { setCompletedAll } from "slices/setStatusSlice";
-import { addTodo, updateTodos } from "../asyncActions";
-
+import { actionAddTodo, actionUpdateTodos } from "../asyncActions";
 import {
   InputWrapper,
   Input,
   Button,
   CheckboxAbsolute,
 } from "../styles/components";
-import { ITodoGet } from "types";
+import { ITodoGet } from "types/interfaces";
 
 function InputTask(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -22,18 +21,18 @@ function InputTask(): JSX.Element {
   const toggleAllStatus = async () => {
     if (completedAll) {
       const ids = items.map((item) => item.id);
-      dispatch(updateTodos({ ids, completed: false, token }));
+      dispatch(actionUpdateTodos({ ids, completed: false, token }));
     } else {
       const ids = items
         .filter((item) => !item.completed)
         .map((item) => item.id);
-      dispatch(updateTodos({ ids, completed: true, token }));
+      dispatch(actionUpdateTodos({ ids, completed: true, token }));
     }
   };
 
   const dispatchAddTodo = () => {
     if (!value) return;
-    dispatch(addTodo({ value, token }));
+    dispatch(actionAddTodo({ value, token }));
     setValue("");
   };
 

@@ -8,16 +8,6 @@ export interface ITodoGet extends ITodo {
   id: string;
 }
 
-export type UpdatedTodo = {
-  value?: string;
-  completed?: boolean;
-};
-
-export type UpdatedTodoID = {
-  id: string;
-  updatedTodo: UpdatedTodo;
-};
-
 export interface ITodosState {
   todos: ITodoGet[];
   totalCount: number;
@@ -33,14 +23,6 @@ export interface IStatusState {
   offset: number;
   currentPage: number;
   errorMessage: string;
-}
-
-export type AuthState = {
-  isRegistration: boolean;
-  isLogin: boolean;
-  message: string;
-  registrationError: string;
-  token: string | null;
 }
 
 export interface PostRegistration {

@@ -7,22 +7,26 @@ import {
 import { setCompletedAll, setError, setFilter } from "slices/setStatusSlice";
 import { setSignOut, setSuccessfulRegistration } from "slices/authSlice";
 import {
-  addTodo as appendTodo,
+  addTodo,
   updateCompleted,
-  deleteTodo as removeTodo,
+  deleteTodo,
   deleteCompleted,
   getTodos,
-  updateTodo as changeTodo,
-  signUp as registration,
-  signIn as login,
+  updateTodo,
 } from "../api/todoApi";
+import {
+  signUp,
+  signIn,
+} from "../api/authApi";
 import { config } from "../config/config";
-import { ITodoGet, PostRegistration, UpdatedTodo, PostLogin } from "../types";
+import { UpdatedTodo } from "../types/types";
+import { ITodoGet, PostRegistration, PostLogin } from "../types/interfaces";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
+import { ErrorAuthorization } from "errors";
 
-export const fetchTodos = createAsyncThunk(
-  "todos/fetchTodos",
+export const actionGetTodos = createAsyncThunk(
+  "todos/actionGetTodos",
   async (
     obj: { offset: number; completed?: boolean; token: string | null},
     { rejectWithValue, dispatch }
@@ -50,17 +54,19 @@ export const fetchTodos = createAsyncThunk(
         } else {
           dispatch(setError(`Try update the page...`));
         }
+      } else if (e instanceof ErrorAuthorization) {
+        dispatch(setError(e.message));
       }
     }
   }
 );
 
-export const addTodo = createAsyncThunk(
-  "todos/addTodo",
+export const actionAddTodo = createAsyncThunk(
+  "todos/actionAddTodo",
   async (obj: {value: string, token: string | null}, { rejectWithValue, dispatch }) => {
     try {
       const { value, token } = obj;
-      const response = await appendTodo({
+      const response = await addTodo({
         value: value,
         completed: false,
         createdAt: Date.now(),
@@ -78,21 +84,23 @@ export const addTodo = createAsyncThunk(
         } else {
           dispatch(setError(`Try update the page...`));
         }
+      } else if (e instanceof ErrorAuthorization) {
+        dispatch(setError(e.message));
       }
     }
   }
 );
 
-export const deleteTodo = createAsyncThunk(
-  "todos/deleteTodo",
+export const actionDeleteTodo = createAsyncThunk(
+  "todos/actionDeleteTodo",
   async (
     obj: { id: string; offset: number; completed?: boolean, token: string | null },
     { dispatch }
   ) => {
     try {
       const { id, offset, completed, token } = obj;
-      await removeTodo(id, token);
-      dispatch(fetchTodos({ offset, token, completed }));
+      await deleteTodo(id, token);
+      dispatch(actionGetTodos({ offset, token, completed }));
     } catch (e) {
       if (e instanceof AxiosError) {
         const { response } = e;
@@ -103,13 +111,15 @@ export const deleteTodo = createAsyncThunk(
         } else {
           dispatch(setError(`Try update the page...`));
         }
+      } else if (e instanceof ErrorAuthorization) {
+        dispatch(setError(e.message));
       }
     }
   }
 );
 
-export const deleteTodos = createAsyncThunk(
-  "todos/deleteTodos",
+export const actionDeleteTodos = createAsyncThunk(
+  "todos/actionDeleteTodos",
   async (
     obj: {
       ids: string[];
@@ -122,7 +132,7 @@ export const deleteTodos = createAsyncThunk(
     try {
       const { ids, offset, completed, token } = obj;
       await deleteCompleted(ids, token);
-      dispatch(fetchTodos({ offset, token, completed }));
+      dispatch(actionGetTodos({ offset, token, completed }));
     } catch (e) {
       if (e instanceof AxiosError) {
         const { response } = e;
@@ -133,17 +143,19 @@ export const deleteTodos = createAsyncThunk(
         } else {
           dispatch(setError(`Try update the page...`));
         }
+      } else if (e instanceof ErrorAuthorization) {
+        dispatch(setError(e.message));
       }
     }
   }
 );
 
-export const updateTodo = createAsyncThunk(
-  "todos/updateTodo",
+export const actionUpdateTodo = createAsyncThunk(
+  "todos/actionUpdateTodo",
   async (obj: { id: string; updatedTodo: UpdatedTodo; token: string | null }, { dispatch }) => {
     try {
       const { id, updatedTodo, token } = obj;
-      await changeTodo(id, updatedTodo, token);
+      await updateTodo(id, updatedTodo, token);
 
       dispatch(updateTodoAction({ id, updatedTodo }));
       dispatch(setCompletedAll(false));
@@ -159,13 +171,15 @@ export const updateTodo = createAsyncThunk(
         } else {
           dispatch(setError(`Try update the page...`));
         }
+      } else if (e instanceof ErrorAuthorization) {
+        dispatch(setError(e.message));
       }
     }
   }
 );
 
-export const updateTodos = createAsyncThunk(
-  "todos/updateTodos",
+export const actionUpdateTodos = createAsyncThunk(
+  "todos/actionUpdateTodos",
   async (
     obj: { ids: string[]; completed: boolean; token: string | null },
     { rejectWithValue, dispatch }
@@ -187,16 +201,18 @@ export const updateTodos = createAsyncThunk(
         } else {
           dispatch(setError(`Try update the page...`));
         }
+      } else if (e instanceof ErrorAuthorization) {
+        dispatch(setError(e.message));
       }
     }
   }
 );
 
-export const signUp = createAsyncThunk(
-  "auth/signUp",
+export const actionSignUp = createAsyncThunk(
+  "auth/actionSignUp",
   async (user: PostRegistration, { rejectWithValue, dispatch }) => {
     try {
-      await registration(user);
+      await signUp(user);
       dispatch(setError(""));
       dispatch(setSuccessfulRegistration(false));
     } catch (e) {
@@ -214,11 +230,11 @@ export const signUp = createAsyncThunk(
   }
 );
 
-export const signIn = createAsyncThunk(
-  "auth/signIn",
+export const actionSignIn = createAsyncThunk(
+  "auth/actionSignIn",
   async (user: PostLogin, { rejectWithValue, dispatch }) => {
     try {
-      const response = await login(user);
+      const response = await signIn(user);
       dispatch(setError(""))
       return response;
     } catch (e) {

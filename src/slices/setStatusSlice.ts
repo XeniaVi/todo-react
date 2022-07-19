@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IStatusState } from "types";
+import { IStatusState } from "types/interfaces";
 import { config } from "../config/config";
 
 const initialState: IStatusState = {

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { config } from "../config/config";
-import { ITodoGet, ITodosState } from "types";
-import { fetchTodos, addTodo } from "asyncActions";
+import { ITodoGet, ITodosState } from "types/interfaces";
+import { actionGetTodos, actionAddTodo } from "asyncActions";
 
 const initialState: ITodosState = {
   todos: [],
@@ -35,7 +35,11 @@ export const todosSlice = createSlice({
             }
           : item
       );
-      return { ...state, todos };
+      const ids = todos
+      .filter((item: ITodoGet) => item.completed)
+      .map((item: ITodoGet) => item.id);
+
+      return { ...state, todos, idsCompleted: ids };
     },
     updateTodos(state, action) {
       const todos = state.todos.map((item) =>
@@ -46,7 +50,11 @@ export const todosSlice = createSlice({
             }
           : item
       );
-      return { ...state, todos };
+      const ids = todos
+      .filter((item: ITodoGet) => item.completed)
+      .map((item: ITodoGet) => item.id);
+
+      return { ...state, todos, idsCompleted: ids };
     },
     setCount(state) {
       return {
@@ -67,7 +75,7 @@ export const todosSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchTodos.fulfilled, (state, action) => {
+    builder.addCase(actionGetTodos.fulfilled, (state, action) => {
       return {
         ...state,
         todos: action.payload.todos,
@@ -83,11 +91,16 @@ export const todosSlice = createSlice({
           .map((item: ITodoGet) => item.id),
       };
     });
-    builder.addCase(addTodo.fulfilled, (state, action) => {
+    builder.addCase(actionAddTodo.fulfilled, (state, action) => {
       const todos =
         state.todos.length >= Number(config.TODOS_PER_PAGE)
           ? state.todos.slice(0, Number(config.TODOS_PER_PAGE) - 1)
           : state.todos;
+      const ids = todos
+      .filter((item: ITodoGet) => item.completed)
+      .map((item: ITodoGet) => item.id)
+
+      const count = state.notCompletedCount >= 5 ? state.notCompletedCount : state.notCompletedCount + 1
       return {
         ...state,
         todos: [action.payload, ...todos],
@@ -95,7 +108,8 @@ export const todosSlice = createSlice({
         pagesCount: Math.ceil(
           (state.totalCount + 1) / Number(config.TODOS_PER_PAGE)
         ),
-        notCompletedCount: state.notCompletedCount + 1,
+        notCompletedCount: count,
+        idsCompleted: ids,
       };
     });
   },

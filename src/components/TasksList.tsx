@@ -1,10 +1,9 @@
 import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from '../hooks'
-import { fetchTodos } from "../asyncActions";
+import { actionGetTodos } from "../asyncActions";
 import Task from "./Task";
 import { Tasks } from "../styles/components";
-
-import { ITodoGet } from "types";
+import { ITodoGet } from "types/interfaces";
 
 function TasksList(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -17,7 +16,7 @@ function TasksList(): JSX.Element {
   const token: string | null = useAppSelector((state) => state.auth.token);
 
   useEffect(() => {
-    dispatch(fetchTodos({ offset, token, completed }));
+    dispatch(actionGetTodos({ offset, token, completed }));
   }, [currentPage, completed, offset, dispatch, filter]);
 
   return (

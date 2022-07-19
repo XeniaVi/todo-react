@@ -1,5 +1,7 @@
 import axios from "axios";
-import { ITodo, UpdatedTodo, PostRegistration } from "types/index.js";
+import { ErrorAuthorization } from "errors";
+import { ITodo } from "types/interfaces";
+import { UpdatedTodo } from "types/types";
 import { config } from "../config/config";
 
 export const getTodos = async (
@@ -8,34 +10,39 @@ export const getTodos = async (
   token: string | null,
   completed?: boolean,
 ) => {
+  if (!token) throw new ErrorAuthorization("User is not autorized");
+
   const extra = typeof completed === "boolean" ? `&completed=${completed}` : "";
-  const header: {authorization?: string} = token ? {authorization: token} : {};
   const response = await axios.get(
-    `${config.API_URL}?offset=${offset}&limit=${limit}${extra}`, {headers: header}
+    `${config.API_URL}?offset=${offset}&limit=${limit}${extra}`, {headers: {authorization: token}}
   );
   return response.data;
 };
 
 export const addTodo = async (item: ITodo, token: string | null) => {
-  const header: {authorization?: string} = token ? {authorization: token} : {};
-  const response = await axios.post(config.API_URL, item, {headers: header});
+  if (!token) throw new ErrorAuthorization("User is not autorized");
+
+  const response = await axios.post(config.API_URL, item, {headers: {authorization: token}});
   return response.data;
 };
 
 export const deleteTodo = async (id: string, token: string | null) => {
-  const header: {authorization?: string} = token ? {authorization: token} : {};
-  return axios.delete(`${config.API_URL}/${id}`, {headers:  header, data: {data: id }});
+  if (!token) throw new ErrorAuthorization("User is not autorized");
+
+  return axios.delete(`${config.API_URL}/${id}`, {headers:  {authorization: token}});
 };
 
 export const updateTodo = async (id: string, updatedTodo: UpdatedTodo, token: string | null) => {
-  const header: {authorization?: string} = token ? {authorization: token} : {};
-  const response = await axios.put(`${config.API_URL}/${id}`, updatedTodo, {headers: header});
+  if (!token) throw new ErrorAuthorization("User is not autorized");
+
+  const response = await axios.put(`${config.API_URL}/${id}`, updatedTodo, {headers: {authorization: token}});
   return response.data;
 };
 
 export const deleteCompleted = async (ids: Array<string>, token: string | null) => {
-  const header: {authorization?: string} = token ? {authorization: token} : {};
-  return axios.delete(config.API_URL, { headers: header, data: { ids } });
+  if (!token) throw new ErrorAuthorization("User is not autorized");
+
+  return axios.delete(config.API_URL, { headers: {authorization: token}, data: { ids } });
 };
 
 export const updateCompleted = async (
@@ -43,17 +50,7 @@ export const updateCompleted = async (
   completed: boolean, 
   token: string | null
 ) => {
-  const header: {authorization?: string} = token ? {authorization: token} : {};
-  const response = await axios.put(config.API_URL, { ids, completed }, {headers: header});
-  return response.data;
-};
-
-export const signUp = async (user: PostRegistration) => {
-  const response = await axios.post(`${config.AUTH_URL}/registration`, user);
-  return response.data;
-};
-
-export const signIn = async (user: PostRegistration) => {
-  const response = await axios.post(`${config.AUTH_URL}/login`, user);
+  if (!token) throw new ErrorAuthorization("User is not autorized");
+  const response = await axios.put(config.API_URL, { ids, completed }, {headers: {authorization: token} });
   return response.data;
 };

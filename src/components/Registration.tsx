@@ -3,8 +3,8 @@ import { useAppSelector, useAppDispatch } from '../hooks'
 import { ButtonForm, Container, Form, InputForm, Title, ErrorMessage, CloseButton, LabelMessage } from "styles/components";
 import { setError } from "slices/setStatusSlice";
 import { setRegistrationError } from "slices/authSlice";
-import { signUp } from "asyncActions";
-import { PostRegistration } from "types";
+import { actionSignUp } from "asyncActions";
+import { PostRegistration } from "types/interfaces";
 import { Navigate } from "react-router-dom";
 import { minLengthPassword, maxLengthPassword } from "../constants";
 
@@ -43,7 +43,7 @@ const Registration: React.FC = () => {
       dispatch(setRegistrationError(`Password's length must be more than ${minLengthPassword} and less than ${maxLengthPassword}`));
     } else {
       const user: PostRegistration = { username, password };
-      dispatch(signUp(user))
+      dispatch(actionSignUp(user))
       setUsername('')
       setPassword('')
     }

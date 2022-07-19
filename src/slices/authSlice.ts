@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signIn } from "asyncActions";
-import { AuthState } from "types";
+import { actionSignIn } from "asyncActions";
+import { AuthState } from "types/types";
 
 const initialState: AuthState = {
   isRegistration: true,
@@ -44,7 +44,7 @@ export const registrationSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(signIn.fulfilled, (state, action) => {
+    builder.addCase(actionSignIn.fulfilled, (state, action) => {
       localStorage.setItem("token", `Bearer ${action.payload}`);
       return {
         ...state,

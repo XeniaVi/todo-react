@@ -8,7 +8,7 @@ import {
   ButtonPaginationLeft,
   ButtonPaginationRight,
 } from "../styles/components";
-import { ITodoGet } from "types";
+import { ITodoGet } from "types/interfaces";
 
 function Pagination(): JSX.Element {
   const dispatch = useAppDispatch();

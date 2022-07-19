@@ -6,7 +6,7 @@ import {
   setFilter
 } from "slices/setStatusSlice";
 import { setSignOut } from "slices/authSlice";
-import { fetchTodos, deleteTodos } from "../asyncActions";
+import { actionGetTodos, actionDeleteTodos } from "../asyncActions";
 import TasksList from "./TasksList";
 import InputTask from "./InputTask";
 import Pagination from "./Pagination";
@@ -21,7 +21,7 @@ import {
   CloseButton,
   ButtonSignOut,
 } from "../styles/components";
-import { ITodoGet } from "types";
+import { ITodoGet } from "types/interfaces";
 import { Navigate } from "react-router-dom";
 import { resetTodos } from "slices/todosSlice";
 
@@ -45,19 +45,20 @@ const Todos: React.FC = () => {
     switch (value) {
       case "completed":
         dispatch(setFilter({ filter: value, completedAll: true, completed: true }));
+        dispatch(actionGetTodos({ offset, completed: true, token }));
         break;
       case "active":
         dispatch(setFilter({ filter: value, completedAll: false, completed: false }));
+        dispatch(actionGetTodos({ offset, completed: false, token }));
         break;
       default:
         dispatch(setFilter({ filter: value, completedAll: false }));
+        dispatch(actionGetTodos({ offset, token }));
     }
-
-    dispatch(fetchTodos({ offset, completed, token }));
   };
 
   const deleteCompletedTasks = () => {
-    dispatch(deleteTodos({ ids, offset, token, completed }));
+    dispatch(actionDeleteTodos({ ids, offset, token, completed }));
   };
 
   const signOut = () => {
@@ -67,7 +68,7 @@ const Todos: React.FC = () => {
   }
 
   useEffect(() => {
-    dispatch(fetchTodos({ offset, token }));
+    dispatch(actionGetTodos({ offset, token }));
   }, [token]);
 
   useEffect(() => {
