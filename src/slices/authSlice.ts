@@ -5,12 +5,12 @@ import { AuthState } from "types/types";
 const initialState: AuthState = {
   isRegistration: true,
   isLogin: localStorage.getItem("token") ? true : false,
-  message: '',
-  registrationError: '',
-  token: localStorage.getItem("token") ? localStorage.getItem("token") : '',
+  message: "",
+  registrationError: "",
+  token: localStorage.getItem("token") ? localStorage.getItem("token") : "",
 };
 
-export const registrationSlice = createSlice({  
+export const registrationSlice = createSlice({
   name: "registration",
   initialState,
   reducers: {
@@ -19,7 +19,7 @@ export const registrationSlice = createSlice({
         ...state,
         isRegistration: action.payload,
         message: "Registration completed successfully!",
-        registrationError: ''
+        registrationError: "",
       };
     },
     setRegistrationError(state, action) {
@@ -39,9 +39,9 @@ export const registrationSlice = createSlice({
       return {
         ...state,
         isLogin: false,
-        token: '',
-      }
-    }
+        token: "",
+      };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(actionSignIn.fulfilled, (state, action) => {
@@ -50,12 +50,17 @@ export const registrationSlice = createSlice({
         ...state,
         isLogin: true,
         token: `Bearer ${action.payload}`,
-      }
-    })
+      };
+    });
   },
 });
 
 const { actions, reducer } = registrationSlice;
-export const { setSuccessfulRegistration, setRegistrationError, setSignOut, setMessage } = actions;
+export const {
+  setSuccessfulRegistration,
+  setRegistrationError,
+  setSignOut,
+  setMessage,
+} = actions;
 
 export default reducer;

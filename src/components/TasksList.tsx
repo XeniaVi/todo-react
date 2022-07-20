@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAppSelector, useAppDispatch } from '../hooks'
+import { useAppSelector, useAppDispatch } from "../hooks";
 import { actionGetTodos } from "../asyncActions";
 import Task from "./Task";
 import { Tasks } from "../styles/components";

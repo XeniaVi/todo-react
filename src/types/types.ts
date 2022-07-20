@@ -14,4 +14,4 @@ export type AuthState = {
   message: string;
   registrationError: string;
   token: string | null;
-}
+};

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAppSelector, useAppDispatch } from '../hooks'
+import { useAppSelector, useAppDispatch } from "../hooks";
 import { setCompletedAll } from "slices/setStatusSlice";
 import { actionAddTodo, actionUpdateTodos } from "../asyncActions";
 import {
@@ -15,7 +15,9 @@ function InputTask(): JSX.Element {
 
   const [value, setValue] = useState("");
   const items: ITodoGet[] = useAppSelector((state) => state.todos.todos);
-  const completedAll: boolean = useAppSelector((state) => state.status.completedAll);
+  const completedAll: boolean = useAppSelector(
+    (state) => state.status.completedAll
+  );
   const token: string | null = useAppSelector((state) => state.auth.token);
 
   const toggleAllStatus = async () => {
@@ -42,7 +44,7 @@ function InputTask(): JSX.Element {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    const { code } = e
+    const { code } = e;
     if (code === "Enter") {
       dispatchAddTodo();
     }

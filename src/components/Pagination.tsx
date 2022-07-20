@@ -1,4 +1,4 @@
-import { useAppSelector, useAppDispatch } from '../hooks'
+import { useAppSelector, useAppDispatch } from "../hooks";
 import { setPage } from "slices/setStatusSlice";
 import {
   PaginationWrapper,
@@ -14,7 +14,9 @@ function Pagination(): JSX.Element {
   const dispatch = useAppDispatch();
 
   const pagesCount: number = useAppSelector((state) => state.todos.pagesCount);
-  const currentPage: number = useAppSelector((state) => state.status.currentPage);
+  const currentPage: number = useAppSelector(
+    (state) => state.status.currentPage
+  );
   const items: ITodoGet[] = useAppSelector((state) => state.todos.todos);
 
   const getPageList = () => {
@@ -40,18 +42,18 @@ function Pagination(): JSX.Element {
 
   return (
     <>
-      {
-        items.length > 0 && (<PaginationWrapper>
+      {items.length > 0 && (
+        <PaginationWrapper>
           <ButtonPaginationStart
             onClick={() => switchPages(1)}
-            $mode={currentPage === 1 ? "disabled" : ''}
+            $mode={currentPage === 1 ? "disabled" : ""}
             disabled={currentPage === 1}
-          ></ButtonPaginationStart>
+          />
           <ButtonPaginationLeft
             onClick={() => switchPages(currentPage - 1)}
-            $mode={currentPage === 1 ? "disabled" : ''}
+            $mode={currentPage === 1 ? "disabled" : ""}
             disabled={currentPage === 1}
-          ></ButtonPaginationLeft>
+          />
           {getPageList().map((item) => (
             <ButtonPagination
               onClick={() => switchPages(item)}
@@ -63,16 +65,16 @@ function Pagination(): JSX.Element {
           ))}
           <ButtonPaginationRight
             onClick={() => switchPages(currentPage + 1)}
-            $mode={currentPage === pagesCount ? "disabled" : ''}
+            $mode={currentPage === pagesCount ? "disabled" : ""}
             disabled={currentPage === pagesCount}
-          ></ButtonPaginationRight>
+          />
           <ButtonPaginationEnd
             onClick={() => switchPages(pagesCount)}
-            $mode={currentPage === pagesCount ? "disabled" : ''}
+            $mode={currentPage === pagesCount ? "disabled" : ""}
             disabled={currentPage === pagesCount}
-          ></ButtonPaginationEnd>
-        </PaginationWrapper>)
-      }
+          />
+        </PaginationWrapper>
+      )}
     </>
   );
 }

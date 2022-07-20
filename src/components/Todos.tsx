@@ -1,10 +1,6 @@
 import { useEffect } from "react";
-import { useAppSelector, useAppDispatch } from '../hooks'
-import {
-  resetStatus,
-  setError,
-  setFilter
-} from "slices/setStatusSlice";
+import { useAppSelector, useAppDispatch } from "../hooks";
+import { resetStatus, setError, setFilter } from "slices/setStatusSlice";
 import { setSignOut } from "slices/authSlice";
 import { actionGetTodos, actionDeleteTodos } from "../asyncActions";
 import TasksList from "./TasksList";
@@ -30,11 +26,19 @@ const Todos: React.FC = () => {
 
   const items: ITodoGet[] = useAppSelector((state) => state.todos.todos);
   const offset: number = useAppSelector((state) => state.status.offset);
-  const completed: boolean | undefined = useAppSelector((state) => state.status.completed);
-  const count: number = useAppSelector((state) => state.todos.notCompletedCount);
-  const errorMessage: string = useAppSelector((state) => state.status.errorMessage);
+  const completed: boolean | undefined = useAppSelector(
+    (state) => state.status.completed
+  );
+  const count: number = useAppSelector(
+    (state) => state.todos.notCompletedCount
+  );
+  const errorMessage: string = useAppSelector(
+    (state) => state.status.errorMessage
+  );
   const filter: string = useAppSelector((state) => state.status.filter);
-  const ids: Array<string> = useAppSelector((state) => state.todos.idsCompleted);
+  const ids: Array<string> = useAppSelector(
+    (state) => state.todos.idsCompleted
+  );
   const token: string | null = useAppSelector((state) => state.auth.token);
   const isLogin: boolean = useAppSelector((state) => state.auth.isLogin);
 
@@ -44,11 +48,15 @@ const Todos: React.FC = () => {
 
     switch (value) {
       case "completed":
-        dispatch(setFilter({ filter: value, completedAll: true, completed: true }));
+        dispatch(
+          setFilter({ filter: value, completedAll: true, completed: true })
+        );
         dispatch(actionGetTodos({ offset, completed: true, token }));
         break;
       case "active":
-        dispatch(setFilter({ filter: value, completedAll: false, completed: false }));
+        dispatch(
+          setFilter({ filter: value, completedAll: false, completed: false })
+        );
         dispatch(actionGetTodos({ offset, completed: false, token }));
         break;
       default:
@@ -65,7 +73,7 @@ const Todos: React.FC = () => {
     dispatch(setSignOut());
     dispatch(resetStatus());
     dispatch(resetTodos());
-  }
+  };
 
   useEffect(() => {
     dispatch(actionGetTodos({ offset, token }));
@@ -80,10 +88,7 @@ const Todos: React.FC = () => {
       <Title>todos</Title>
       {errorMessage && (
         <ErrorMessage>
-          {errorMessage}{" "}
-          <CloseButton
-            onClick={() => dispatch(setError(""))}
-          ></CloseButton>
+          {errorMessage} <CloseButton onClick={() => dispatch(setError(""))} />
         </ErrorMessage>
       )}
       <Wrapper>
@@ -113,7 +118,7 @@ const Todos: React.FC = () => {
           <ButtonSignOut onClick={signOut}>Sign out</ButtonSignOut>
         </Footer>
       </Wrapper>
-      {!isLogin && (<Navigate to="/" />)}
+      {!isLogin && <Navigate to="/" />}
     </Container>
   );
 };

@@ -22,8 +22,8 @@ export const setStatusSlice = createSlice({
         offset: 0,
         currentPage: 1,
         errorMessage: "",
-      }
-    }, 
+      };
+    },
     setPage(state, action) {
       return {
         ...state,
@@ -51,12 +51,7 @@ export const setStatusSlice = createSlice({
 });
 
 const { actions, reducer } = setStatusSlice;
-export const {
-  setPage,
-  setCompletedAll,
-  setError,
-  setFilter,
-  resetStatus,
-} = actions;
+export const { setPage, setCompletedAll, setError, setFilter, resetStatus } =
+  actions;
 
 export default reducer;

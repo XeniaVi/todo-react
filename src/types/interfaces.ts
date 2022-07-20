@@ -28,6 +28,6 @@ export interface IStatusState {
 export interface PostRegistration {
   username: string;
   password: string;
-};
+}
 
 export interface PostLogin extends PostRegistration {}

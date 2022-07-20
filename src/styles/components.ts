@@ -477,17 +477,17 @@ export const InputForm = styled(Input)`
   padding: 0.5rem;
 
   ${(props) => {
-      switch (props.$mode) {
-        case "error":
-          return css`
-            color: #5d001e;
-            background-color: #fff;
-            border: 1px solid #5d001e;
-          `;
-        default:
-          return css``;
-      }
-    }}
+    switch (props.$mode) {
+      case "error":
+        return css`
+          color: #5d001e;
+          background-color: #fff;
+          border: 1px solid #5d001e;
+        `;
+      default:
+        return css``;
+    }
+  }}
 `;
 
 export const ButtonForm = styled(ButtonFooter)`
@@ -535,17 +535,17 @@ export const NavLink = styled(Link)`
 export const Message = styled(ErrorMessage)`
   color: #000;
   background-color: rgba(93, 0, 30, 0.1);
-`
+`;
 
 export const LabelMessage = styled(ErrorMessage)`
-    padding: 0.2rem;
-    font-size: 0.6rem;
-`
+  padding: 0.2rem;
+  font-size: 0.6rem;
+`;
 
 export const ButtonSignOut = styled(ButtonFooter)`
   color: #e3e2df;
   background-color: #5d001e;
-  
+
   &:hover {
     background: #ee4c7c;
     transition: all 0.5s ease-in;
@@ -554,4 +554,4 @@ export const ButtonSignOut = styled(ButtonFooter)`
   &:focus-visible {
     outline: 1px solid #ee4c7c;
   }
-`
+`;

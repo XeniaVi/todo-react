@@ -23,7 +23,7 @@ export const todosSlice = createSlice({
         pagesCount: 0,
         notCompletedCount: 0,
         idsCompleted: [],
-      }
+      };
     },
     updateTodo(state, action) {
       const { id, updatedTodo } = action.payload;
@@ -36,8 +36,8 @@ export const todosSlice = createSlice({
           : item
       );
       const ids = todos
-      .filter((item: ITodoGet) => item.completed)
-      .map((item: ITodoGet) => item.id);
+        .filter((item: ITodoGet) => item.completed)
+        .map((item: ITodoGet) => item.id);
 
       return { ...state, todos, idsCompleted: ids };
     },
@@ -51,8 +51,8 @@ export const todosSlice = createSlice({
           : item
       );
       const ids = todos
-      .filter((item: ITodoGet) => item.completed)
-      .map((item: ITodoGet) => item.id);
+        .filter((item: ITodoGet) => item.completed)
+        .map((item: ITodoGet) => item.id);
 
       return { ...state, todos, idsCompleted: ids };
     },
@@ -97,10 +97,13 @@ export const todosSlice = createSlice({
           ? state.todos.slice(0, Number(config.TODOS_PER_PAGE) - 1)
           : state.todos;
       const ids = todos
-      .filter((item: ITodoGet) => item.completed)
-      .map((item: ITodoGet) => item.id)
+        .filter((item: ITodoGet) => item.completed)
+        .map((item: ITodoGet) => item.id);
 
-      const count = state.notCompletedCount >= 5 ? state.notCompletedCount : state.notCompletedCount + 1
+      const count =
+        state.notCompletedCount >= 5
+          ? state.notCompletedCount
+          : state.notCompletedCount + 1;
       return {
         ...state,
         todos: [action.payload, ...todos],
@@ -116,6 +119,12 @@ export const todosSlice = createSlice({
 });
 
 const { actions, reducer } = todosSlice;
-export const { updateTodo, updateTodos, setCount, setIdsCompleted, resetTodos } = actions;
+export const {
+  updateTodo,
+  updateTodos,
+  setCount,
+  setIdsCompleted,
+  resetTodos,
+} = actions;
 
 export default reducer;

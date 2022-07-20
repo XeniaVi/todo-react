@@ -14,10 +14,7 @@ import {
   getTodos,
   updateTodo,
 } from "../api/todoApi";
-import {
-  signUp,
-  signIn,
-} from "../api/authApi";
+import { signUp, signIn } from "../api/authApi";
 import { config } from "../config/config";
 import { UpdatedTodo } from "../types/types";
 import { ITodoGet, PostRegistration, PostLogin } from "../types/interfaces";
@@ -28,12 +25,17 @@ import { ErrorAuthorization } from "errors";
 export const actionGetTodos = createAsyncThunk(
   "todos/actionGetTodos",
   async (
-    obj: { offset: number; completed?: boolean; token: string | null},
+    obj: { offset: number; completed?: boolean; token: string | null },
     { rejectWithValue, dispatch }
   ) => {
     try {
       const { offset, completed, token } = obj;
-      const response = await getTodos(config.TODOS_PER_PAGE, offset, token, completed);
+      const response = await getTodos(
+        config.TODOS_PER_PAGE,
+        offset,
+        token,
+        completed
+      );
 
       const length = response.todos.filter(
         (item: ITodoGet) => item.completed
@@ -46,7 +48,7 @@ export const actionGetTodos = createAsyncThunk(
       if (e instanceof AxiosError) {
         const { response } = e;
         if (response) {
-          if(response.data.status === 500) dispatch(setSignOut());
+          if (response.data.status === 500) dispatch(setSignOut());
 
           dispatch(
             setError(`${response.data.message}. Try update the page....`)
@@ -63,16 +65,22 @@ export const actionGetTodos = createAsyncThunk(
 
 export const actionAddTodo = createAsyncThunk(
   "todos/actionAddTodo",
-  async (obj: {value: string, token: string | null}, { rejectWithValue, dispatch }) => {
+  async (
+    obj: { value: string; token: string | null },
+    { rejectWithValue, dispatch }
+  ) => {
     try {
       const { value, token } = obj;
-      const response = await addTodo({
-        value: value,
-        completed: false,
-        createdAt: Date.now(),
-      }, token);
+      const response = await addTodo(
+        {
+          value: value,
+          completed: false,
+          createdAt: Date.now(),
+        },
+        token
+      );
 
-      dispatch(setFilter({ filter: 'all', completedAll: false }));
+      dispatch(setFilter({ filter: "all", completedAll: false }));
       return response;
     } catch (e) {
       if (e instanceof AxiosError) {
@@ -94,7 +102,12 @@ export const actionAddTodo = createAsyncThunk(
 export const actionDeleteTodo = createAsyncThunk(
   "todos/actionDeleteTodo",
   async (
-    obj: { id: string; offset: number; completed?: boolean, token: string | null },
+    obj: {
+      id: string;
+      offset: number;
+      completed?: boolean;
+      token: string | null;
+    },
     { dispatch }
   ) => {
     try {
@@ -125,7 +138,7 @@ export const actionDeleteTodos = createAsyncThunk(
       ids: string[];
       offset: number;
       completed?: boolean;
-      token: string | null
+      token: string | null;
     },
     { dispatch }
   ) => {
@@ -152,7 +165,10 @@ export const actionDeleteTodos = createAsyncThunk(
 
 export const actionUpdateTodo = createAsyncThunk(
   "todos/actionUpdateTodo",
-  async (obj: { id: string; updatedTodo: UpdatedTodo; token: string | null }, { dispatch }) => {
+  async (
+    obj: { id: string; updatedTodo: UpdatedTodo; token: string | null },
+    { dispatch }
+  ) => {
     try {
       const { id, updatedTodo, token } = obj;
       await updateTodo(id, updatedTodo, token);
@@ -235,7 +251,7 @@ export const actionSignIn = createAsyncThunk(
   async (user: PostLogin, { rejectWithValue, dispatch }) => {
     try {
       const response = await signIn(user);
-      dispatch(setError(""))
+      dispatch(setError(""));
       return response;
     } catch (e) {
       if (e instanceof AxiosError) {
