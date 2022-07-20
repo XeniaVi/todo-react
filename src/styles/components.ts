@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { check, down, cross, arrow, double_arrow } from "../assets/icons";
+import { Link } from "react-router-dom";
 
 interface Props {
   $mode?: string;
@@ -10,7 +11,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  min-height: calc(100vh - 2rem);
+  min-height: calc(100vh - 4rem);
   padding: 2rem;
   background: #e3e2df;
 
@@ -30,7 +31,23 @@ export const Wrapper = styled.div`
   box-shadow: 0 0.5rem 1rem 0.1rem #999;
 `;
 
+export const Columns = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  place-items: center;
+  min-height: 20rem;
+  border-top: 1px solid #5d001e;
+  border-bottom: 1px solid #5d001e;
+`;
+
 export const Title = styled.h1`
+  color: #5d001e;
+  font-weight: 700;
+  text-align: center;
+`;
+
+export const TitleSmall = styled.h2`
   color: #5d001e;
   font-weight: 700;
   text-align: center;
@@ -149,7 +166,7 @@ export const CheckboxList = styled(CheckboxAbsolute)`
   }
 `;
 
-export const Input = styled.input`
+export const Input = styled.input<Props>`
   flex: 1;
   padding: 0.5rem 2rem;
   border: none;
@@ -295,6 +312,7 @@ export const ButtonFooter = styled(Button)`
 `;
 
 export const Footer = styled.footer`
+  padding: 0.5rem 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -440,5 +458,100 @@ export const ButtonPaginationRight = styled(ButtonPaginationEdge)`
 
   &:hover {
     background-image: url(${arrow});
+  }
+`;
+
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  background: field;
+  border-radius: 0.1rem;
+  box-shadow: 0 0.5rem 1rem 0.1rem #999;
+`;
+
+export const InputForm = styled(Input)`
+  padding: 0.5rem;
+
+  ${(props) => {
+    switch (props.$mode) {
+      case "error":
+        return css`
+          color: #5d001e;
+          background-color: #fff;
+          border: 1px solid #5d001e;
+        `;
+      default:
+        return css``;
+    }
+  }}
+`;
+
+export const ButtonForm = styled(ButtonFooter)`
+  &:hover {
+    color: white;
+    background-color: #5d001e;
+  }
+`;
+
+export const Nav = styled.nav``;
+
+export const NavList = styled.ul`
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding-left: 0;
+  list-style: none;
+`;
+
+export const NavItem = styled.li`
+  text-transform: uppercase;
+  font-weight: 500;
+
+  &:hover {
+    color: white;
+    background-color: #5d001e;
+  }
+`;
+
+export const NavLink = styled(Link)`
+  display: block;
+  padding: 0.5rem;
+  color: black;
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #5d001e;
+  transition: all 0.5s ease-in;
+
+  &:hover {
+    color: white;
+    background-color: #5d001e;
+  }
+`;
+
+export const Message = styled(ErrorMessage)`
+  color: #000;
+  background-color: rgba(93, 0, 30, 0.1);
+`;
+
+export const LabelMessage = styled(ErrorMessage)`
+  padding: 0.2rem;
+  font-size: 0.6rem;
+`;
+
+export const ButtonSignOut = styled(ButtonFooter)`
+  color: #e3e2df;
+  background-color: #5d001e;
+
+  &:hover {
+    background: #ee4c7c;
+    transition: all 0.5s ease-in;
+  }
+
+  &:focus-visible {
+    outline: 1px solid #ee4c7c;
   }
 `;

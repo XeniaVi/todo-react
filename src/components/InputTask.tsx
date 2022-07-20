@@ -1,39 +1,40 @@
 import { useState } from "react";
-import { useAppSelector, useAppDispatch } from '../hooks'
+import { useAppSelector, useAppDispatch } from "../hooks";
 import { setCompletedAll } from "slices/setStatusSlice";
-import { addTodo, updateTodos } from "../asyncActions";
-
+import { actionAddTodo, actionUpdateTodos } from "../asyncActions";
 import {
   InputWrapper,
   Input,
   Button,
   CheckboxAbsolute,
 } from "../styles/components";
-import { ITodoGet } from "types";
+import { ITodoGet } from "types/interfaces";
 
-function InputTask():JSX.Element {
-  const [value, setValue] = useState("");
-
+function InputTask(): JSX.Element {
   const dispatch = useAppDispatch();
 
+  const [value, setValue] = useState("");
   const items: ITodoGet[] = useAppSelector((state) => state.todos.todos);
-  const completedAll: boolean = useAppSelector((state) => state.status.completedAll);
+  const completedAll: boolean = useAppSelector(
+    (state) => state.status.completedAll
+  );
+  const token: string | null = useAppSelector((state) => state.auth.token);
 
   const toggleAllStatus = async () => {
     if (completedAll) {
       const ids = items.map((item) => item.id);
-      dispatch(updateTodos({ids, completed: false}));
+      dispatch(actionUpdateTodos({ ids, completed: false, token }));
     } else {
       const ids = items
         .filter((item) => !item.completed)
         .map((item) => item.id);
-      dispatch(updateTodos({ids, completed: true}));
+      dispatch(actionUpdateTodos({ ids, completed: true, token }));
     }
   };
 
   const dispatchAddTodo = () => {
     if (!value) return;
-    dispatch(addTodo(value));
+    dispatch(actionAddTodo({ value, token }));
     setValue("");
   };
 
@@ -43,7 +44,7 @@ function InputTask():JSX.Element {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    const { code } = e
+    const { code } = e;
     if (code === "Enter") {
       dispatchAddTodo();
     }
@@ -55,7 +56,7 @@ function InputTask():JSX.Element {
 
   return (
     <InputWrapper>
-      {items.length && (
+      {items.length > 0 && (
         <CheckboxAbsolute>
           <input
             type="checkbox"

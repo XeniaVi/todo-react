@@ -5,28 +5,37 @@ import {
   setIdsCompleted,
 } from "slices/todosSlice";
 import { setCompletedAll, setError, setFilter } from "slices/setStatusSlice";
+import { setSignOut, setSuccessfulRegistration } from "slices/authSlice";
 import {
-  addTodo as appendTodo,
+  addTodo,
   updateCompleted,
-  deleteTodo as removeTodo,
+  deleteTodo,
   deleteCompleted,
   getTodos,
-  updateTodo as changeTodo,
+  updateTodo,
 } from "../api/todoApi";
+import { signUp, signIn } from "../api/authApi";
 import { config } from "../config/config";
-import { ITodoGet, UpdatedTodo } from "../types";
+import { UpdatedTodo } from "../types/types";
+import { ITodoGet, PostRegistration, PostLogin } from "../types/interfaces";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
+import { ErrorAuthorization } from "errors";
 
-export const fetchTodos = createAsyncThunk(
-  "todos/fetchTodos",
+export const actionGetTodos = createAsyncThunk(
+  "todos/actionGetTodos",
   async (
-    obj: { offset: number; completed?: boolean },
+    obj: { offset: number; completed?: boolean; token: string | null },
     { rejectWithValue, dispatch }
   ) => {
     try {
-      const { offset, completed } = obj;
-      const response = await getTodos(config.TODOS_PER_PAGE, offset, completed);
+      const { offset, completed, token } = obj;
+      const response = await getTodos(
+        config.TODOS_PER_PAGE,
+        offset,
+        token,
+        completed
+      );
 
       const length = response.todos.filter(
         (item: ITodoGet) => item.completed
@@ -39,107 +48,130 @@ export const fetchTodos = createAsyncThunk(
       if (e instanceof AxiosError) {
         const { response } = e;
         if (response) {
+          if (response.data.status === 500) dispatch(setSignOut());
+
           dispatch(
-            setError(`${response.data.message} Try update the page....`)
+            setError(`${response.data.message}. Try update the page....`)
           );
         } else {
           dispatch(setError(`Try update the page...`));
         }
+      } else if (e instanceof ErrorAuthorization) {
+        dispatch(setError(e.message));
       }
     }
   }
 );
 
-export const addTodo = createAsyncThunk(
-  "todos/addTodo",
-  async (value: string, { rejectWithValue, dispatch }) => {
+export const actionAddTodo = createAsyncThunk(
+  "todos/actionAddTodo",
+  async (
+    obj: { value: string; token: string | null },
+    { rejectWithValue, dispatch }
+  ) => {
     try {
-      const response = await appendTodo({
-        value: value,
-        completed: false,
-        createdAt: Date.now(),
-      });
+      const { value, token } = obj;
+      const response = await addTodo(
+        {
+          value: value,
+          completed: false,
+          createdAt: Date.now(),
+        },
+        token
+      );
 
-      dispatch(setFilter({ value, completedAll: false }));
-      dispatch(setCount());
+      dispatch(setFilter({ filter: "all", completedAll: false }));
       return response;
     } catch (e) {
       if (e instanceof AxiosError) {
         const { response } = e;
         if (response) {
           dispatch(
-            setError(`${response.data.message} Try update the page....`)
+            setError(`${response.data.message}. Try update the page....`)
           );
         } else {
           dispatch(setError(`Try update the page...`));
         }
+      } else if (e instanceof ErrorAuthorization) {
+        dispatch(setError(e.message));
       }
     }
   }
 );
 
-export const deleteTodo = createAsyncThunk(
-  "todos/deleteTodo",
+export const actionDeleteTodo = createAsyncThunk(
+  "todos/actionDeleteTodo",
   async (
-    obj: { id: string; offset: number; completed?: boolean },
+    obj: {
+      id: string;
+      offset: number;
+      completed?: boolean;
+      token: string | null;
+    },
     { dispatch }
   ) => {
     try {
-      const { id, offset, completed } = obj;
-      await removeTodo(id);
-      dispatch(fetchTodos({ offset, completed }));
-      dispatch(setCount());
+      const { id, offset, completed, token } = obj;
+      await deleteTodo(id, token);
+      dispatch(actionGetTodos({ offset, token, completed }));
     } catch (e) {
       if (e instanceof AxiosError) {
         const { response } = e;
         if (response) {
           dispatch(
-            setError(`${response.data.message} Try update the page....`)
+            setError(`${response.data.message}. Try update the page....`)
           );
         } else {
           dispatch(setError(`Try update the page...`));
         }
+      } else if (e instanceof ErrorAuthorization) {
+        dispatch(setError(e.message));
       }
     }
   }
 );
 
-export const deleteTodos = createAsyncThunk(
-  "todos/deleteTodos",
+export const actionDeleteTodos = createAsyncThunk(
+  "todos/actionDeleteTodos",
   async (
     obj: {
       ids: string[];
       offset: number;
       completed?: boolean;
+      token: string | null;
     },
     { dispatch }
   ) => {
     try {
-      const { ids, offset, completed } = obj;
-      await deleteCompleted(ids);
-      dispatch(fetchTodos({ offset, completed }));
-      dispatch(setCount());
+      const { ids, offset, completed, token } = obj;
+      await deleteCompleted(ids, token);
+      dispatch(actionGetTodos({ offset, token, completed }));
     } catch (e) {
       if (e instanceof AxiosError) {
         const { response } = e;
         if (response) {
           dispatch(
-            setError(`${response.data.message} Try update the page....`)
+            setError(`${response.data.message}. Try update the page....`)
           );
         } else {
           dispatch(setError(`Try update the page...`));
         }
+      } else if (e instanceof ErrorAuthorization) {
+        dispatch(setError(e.message));
       }
     }
   }
 );
 
-export const updateTodo = createAsyncThunk(
-  "todos/updateTodo",
-  async (obj: { id: string; updatedTodo: UpdatedTodo }, { dispatch }) => {
+export const actionUpdateTodo = createAsyncThunk(
+  "todos/actionUpdateTodo",
+  async (
+    obj: { id: string; updatedTodo: UpdatedTodo; token: string | null },
+    { dispatch }
+  ) => {
     try {
-      const { id, updatedTodo } = obj;
-      await changeTodo(id, updatedTodo);
+      const { id, updatedTodo, token } = obj;
+      await updateTodo(id, updatedTodo, token);
 
       dispatch(updateTodoAction({ id, updatedTodo }));
       dispatch(setCompletedAll(false));
@@ -150,25 +182,27 @@ export const updateTodo = createAsyncThunk(
         const { response } = e;
         if (response) {
           dispatch(
-            setError(`${response.data.message} Try update the page....`)
+            setError(`${response.data.message}. Try update the page....`)
           );
         } else {
           dispatch(setError(`Try update the page...`));
         }
+      } else if (e instanceof ErrorAuthorization) {
+        dispatch(setError(e.message));
       }
     }
   }
 );
 
-export const updateTodos = createAsyncThunk(
-  "todos/updateTodos",
+export const actionUpdateTodos = createAsyncThunk(
+  "todos/actionUpdateTodos",
   async (
-    obj: { ids: string[]; completed: boolean },
+    obj: { ids: string[]; completed: boolean; token: string | null },
     { rejectWithValue, dispatch }
   ) => {
     try {
-      const { ids, completed } = obj;
-      await updateCompleted(ids, completed);
+      const { ids, completed, token } = obj;
+      await updateCompleted(ids, completed, token);
 
       dispatch(updateTodosAction(completed));
       dispatch(setCompletedAll(completed));
@@ -178,7 +212,53 @@ export const updateTodos = createAsyncThunk(
         const { response } = e;
         if (response) {
           dispatch(
-            setError(`${response.data.message} Try update the page....`)
+            setError(`${response.data.message}. Try update the page....`)
+          );
+        } else {
+          dispatch(setError(`Try update the page...`));
+        }
+      } else if (e instanceof ErrorAuthorization) {
+        dispatch(setError(e.message));
+      }
+    }
+  }
+);
+
+export const actionSignUp = createAsyncThunk(
+  "auth/actionSignUp",
+  async (user: PostRegistration, { rejectWithValue, dispatch }) => {
+    try {
+      await signUp(user);
+      dispatch(setError(""));
+      dispatch(setSuccessfulRegistration(false));
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        const { response } = e;
+        if (response) {
+          dispatch(
+            setError(`${response.data.message}. Try update the page....`)
+          );
+        } else {
+          dispatch(setError(`Try update the page...`));
+        }
+      }
+    }
+  }
+);
+
+export const actionSignIn = createAsyncThunk(
+  "auth/actionSignIn",
+  async (user: PostLogin, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await signIn(user);
+      dispatch(setError(""));
+      return response;
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        const { response } = e;
+        if (response) {
+          dispatch(
+            setError(`${response.data.message}. Try update the page....`)
           );
         } else {
           dispatch(setError(`Try update the page...`));

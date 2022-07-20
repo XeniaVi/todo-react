@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IStatusState } from "types";
+import { IStatusState } from "types/interfaces";
 import { config } from "../config/config";
 
 const initialState: IStatusState = {
@@ -14,10 +14,14 @@ export const setStatusSlice = createSlice({
   name: "status",
   initialState,
   reducers: {
-    setCompleted(state, action) {
+    resetStatus(state) {
       return {
         ...state,
-        completed: action.payload,
+        completedAll: false,
+        filter: "all",
+        offset: 0,
+        currentPage: 1,
+        errorMessage: "",
       };
     },
     setPage(state, action) {
@@ -27,12 +31,6 @@ export const setStatusSlice = createSlice({
         currentPage: action.payload,
       };
     },
-    setOffset(state, action) {
-      return {
-        ...state,
-        offset: action.payload,
-      };
-    },
     setCompletedAll(state, action) {
       return { ...state, completedAll: action.payload };
     },
@@ -40,7 +38,6 @@ export const setStatusSlice = createSlice({
       return { ...state, errorMessage: action.payload };
     },
     setFilter(state, action) {
-      console.log(action.payload.filter);
       return {
         ...state,
         filter: action.payload.filter,
@@ -54,13 +51,7 @@ export const setStatusSlice = createSlice({
 });
 
 const { actions, reducer } = setStatusSlice;
-export const {
-  setCompleted, //check
-  setPage, //check
-  setOffset, //check
-  setCompletedAll,
-  setError,
-  setFilter,
-} = actions;
+export const { setPage, setCompletedAll, setError, setFilter, resetStatus } =
+  actions;
 
 export default reducer;
